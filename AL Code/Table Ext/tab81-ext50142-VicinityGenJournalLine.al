@@ -1,4 +1,4 @@
-tableextension 90002 "VicinityGenJournalLine" extends "Gen. Journal Line" //MyTargetTableId 81
+tableextension 50142 "VicinityGenJournalLine" extends "Gen. Journal Line" //MyTargetTableId 81
 {
     fields
     {

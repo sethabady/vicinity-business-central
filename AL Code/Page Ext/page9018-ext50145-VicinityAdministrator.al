@@ -1,4 +1,4 @@
-pageextension 90005 "Vicinity Administrator" extends "Administrator Role Center" //MyTargetPageId 9018
+pageextension 50145 "Vicinity Administrator" extends "Administrator Role Center" //MyTargetPageId 9018
 {
     Actions
     {

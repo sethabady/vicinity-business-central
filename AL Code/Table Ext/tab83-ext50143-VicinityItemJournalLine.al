@@ -1,4 +1,4 @@
-tableextension 90004 "VicinityValueEntry" extends "Value Entry" //MyTargetTableId 5802
+tableextension 50143 "VicinityItemJournalLine" extends "Item Journal Line" //MyTargetTableId 83
 {
     fields
     {
@@ -20,6 +20,12 @@ tableextension 90004 "VicinityValueEntry" extends "Value Entry" //MyTargetTableI
         field(90003; "Vicinity Event ID No."; Integer)
         {
             Caption = 'Event ID No.';
+            DataClassification = ToBeClassified;
+
+        }
+        field(90004; "Called From Vicinity"; Boolean)
+        {
+            Caption = 'Called from Vicinity';
             DataClassification = ToBeClassified;
 
         }

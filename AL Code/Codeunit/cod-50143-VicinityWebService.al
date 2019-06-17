@@ -1,4 +1,4 @@
-codeunit 90003 "Vicinity Web Service"
+codeunit 50143 "Vicinity Web Service"
 {
     // version VICINITY90
 

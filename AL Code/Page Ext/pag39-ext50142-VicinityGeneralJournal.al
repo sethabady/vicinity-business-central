@@ -1,4 +1,4 @@
-pageextension 90002 "Vicinity General Journal" extends "General Journal" //MyTargetPageId 39
+pageextension 50142 "Vicinity General Journal" extends "General Journal" //MyTargetPageId 39
 {
     layout
     {

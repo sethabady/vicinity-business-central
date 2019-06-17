@@ -1,4 +1,4 @@
-codeunit 90001 "Vicinity Populate General Jnl"
+codeunit 50141 "Vicinity Populate General Jnl"
 {
     // version VICINITY90
 

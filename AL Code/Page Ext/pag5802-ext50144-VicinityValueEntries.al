@@ -1,4 +1,4 @@
-pageextension 90000 "Vicinity GL Entries" extends "General Ledger Entries" //MyTargetPageId 20
+pageextension 50144 "Vicinity Value Entries" extends "Value Entries" //MyTargetPageId 5802
 {
     layout
     {

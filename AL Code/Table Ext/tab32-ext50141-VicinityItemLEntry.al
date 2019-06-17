@@ -1,4 +1,4 @@
-tableextension 90001 "VicinityItemLEntry" extends "Item Ledger Entry" //MyTargetTableId 32
+tableextension 50141 "VicinityItemLEntry" extends "Item Ledger Entry" //MyTargetTableId 32
 {
     fields
     {

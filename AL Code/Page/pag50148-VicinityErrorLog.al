@@ -1,4 +1,4 @@
-page 90000 "Vicinity Error Log"
+page 50148 "Vicinity Error Log"
 {
     PageType = List;
     ApplicationArea = All;

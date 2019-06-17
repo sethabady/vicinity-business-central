@@ -1,8 +1,8 @@
-table 90000 "Vicinity Error Log"
+table 50108 "Vicinity Error Log"
 {
     DataClassification = ToBeClassified;
     Caption = 'Vicinity Error Log';
-    LookupPageId = 90000;
+    LookupPageId = 50148;
 
     fields
     {

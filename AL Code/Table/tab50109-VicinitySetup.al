@@ -1,8 +1,8 @@
-table 90001 "Vicinity Setup"
+table 50109 "Vicinity Setup"
 {
     DataClassification = ToBeClassified;
     Caption = 'Vicinity Setup';
-    LookupPageId = 90001;
+    LookupPageId = 50149;
 
     fields
     {

@@ -1,4 +1,4 @@
-page 90001 "Vicinity Setup"
+page 50149 "Vicinity Setup"
 {
     PageType = Card;
     ApplicationArea = All;

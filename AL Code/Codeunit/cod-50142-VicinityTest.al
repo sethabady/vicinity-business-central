@@ -1,4 +1,4 @@
-codeunit 90002 "Vicinity Test Codeunit"
+codeunit 50142 "Vicinity Test Codeunit"
 {
     // version VICINITY90,Optional
 

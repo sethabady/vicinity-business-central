@@ -2,7 +2,7 @@
   <PermissionSet RoleID="Vicinity" RoleName="Vicinity Permissions">
     <Permission>
       <ObjectType>0</ObjectType>
-      <ObjectID>90000</ObjectID>
+      <ObjectID>50108</ObjectID>
       <ReadPermission>1</ReadPermission>
       <InsertPermission>1</InsertPermission>
       <ModifyPermission>1</ModifyPermission>
@@ -12,7 +12,7 @@
     </Permission>
     <Permission>
       <ObjectType>0</ObjectType>
-      <ObjectID>90001</ObjectID>
+      <ObjectID>50109</ObjectID>
       <ReadPermission>1</ReadPermission>
       <InsertPermission>1</InsertPermission>
       <ModifyPermission>1</ModifyPermission>

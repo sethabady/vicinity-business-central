@@ -1,4 +1,4 @@
-pageextension 90003 "Vicinity Item Journal" extends "Item Journal" //MyTargetPageId 40
+pageextension 50141 "Vicinity Item Entries" extends "Item Ledger Entries" //MyTargetPageId 38
 {
     layout
     {
@@ -12,11 +12,11 @@ pageextension 90003 "Vicinity Item Journal" extends "Item Journal" //MyTargetPag
             {
                 ApplicationArea = All;
             }
-            field("Vicinity Line ID No."; "Vicinity Line ID No.")
+            field("Line ID No."; "Vicinity Line ID No.")
             {
                 ApplicationArea = All;
             }
-            field("Vicinity Event ID No."; "Vicinity Event ID No.")
+            field("Event ID No."; "Vicinity Event ID No.")
             {
                 ApplicationArea = All;
             }

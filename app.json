@@ -12,13 +12,13 @@
   "logo": "",
   "dependencies": [],
   "screenshots": [],
-  "platform": "13.0.0.0",
-  "application": "13.0.0.0",
+  "platform": "14.0.0.0",
+  "application": "14.0.0.0",
   "idRange": 
         {
-      "from": 90000,
-      "to": 90149
+      "from": 50100,
+      "to": 50149
     },
   "showMyCode": false,
-  "runtime": "2.3"
+  "runtime": "3.0"
 }

@@ -1,4 +1,4 @@
-codeunit 90000 "Vicinity Event Managment"
+codeunit 50140 "Vicinity Event Managment"
 {
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Gen. Jnl.-Post Line", 'OnAfterInitGLEntry', '', false, false)]
     local procedure Cod_GenJnlPostLine_OnAfterInitGLEntry(VAR GLEntry: Record "G/L Entry"; GenJournalLine: Record "Gen. Journal Line")

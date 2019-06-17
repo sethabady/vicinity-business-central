@@ -1,4 +1,4 @@
-codeunit 90004 "Vicinity Populate Journal"
+codeunit 50144 "Vicinity Populate Journal"
 {
     // version VICINITY90
 
