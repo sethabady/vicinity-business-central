@@ -1,0 +1,24 @@
+{
+  "id": "52ced3bf-2ec6-4f4d-94e6-c35c80a0e2d8",
+  "name": "Vicinity Software",
+  "publisher": "Vicinity Software",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "13.0.0.0",
+  "application": "13.0.0.0",
+  "idRange": 
+        {
+      "from": 90000,
+      "to": 90149
+    },
+  "showMyCode": false,
+  "runtime": "2.3"
+}
