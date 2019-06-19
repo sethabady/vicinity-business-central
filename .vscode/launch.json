@@ -5,13 +5,13 @@
         {
             "type": "al",
             "request": "launch",
-
+            
             //cloud
             "name": "Publish"
             "tenant": ""
-            
+
             //local
-            /*
+            /*            
             "name": "Your own server",
             "server": "http://localhost",
             "serverInstance": "BC140",
