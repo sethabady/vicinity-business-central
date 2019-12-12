@@ -7,7 +7,7 @@
             "request": "launch",
             
             //cloud
-            "name": "Publish"
+            "name": "Publish",
             "tenant": ""
 
             //local
