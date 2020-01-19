@@ -1,0 +1,36 @@
+#Send Customer
+
+POST https://api.businesscentral.dynamics.com/v2.0/31916a16-8d4d-4e9b-b8bd-a4031001d6e5/Sandbox/ODataV4/$batch HTTP/1.1
+Authorization: Basic c2FiYWR5OkhJS0NOQUlGeHBha1l0VHB2VjNzTHVReU13WlRScGx6eWRBN2JEczRldHc9
+Content-Type: multipart/mixed; boundary=batch_CustTest01
+Accept: application/json
+
+--batch_CustTest01  
+Content-Type: multipart/mixed; boundary=changeset_CustTest01
+
+--changeset_CustTest01
+Content-Type: application/http
+Content-Transfer-Encoding: binary
+Content-Id: 1
+
+POST v2.0/31916a16-8d4d-4e9b-b8bd-a4031001d6e5/Sandbox/ODataV4/Company('CRONUS USA, Inc.')/BCCust HTTP/1.1
+Content-Type: application/json
+
+{ "CustNo": "C01", "CustName": "Cust 01" }
+
+--changeset_CustTest01--
+
+--batch_CustTest01  
+Content-Type: multipart/mixed; boundary=changeset_CustTest02
+
+--changeset_CustTest02
+Content-Type: application/http
+Content-Transfer-Encoding: binary
+Content-Id: 2
+
+POST v2.0/31916a16-8d4d-4e9b-b8bd-a4031001d6e5/Sandbox/ODataV4/Company('CRONUS USA, Inc.')/BCCust HTTP/1.1
+Content-Type: application/json
+{ "CustNo": "C02", "CustName": "Cust 02" }
+
+--changeset_CustTest02--
+--batch_CustTest02--
