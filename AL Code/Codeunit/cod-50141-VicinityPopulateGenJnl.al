@@ -213,6 +213,7 @@ codeunit 50141 "Vicinity Populate General Jnl"
             LastGenJournalLine.SETRANGE("Journal Template Name", 'GENERAL');
             LastGenJournalLine.SETRANGE("Journal Batch Name", VicinitySetup."Gen. Journal Batch");
             LastGenJournalLine.FINDLAST;
+
             pGenJournalLine."Journal Template Name" := LastGenJournalLine."Journal Template Name";
             pGenJournalLine."Journal Batch Name" := LastGenJournalLine."Journal Batch Name";
             pGenJournalLine."Line No." := LastGenJournalLine."Line No." + 10000;
