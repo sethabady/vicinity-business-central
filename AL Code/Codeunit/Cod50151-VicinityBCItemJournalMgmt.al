@@ -5,7 +5,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         InsertItemJournal();
     end;
 
-    procedure SetItemJournalParameters(pPostingDate: Date; pDocumentNo: Text; pItemNo: Code[20]; pLocationCode: Code[20]; pBinCode: Code[20]; pUoMCode: Code[20]; pLotNo: Code[20]; pQty: Decimal; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; pSourceCodeSetup: Record "Source Code Setup")
+    procedure SetItemJournalParameters(pPostingDate: Date; pDocumentNo: Text; pItemNo: Code[20]; pLocationCode: Code[20]; pBinCode: Code[20]; pUoMCode: Code[20]; pLotNo: Code[20]; pQty: Decimal; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; pSourceCodeSetup: Record "Source Code Setup")
     begin
         PostingDate := pPostingDate;
         DocumentNo := pDocumentNo;
@@ -20,6 +20,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         FacilityID := pFacilityID;
         LineID := pLineID;
         EventID := pEventID;
+        FirstLine := pFirstLine;
         Post := pPost;
         VicinitySetup := pVicinitySetup;
         SourceCodeSetup := pSourceCodeSetup;
@@ -34,13 +35,30 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         SourceCodeSetup.TestField("Item Journal");
 
         LineNo := 0;
-        ItemJnlLine.Reset();
-        ItemJnlLine.SetRange("Journal Template Name", ItemJnlTemplate);
-        ItemJnlLine.SetRange("Journal Batch Name", VicinitySetup."Gen. Journal Batch");
-        if ItemJnlLine.FindLast() then
-            LineNo := ItemJnlLine."Line No.";
+        if FirstLine then begin
+            ItemJnlLine.Reset();
+            ItemJnlLine.SetRange("Journal Template Name", ItemJnlTemplate);
+            ItemJnlLine.SetRange("Journal Batch Name", VicinitySetup."Item Journal Batch");
+            if ItemJnlLine.IsEmpty = false then
+                ItemJnlLine.DeleteAll();
+        end else begin
+            ItemJnlLine.Reset();
+            ItemJnlLine.SetRange("Journal Template Name", ItemJnlTemplate);
+            ItemJnlLine.SetRange("Journal Batch Name", VicinitySetup."Item Journal Batch");
+            if ItemJnlLine.FindLast() then
+                LineNo := ItemJnlLine."Line No.";
+        end;
 
         LineNo += 10000;
+
+        if PostingDate = 0D then
+            PostingDate := WorkDate();
+
+        if DocumentNo = '' then begin
+            ItemJournalBatch.Get(ItemJnlTemplate, VicinitySetup."Item Journal Batch");
+            ItemJournalBatch.TestField("No. Series");
+            DocumentNo := NoSeriesMgt.GetNextNo(ItemJournalBatch."No. Series", TODAY, FALSE);
+        end;
 
         ItemJnlLine.INIT;
         ItemJnlLine."Journal Template Name" := ItemJnlTemplate;
@@ -66,15 +84,15 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         if LotNo <> '' then
             ItemJnlLine."Lot No." := LotNo;
 
-        IF Qty > 0 THEN BEGIN
+        if Qty > 0 then begin
             ItemJnlLine."Entry Type" := ItemJnlLine."Entry Type"::"Positive Adjmt.";
             ItemJnlLine.VALIDATE(Quantity, Qty);
             ItemJnlLine.VALIDATE(Amount, Amount);
-        END ELSE BEGIN
+        end else begin
             ItemJnlLine."Entry Type" := ItemJnlLine."Entry Type"::"Negative Adjmt.";
             ItemJnlLine.VALIDATE(Quantity, Abs(Qty));
             ItemJnlLine.VALIDATE(Quantity);
-        END;
+        end;
 
         ItemJnlLine."Vicinity Batch No." := BatchNumber;
         ItemJnlLine."Vicinity Facility ID" := FacilityID;
@@ -132,12 +150,10 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         end;
 
         if Post then begin
-            /*
-            GenJnlLine.Reset();
-            GenJnlLine.SetRange("Journal Template Name", GenJnlTemplate);
-            GenJnlLine.SetRange("Journal Batch Name", VicinitySetup."Gen. Journal Batch");
-            GenJnlPostBatch.Run(GenJnlLine);
-            */
+            ItemJnlLine.Reset();
+            ItemJnlLine.SetRange("Journal Template Name", ItemJnlTemplate);
+            ItemJnlLine.SetRange("Journal Batch Name", VicinitySetup."Item Journal Batch");
+            ItemJnlPostBatch.Run(ItemJnlLine);
         end;
     end;
 
@@ -156,15 +172,18 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         LineID: Integer;
         EventID: Integer;
         Post: Boolean;
+        FirstLine: Boolean;
         VicinitySetup: Record "Vicinity Setup";
         SourceCodeSetup: Record "Source Code Setup";
         ItemJnlLine: Record "Item Journal Line";
         Item: Record "Item";
         ItemTrackingCode: Record "Item Tracking Code";
         ReservationEntry: Record "Reservation Entry";
+        ItemJournalBatch: Record "Item Journal Batch";
         ItemJnlPostBatch: Codeunit "Item Jnl.-Post Batch";
         ItemJnlTemplate: Label 'ITEM';
         VicinityLabel: Label 'VICINITY';
         LineNo: Integer;
         EntryNo: Integer;
+        NoSeriesMgt: Codeunit NoSeriesManagement;
 }

@@ -5,7 +5,7 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         InsertGenJournal();
     end;
 
-    procedure SetGenJournalParameters(pPostingDate: Date; pDocumentNo: Text; pGLAccountNo: Code[20]; pGLBalAccountNo: Code[20]; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup")
+    procedure SetGenJournalParameters(pPostingDate: Date; pDocumentNo: Text; pGLAccountNo: Code[20]; pGLBalAccountNo: Code[20]; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup")
     begin
         PostingDate := pPostingDate;
         DocumentNo := pDocumentNo;
@@ -16,6 +16,7 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         FacilityID := pFacilityID;
         LineID := pLineID;
         EventID := pEventID;
+        FirstLine := pFirstLine;
         Post := pPost;
         VicinitySetup := pVicinitySetup;
     end;
@@ -30,13 +31,30 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         SourceCodeSetup.TestField("General Journal");
 
         LineNo := 0;
-        GenJnlLine.Reset();
-        GenJnlLine.SetRange("Journal Template Name", GenJnlTemplate);
-        GenJnlLine.SetRange("Journal Batch Name", VicinitySetup."Gen. Journal Batch");
-        if GenJnlLine.FindLast() then
-            LineNo := GenJnlLine."Line No.";
+        if FirstLine then begin
+            GenJnlLine.Reset();
+            GenJnlLine.SetRange("Journal Template Name", GenJnlTemplate);
+            GenJnlLine.SetRange("Journal Batch Name", VicinitySetup."Gen. Journal Batch");
+            if GenJnlLine.IsEmpty = false then
+                GenJnlLine.DeleteAll();
+        end else begin
+            GenJnlLine.Reset();
+            GenJnlLine.SetRange("Journal Template Name", GenJnlTemplate);
+            GenJnlLine.SetRange("Journal Batch Name", VicinitySetup."Gen. Journal Batch");
+            if GenJnlLine.FindLast() then
+                LineNo := GenJnlLine."Line No.";
+        end;
 
         LineNo += 10000;
+
+        if PostingDate = 0D then
+            PostingDate := WorkDate();
+
+        if DocumentNo = '' then begin
+            GenJournalBatch.Get(GenJnlTemplate, VicinitySetup."Gen. Journal Batch");
+            GenJournalBatch.TestField("No. Series");
+            DocumentNo := NoSeriesMgt.GetNextNo(GenJournalBatch."No. Series", TODAY, FALSE);
+        end;
 
         GenJnlLine.Init();
         GenJnlLine."Journal Template Name" := GenJnlTemplate;
@@ -83,10 +101,13 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         LineID: Integer;
         EventID: Integer;
         Post: Boolean;
+        FirstLine: Boolean;
         VicinitySetup: Record "Vicinity Setup";
         GenJnlLine: Record "Gen. Journal Line";
         SourceCodeSetup: Record "Source Code Setup";
+        GenJournalBatch: Record "Gen. Journal Batch";
         GenJnlPostBatch: Codeunit "Gen. Jnl.-Post Batch";
+        NoSeriesMgt: Codeunit NoSeriesManagement;
         GenJnlTemplate: Label 'GENERAL';
         VicinityLabel: Label 'VICINITY';
         LineNo: Integer;

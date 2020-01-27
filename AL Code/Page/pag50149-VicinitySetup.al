@@ -52,7 +52,7 @@ page 50149 "Vicinity Setup"
 
     [ServiceEnabled]
     [Scope('Cloud')]
-    procedure InsertGenJournal(postingdate: Date; documentno: Text; glaccountno: Text; glbalaccountno: Text; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; post: Boolean) Output: Text
+    procedure InsertGenJournal(postingdate: Date; documentno: Text; glaccountno: Text; glbalaccountno: Text; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean) Output: Text
     var
         actionContext: WebServiceActionContext;
         VicinityBCGenJournalMgmt: Codeunit "Vicinity BC Gen Journal Mgmt";
@@ -61,7 +61,7 @@ page 50149 "Vicinity Setup"
         actionContext.SetObjectId(Page::"Vicinity Setup");
         actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
 
-        VicinityBCGenJournalMgmt.SetGenJournalParameters(postingdate, documentno, glaccountno, glbalaccountno, amount, batchnumber, facilityid, lineid, eventid, post, Rec);
+        VicinityBCGenJournalMgmt.SetGenJournalParameters(postingdate, documentno, glaccountno, glbalaccountno, amount, batchnumber, facilityid, lineid, eventid, firstline, post, Rec);
         if VicinityBCGenJournalMgmt.Run() = true then begin
             if post then
                 exit('Posted')
@@ -76,19 +76,20 @@ page 50149 "Vicinity Setup"
 
     [ServiceEnabled]
     [Scope('Cloud')]
-    procedure InsertItemJournal(postingdate: Date; documentno: Text; itemno: Text; locationcode: Text; bincode: Text; uomcode: Text; lotno: Text; qty: Decimal; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; post: Boolean) Output: Text
+    procedure InsertItemJournal(postingdate: Date; documentno: Text; itemno: Text; locationcode: Text; bincode: Text; uomcode: Text; lotno: Text; qty: Decimal; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean) Output: Text
     var
         actionContext: WebServiceActionContext;
         VicinityBCItemJournalMgmt: Codeunit "Vicinity BC Item Journal Mgmt";
         ItemRegister: Record "Item Register";
         SourceCodeSetup: Record "Source Code Setup";
+        ItemLedgerFilter: Text;
     begin
         actionContext.SetObjectType(ObjectType::Page);
         actionContext.SetObjectId(Page::"Vicinity Setup");
         actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
 
         SourceCodeSetup.Get();
-        VicinityBCItemJournalMgmt.SetItemJournalParameters(postingdate, documentno, itemno, locationcode, bincode, uomcode, lotno, qty, amount, batchnumber, facilityid, lineid, eventid, post, Rec, SourceCodeSetup);
+        VicinityBCItemJournalMgmt.SetItemJournalParameters(postingdate, documentno, itemno, locationcode, bincode, uomcode, lotno, qty, amount, batchnumber, facilityid, lineid, eventid, firstline, post, Rec, SourceCodeSetup);
         if VicinityBCItemJournalMgmt.Run() = true then begin
             if post then begin
                 ItemRegister.Reset();
@@ -96,7 +97,11 @@ page 50149 "Vicinity Setup"
                 ItemRegister.SetRange("Journal Batch Name", Rec."Item Journal Batch");
                 ItemRegister.SetRange("User ID", UserId);
                 ItemRegister.FindLast();
-                exit(format(ItemRegister."No."));
+                if ItemRegister."From Entry No." = ItemRegister."To Entry No." then
+                    ItemLedgerFilter := StrSubstNo('EntryNo eq %1', ItemRegister."From Entry No.")
+                else
+                    ItemLedgerFilter := StrSubstNo('EntryNo ge %1 and EntryNo le %2', ItemRegister."From Entry No.", ItemRegister."To Entry No.");
+                exit(ItemLedgerFilter);
             end else
                 exit('Inserted');
         end else begin
