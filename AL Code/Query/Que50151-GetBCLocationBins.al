@@ -38,20 +38,30 @@ query 50151 GetBCLocationBins
         }
         */
 
-        dataitem(Warehouse_Entry; "Warehouse Entry")
+        // dataitem(Warehouse_Entry; "Warehouse Entry")
+        // {
+        //     column(ItemNo; "Item No.")
+        //     {
+        //     }
+        //     column(LocationCode; "Location Code")
+        //     {
+        //     }
+        //     column(BinCode; "Bin Code")
+        //     {
+        //     }
+        //     column(SumQtyBase; "Qty. (Base)")
+        //     {
+        //         Method = Sum;
+        //     }
+        // }
+
+        dataitem(Bin; "Bin")
         {
-            column(ItemNo; "Item No.")
-            {
-            }
             column(LocationCode; "Location Code")
             {
             }
-            column(BinCode; "Bin Code")
+            column(BinCode; "Code")
             {
-            }
-            column(SumQtyBase; "Qty. (Base)")
-            {
-                Method = Sum;
             }
         }
     }
