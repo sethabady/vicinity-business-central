@@ -24,6 +24,18 @@ query 50154 GetBCCompStartingBalancesSKU
             {
                 Method = Sum;
             }
+            column(StandardCost; "Standard Cost")
+            {
+                Method = Max;
+            }
+            column(UnitCost; "Unit Cost")
+            {
+                Method = Max;
+            }
+            column(LastDirectCost; "Last Direct Cost")
+            {
+                Method = Max;
+            }
         }
     }
 }
