@@ -12,7 +12,16 @@ query 50154 GetBCCompStartingBalancesSKU
     {
         dataitem(Stockkeeping_Unit; "Stockkeeping Unit")
         {
+            // Include ItemNo, LocationCode, VariantCode. Data will be aggregate by those fields.
+            column(ItemNo; "Item No.")
+            {
+
+            }
             column(LocationCode; "Location Code")
+            {
+
+            }
+            column(VariantCode; "Variant Code")
             {
 
             }
