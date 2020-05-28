@@ -36,11 +36,18 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
 
         LineNo := 0;
         if FirstLine then begin
+            ReservationEntry.Reset;
+            ReservationEntry.SetRange("Source Type", Database::"Item Journal Line");
+            ReservationEntry.SetRange("Source ID", ItemJnlTemplate);
+            ReservationEntry.SetRange("Source Batch Name", VicinitySetup."Item Journal Batch");
+            if ReservationEntry.IsEmpty = false then
+                ReservationEntry.DeleteAll(true);
+
             ItemJnlLine.Reset();
             ItemJnlLine.SetRange("Journal Template Name", ItemJnlTemplate);
             ItemJnlLine.SetRange("Journal Batch Name", VicinitySetup."Item Journal Batch");
             if ItemJnlLine.IsEmpty = false then
-                ItemJnlLine.DeleteAll();
+                ItemJnlLine.DeleteAll(true);
         end else begin
             ItemJnlLine.Reset();
             ItemJnlLine.SetRange("Journal Template Name", ItemJnlTemplate);

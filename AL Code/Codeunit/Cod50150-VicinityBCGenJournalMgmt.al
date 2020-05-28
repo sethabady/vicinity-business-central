@@ -36,7 +36,7 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
             GenJnlLine.SetRange("Journal Template Name", GenJnlTemplate);
             GenJnlLine.SetRange("Journal Batch Name", VicinitySetup."Gen. Journal Batch");
             if GenJnlLine.IsEmpty = false then
-                GenJnlLine.DeleteAll();
+                GenJnlLine.DeleteAll(true);
         end else begin
             GenJnlLine.Reset();
             GenJnlLine.SetRange("Journal Template Name", GenJnlTemplate);
