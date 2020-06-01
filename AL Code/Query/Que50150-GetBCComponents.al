@@ -36,6 +36,10 @@ query 50150 GetBCComponents
             column(CostingMethod; "Costing Method")
             {
             }
+            column(UnitPrice; "Unit Price")
+            {
+
+            }
             dataitem(ItemTracking; "Item Tracking Code")
             {
                 DataItemLink = Code = Item."Item Tracking Code";
