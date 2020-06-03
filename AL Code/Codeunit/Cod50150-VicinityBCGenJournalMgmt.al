@@ -25,7 +25,7 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
     begin
         VicinitySetup.TestField("Vicinity Enabled");
         VicinitySetup.TestField("Gen. Journal Batch");
-        VicinitySetup.TestField("Gen. Bus. Posting Group");
+        //VicinitySetup.TestField("Gen. Bus. Posting Group");
 
         SourceCodeSetup.Get();
         SourceCodeSetup.TestField("General Journal");
@@ -71,7 +71,7 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
             GenJnlLine.VALIDATE("Bal. Account No.", GLBalAccountNo);
         END;
 
-        GenJnlLine."Gen. Bus. Posting Group" := VicinitySetup."Gen. Bus. Posting Group";
+        //GenJnlLine."Gen. Bus. Posting Group" := VicinitySetup."Gen. Bus. Posting Group";
         GenJnlLine."Source Code" := SourceCodeSetup."General Journal";
         GenJnlLine."Source No." := VicinityLabel;
 
