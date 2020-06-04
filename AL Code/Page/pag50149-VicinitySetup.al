@@ -56,16 +56,29 @@ page 50149 "Vicinity Setup"
     var
         actionContext: WebServiceActionContext;
         VicinityBCGenJournalMgmt: Codeunit "Vicinity BC Gen Journal Mgmt";
+        GLRegister: Record "G/L Register";
+        SourceCodeSetup: Record "Source Code Setup";
+        GLFilter: Text;
     begin
         actionContext.SetObjectType(ObjectType::Page);
         actionContext.SetObjectId(Page::"Vicinity Setup");
         actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
 
+        SourceCodeSetup.Get();
         VicinityBCGenJournalMgmt.SetGenJournalParameters(postingdate, documentno, glaccountno, glbalaccountno, amount, batchnumber, facilityid, lineid, eventid, firstline, post, Rec);
         if VicinityBCGenJournalMgmt.Run() = true then begin
-            if post then
-                exit('Posted')
-            else
+            if post then begin
+                GLRegister.Reset();
+                GLRegister.SetRange("Source Code", SourceCodeSetup."General Journal");
+                GLRegister.SetRange("Journal Batch Name", Rec."Gen. Journal Batch");
+                GLRegister.SetRange("User ID", UserId);
+                GLRegister.FindLast();
+                if GLRegister."From Entry No." = GLRegister."To Entry No." then
+                    GLFilter := StrSubstNo('Entry_No eq %1', GLRegister."From Entry No.")
+                else
+                    GLFilter := StrSubstNo('Entry_No ge %1 and Entry_No le %2', GLRegister."From Entry No.", GLRegister."To Entry No.");
+                exit(GLFilter);
+            end else
                 exit('Inserted');
         end else begin
             exit('Error: ' + GetLastErrorText);
