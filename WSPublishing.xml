@@ -82,7 +82,7 @@
         <TenantWebService>
             <ObjectType>Page</ObjectType>
             <ServiceName>GetBCCompIndependentDemand</ServiceName>
-            <ObjectID>14234805</ObjectID>
+            <ObjectID>50154</ObjectID>
             <Published>true</Published>
         </TenantWebService>
         <TenantWebService>
