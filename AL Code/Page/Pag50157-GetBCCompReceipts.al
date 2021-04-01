@@ -37,6 +37,10 @@ page 50157 GetBCCompReceipts
                 {
                     ApplicationArea = All;
                 }
+                field("OrderDate"; "Order Date")
+                {
+                    ApplicationArea = All;
+                }
                 field("OutstandingQtyBase"; "Outstanding Qty. (Base)")
                 {
                     ApplicationArea = All;
