@@ -40,6 +40,10 @@ query 50150 GetBCComponents
             {
 
             }
+            column(LeadTimeCalculation; "Lead Time Calculation")
+            {
+
+            }
             dataitem(ItemTracking; "Item Tracking Code")
             {
                 DataItemLink = Code = Item."Item Tracking Code";

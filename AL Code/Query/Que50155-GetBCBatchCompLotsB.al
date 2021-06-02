@@ -34,12 +34,21 @@ query 50155 GetBCBatchCompLotsB
             }
             dataitem(ReservationEntry; "Reservation Entry")
             {
-                DataItemLink = "Item No." = Item_Ledger_Entry."Item No.", "Lot No." = Item_Ledger_Entry."Lot No.";
+                DataItemLink = "Item No." = Item_Ledger_Entry."Item No.", "Location Code" = Item_Ledger_Entry."Location Code", "Lot No." = Item_Ledger_Entry."Lot No.";
                 SqlJoinType = LeftOuterJoin;
 
                 column(ReservationEntryQuantityBase; "Quantity (Base)")
                 {
                     Method = Sum;
+                }
+
+                dataitem(WarehouseEntry; "Warehouse Entry")
+                {
+                    DataItemLink = "Item No." = Item_Ledger_entry."Item No.", "Location Code" = Item_Ledger_Entry."Location Code", "Lot No." = Item_Ledger_Entry."Lot No."; //, "Source No." = Item_Ledger_Entry."Document No.";
+                    SqlJoinType = LeftOuterJoin;
+                    column(BinCode; "Bin Code")
+                    {
+                    }
                 }
             }
         }
