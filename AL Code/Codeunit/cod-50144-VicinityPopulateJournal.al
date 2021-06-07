@@ -310,7 +310,7 @@ codeunit 50144 "Vicinity Populate Journal"
 
                     WIJLRecPop."Location Code" := LocCode;
                     WIJLRecPop."Registering Date" := ItemJournalTemp."Posting Date";
-                    WIJLRecPop."Entry Type" := ItemJournalTemp."Entry Type";
+                    WIJLRecPop."Entry Type" := ItemJournalTemp."Entry Type".AsInteger();
                     WIJLRecPop.VALIDATE("Item No.", ItemJournalTemp."Item No.");
                     WIJLRecPop.VALIDATE("Unit of Measure Code", ItemJournalTemp."Unit of Measure Code");
                     WIJLRecPop.VALIDATE(Quantity, ItemJournalTemp.Quantity);

@@ -21,27 +21,27 @@ page 50157 GetBCCompReceipts
         {
             repeater(General)
             {
-                field("DocumentNo"; "Document No.")
+                field("DocumentNo"; Rec."Document No.")
                 {
                     ApplicationArea = All;
                 }
-                field("ItemNo"; "No.")
+                field("ItemNo"; Rec."No.")
                 {
                     ApplicationArea = All;
                 }
-                field("LocationCode"; "Location Code")
+                field("LocationCode"; Rec."Location Code")
                 {
                     ApplicationArea = All;
                 }
-                field("ExpectedReceiptDate"; "Expected Receipt Date")
+                field("ExpectedReceiptDate"; Rec."Expected Receipt Date")
                 {
                     ApplicationArea = All;
                 }
-                field("OrderDate"; "Order Date")
+                field("OrderDate"; Rec."Order Date")
                 {
                     ApplicationArea = All;
                 }
-                field("OutstandingQtyBase"; "Outstanding Qty. (Base)")
+                field("OutstandingQtyBase"; Rec."Outstanding Qty. (Base)")
                 {
                     ApplicationArea = All;
                 }

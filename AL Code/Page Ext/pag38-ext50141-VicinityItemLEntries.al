@@ -4,19 +4,19 @@ pageextension 50141 "Vicinity Item Entries" extends "Item Ledger Entries" //MyTa
     {
         addlast(Control1)
         {
-            field("Vicinity Batch No."; "Vicinity Batch No.")
+            field("Vicinity Batch No."; Rec."Vicinity Batch No.")
             {
                 ApplicationArea = All;
             }
-            field("Vicinity Facility ID"; "Vicinity Facility ID")
+            field("Vicinity Facility ID"; Rec."Vicinity Facility ID")
             {
                 ApplicationArea = All;
             }
-            field("Line ID No."; "Vicinity Line ID No.")
+            field("Line ID No."; Rec."Vicinity Line ID No.")
             {
                 ApplicationArea = All;
             }
-            field("Event ID No."; "Vicinity Event ID No.")
+            field("Event ID No."; Rec."Vicinity Event ID No.")
             {
                 ApplicationArea = All;
             }

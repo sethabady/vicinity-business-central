@@ -19,27 +19,27 @@ page 50151 GetBCBatchCompLots
         {
             repeater(General)
             {
-                field("ItemNo"; "Item No.")
+                field("ItemNo"; Rec."Item No.")
                 {
                     ApplicationArea = All;
                 }
-                field("LocationCode"; "Location Code")
+                field("LocationCode"; Rec."Location Code")
                 {
                     ApplicationArea = All;
                 }
-                field("LotNo"; "Lot No.")
+                field("LotNo"; Rec."Lot No.")
                 {
                     ApplicationArea = All;
                 }
-                field("PostingDate"; "Posting Date")
+                field("PostingDate"; Rec."Posting Date")
                 {
                     ApplicationArea = All;
                 }
-                field("ExpirationDate"; "Expiration Date")
+                field("ExpirationDate"; Rec."Expiration Date")
                 {
                     ApplicationArea = All;
                 }
-                field("RemainingQuantity"; "Remaining Quantity")
+                field("RemainingQuantity"; Rec."Remaining Quantity")
                 {
                     ApplicationArea = All;
                 }
@@ -57,8 +57,8 @@ page 50151 GetBCBatchCompLots
         ReservEntryQty := 0;
 
         ReservationEntry.Reset();
-        ReservationEntry.SetRange("Item No.", "Item No.");
-        ReservationEntry.SetRange("Lot No.", "Lot No.");
+        ReservationEntry.SetRange("Item No.", Rec."Item No.");
+        ReservationEntry.SetRange("Lot No.", Rec."Lot No.");
         ReservationEntry.SetRange(Positive, false);
         if ReservationEntry.IsEmpty = false then begin
             ReservationEntry.CalcSums("Quantity (Base)");

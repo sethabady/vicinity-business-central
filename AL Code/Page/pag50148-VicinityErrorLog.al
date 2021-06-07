@@ -15,47 +15,47 @@ page 50148 "Vicinity Error Log"
         {
             repeater(GroupName)
             {
-                field("Entry No."; "Entry No.")
+                field("Entry No."; Rec."Entry No.")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Batch No."; "Batch No.")
+                field("Batch No."; Rec."Batch No.")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Facility ID"; "Facility ID")
+                field("Facility ID"; Rec."Facility ID")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Line ID No."; "Line ID No.")
+                field("Line ID No."; Rec."Line ID No.")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Event ID No."; "Event ID No.")
+                field("Event ID No."; Rec."Event ID No.")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Error Date"; "Error Date")
+                field("Error Date"; Rec."Error Date")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Error Time"; "Error Time")
+                field("Error Time"; Rec."Error Time")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Error Text"; "Error Text")
+                field("Error Text"; Rec."Error Text")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Error Location"; "Error Location")
+                field("Error Location"; Rec."Error Location")
                 {
                     ApplicationArea = All;
 

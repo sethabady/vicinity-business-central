@@ -12,34 +12,34 @@ page 50149 "Vicinity Setup"
         {
             group(General)
             {
-                field("Vicinity Enabled"; "Vicinity Enabled")
+                field("Vicinity Enabled"; Rec."Vicinity Enabled")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Gen. Journal Batch"; "Gen. Journal Batch")
+                field("Gen. Journal Batch"; Rec."Gen. Journal Batch")
                 {
                     ApplicationArea = All;
 
                 }
 
-                field("Item Journal Batch"; "Item Journal Batch")
+                field("Item Journal Batch"; Rec."Item Journal Batch")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Gen. Bus. Posting Group"; "Gen. Bus. Posting Group")
+                field("Gen. Bus. Posting Group"; Rec."Gen. Bus. Posting Group")
                 {
                     ApplicationArea = All;
 
                 }
-                field("Warehousing Enabled"; "Warehousing Enabled")
+                field("Warehousing Enabled"; Rec."Warehousing Enabled")
                 {
                     Visible = false;
                     ApplicationArea = All;
                 }
 
-                field("Warehouse Journal Batch"; "Warehouse Journal Batch")
+                field("Warehouse Journal Batch"; Rec."Warehouse Journal Batch")
                 {
                     Visible = false;
                     ApplicationArea = All;

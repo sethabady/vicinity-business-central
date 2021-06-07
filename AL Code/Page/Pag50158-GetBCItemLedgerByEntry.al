@@ -19,56 +19,56 @@ page 50158 GetBCItemLedgerByEntry
         {
             repeater(General)
             {
-                field("EntryNo"; "Entry No.")
+                field("EntryNo"; Rec."Entry No.")
                 {
                     ApplicationArea = All;
                 }
-                field("PostingDate"; "Posting Date")
+                field("PostingDate"; Rec."Posting Date")
                 {
                     ApplicationArea = All;
                 }
-                field("DocumentNo"; "Document No.")
+                field("DocumentNo"; Rec."Document No.")
                 {
                     ApplicationArea = All;
                 }
-                field("ItemNo"; "Item No.")
+                field("ItemNo"; Rec."Item No.")
                 {
                     ApplicationArea = All;
                 }
-                field("LocationCode"; "Location Code")
+                field("LocationCode"; Rec."Location Code")
                 {
                     ApplicationArea = All;
                 }
-                field("LotNo"; "Lot No.")
+                field("LotNo"; Rec."Lot No.")
                 {
                     ApplicationArea = All;
                 }
-                field(UoMCode; "Unit of Measure Code")
+                field(UoMCode; Rec."Unit of Measure Code")
                 {
                     ApplicationArea = All;
                 }
-                field("BatchNo"; "Vicinity Batch No.")
+                field("BatchNo"; Rec."Vicinity Batch No.")
                 {
                     ApplicationArea = All;
                 }
-                field("FacilityID"; "Vicinity Facility ID")
+                field("FacilityID"; Rec."Vicinity Facility ID")
                 {
                     ApplicationArea = All;
                 }
-                field("LineID"; "Vicinity Line ID No.")
+                field("LineID"; Rec."Vicinity Line ID No.")
                 {
                     ApplicationArea = All;
                 }
-                field("EventID"; "Vicinity Event ID No.")
+                field("EventID"; Rec."Vicinity Event ID No.")
                 {
                     ApplicationArea = All;
                 }
 
-                field(Quantity; Quantity)
+                field(Quantity; Rec.Quantity)
                 {
                     ApplicationArea = All;
                 }
-                field("CostAmountActual"; "Cost Amount (Actual)")
+                field("CostAmountActual"; Rec."Cost Amount (Actual)")
                 {
                     ApplicationArea = All;
                 }
@@ -82,8 +82,8 @@ page 50158 GetBCItemLedgerByEntry
         ReservEntryQty := 0;
 
         ReservationEntry.Reset();
-        ReservationEntry.SetRange("Item No.", "Item No.");
-        ReservationEntry.SetRange("Lot No.", "Lot No.");
+        ReservationEntry.SetRange("Item No.", Rec."Item No.");
+        ReservationEntry.SetRange("Lot No.", Rec."Lot No.");
         ReservationEntry.SetRange(Positive, false);
         if ReservationEntry.IsEmpty = false then begin
             ReservationEntry.CalcSums("Quantity (Base)");

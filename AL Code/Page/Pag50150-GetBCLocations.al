@@ -19,19 +19,19 @@ page 50150 GetBCLocations
         {
             repeater(General)
             {
-                field(LocationCode; Code)
+                field(LocationCode; Rec.Code)
                 {
                     ApplicationArea = All;
                 }
-                field(Name; Name)
+                field(Name; Rec.Name)
                 {
                     ApplicationArea = All;
                 }
-                field("DefaultBinCode"; "Default Bin Code")
+                field("DefaultBinCode"; Rec."Default Bin Code")
                 {
                     ApplicationArea = All;
                 }
-                field("BinMandatory"; "Bin Mandatory")
+                field("BinMandatory"; Rec."Bin Mandatory")
                 {
                     ApplicationArea = All;
                 }

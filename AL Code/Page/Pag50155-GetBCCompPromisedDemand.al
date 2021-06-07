@@ -20,27 +20,27 @@ page 50155 GetBCCompPromisedDemand
         {
             repeater(General)
             {
-                field("DocumentNo"; "Document No.")
+                field("DocumentNo"; Rec."Document No.")
                 {
                     ApplicationArea = All;
                 }
-                field("ItemNo"; "No.")
+                field("ItemNo"; Rec."No.")
                 {
                     ApplicationArea = All;
                 }
-                field("LocationCode"; "Location Code")
+                field("LocationCode"; Rec."Location Code")
                 {
                     ApplicationArea = All;
                 }
-                field("RequestedDeliveryDate"; "Requested Delivery Date")
+                field("RequestedDeliveryDate"; Rec."Requested Delivery Date")
                 {
                     ApplicationArea = All;
                 }
-                field("ShipmentDate"; "Shipment Date")
+                field("ShipmentDate"; Rec."Shipment Date")
                 {
                     ApplicationArea = All;
                 }
-                field("OutstandingQtyBase"; "Outstanding Qty. (Base)")
+                field("OutstandingQtyBase"; Rec."Outstanding Qty. (Base)")
                 {
                     ApplicationArea = All;
                 }

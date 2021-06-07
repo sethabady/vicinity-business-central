@@ -2,7 +2,7 @@
   "id": "52ced3bf-2ec6-4f4d-94e6-c35c80a0e2d8",
   "name": "Vicinity Software",
   "publisher": "Vicinity Software",
-  "version": "17.3.0.1",
+  "version": "17.3.0.2",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -10,22 +10,10 @@
   "help": "",
   "url": "",  
   "logo": "",
-  "dependencies": [
-    {
-      "appId": "63ca2fa4-4f03-4f2b-a480-172fef340d3f",
-      "publisher": "Microsoft",
-      "name": "System Application",
-      "version": "1.0.0.0"
-    },
-    {
-      "appId": "437dbf0e-84ff-417a-965d-ed2bb9650972",
-      "publisher": "Microsoft",
-      "name": "Base Application",
-      "version": "15.0.0.0"
-    }
-  ],
+  "application": "15.0.0.0",
+  "dependencies": [],
   "screenshots": [],
-  "platform": "15.0.0.0",
+  "platform": "17.0.0.0",
   "idRanges":
   [
         {
@@ -34,5 +22,5 @@
     }
   ],
   "showMyCode": false,
-  "runtime": "4.0"
+  "runtime": "6.0"
 }

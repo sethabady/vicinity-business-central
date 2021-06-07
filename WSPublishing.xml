@@ -121,11 +121,5 @@
             <ObjectID>7374</ObjectID>
             <Published>true</Published>
         </TenantWebService>
-        <TenantWebService>
-            <ObjectType>CodeUnit</ObjectType>
-            <ServiceName>VicinityMRPService</ServiceName>
-            <ObjectID>50153</ObjectID>
-            <Published>true</Published>
-        </TenantWebService>
     </TenantWebServiceCollection>
 </ExportedData>

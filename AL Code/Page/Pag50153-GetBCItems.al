@@ -19,15 +19,15 @@ page 50153 GetBCItems
         {
             repeater(General)
             {
-                field("ItemNo"; "No.")
+                field("ItemNo"; Rec."No.")
                 {
                     ApplicationArea = All;
                 }
-                field("LotSize"; "Lot Size")
+                field("LotSize"; Rec."Lot Size")
                 {
                     ApplicationArea = All;
                 }
-                field("SafetyStockQuantity"; "Safety Stock Quantity")
+                field("SafetyStockQuantity"; Rec."Safety Stock Quantity")
                 {
                     ApplicationArea = All;
                 }
