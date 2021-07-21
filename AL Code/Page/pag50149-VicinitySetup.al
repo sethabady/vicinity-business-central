@@ -87,9 +87,12 @@ page 50149 "Vicinity Setup"
         actionContext.SetResultCode(WebServiceActionResultCode::Get);
     end;
 
+    // V4-1753 : added lot expiration date
+
+
     [ServiceEnabled]
     [Scope('Cloud')]
-    procedure InsertItemJournal(postingdate: Date; documentno: Text; itemno: Text; locationcode: Text; bincode: Text; uomcode: Text; lotno: Text; qty: Decimal; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean) Output: Text
+    procedure InsertItemJournal(postingdate: Date; documentno: Text; itemno: Text; locationcode: Text; bincode: Text; uomcode: Text; lotno: Text; qty: Decimal; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean; lotexpirationdate: Date) Output: Text
     var
         actionContext: WebServiceActionContext;
         VicinityBCItemJournalMgmt: Codeunit "Vicinity BC Item Journal Mgmt";
@@ -102,7 +105,7 @@ page 50149 "Vicinity Setup"
         actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
 
         SourceCodeSetup.Get();
-        VicinityBCItemJournalMgmt.SetItemJournalParameters(postingdate, documentno, itemno, locationcode, bincode, uomcode, lotno, qty, amount, batchnumber, facilityid, lineid, eventid, firstline, post, Rec, SourceCodeSetup);
+        VicinityBCItemJournalMgmt.SetItemJournalParameters(postingdate, documentno, itemno, locationcode, bincode, uomcode, lotno, qty, amount, batchnumber, facilityid, lineid, eventid, firstline, post, Rec, SourceCodeSetup, lotexpirationdate);
         if VicinityBCItemJournalMgmt.Run() = true then begin
             if post then begin
                 ItemRegister.Reset();

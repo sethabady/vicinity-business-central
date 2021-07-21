@@ -5,7 +5,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         InsertItemJournal();
     end;
 
-    procedure SetItemJournalParameters(pPostingDate: Date; pDocumentNo: Text; pItemNo: Code[20]; pLocationCode: Code[20]; pBinCode: Code[20]; pUoMCode: Code[20]; pLotNo: Code[20]; pQty: Decimal; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; pSourceCodeSetup: Record "Source Code Setup")
+    procedure SetItemJournalParameters(pPostingDate: Date; pDocumentNo: Text; pItemNo: Code[20]; pLocationCode: Code[20]; pBinCode: Code[20]; pUoMCode: Code[20]; pLotNo: Code[20]; pQty: Decimal; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; pSourceCodeSetup: Record "Source Code Setup"; pLotExpirationDate: Date)
     begin
         PostingDate := pPostingDate;
         DocumentNo := pDocumentNo;
@@ -24,6 +24,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         Post := pPost;
         VicinitySetup := pVicinitySetup;
         SourceCodeSetup := pSourceCodeSetup;
+        LotExpirationDate := pLotExpirationDate;
     end;
 
     local procedure InsertItemJournal()
@@ -72,6 +73,9 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         ItemJnlLine."Journal Batch Name" := VicinitySetup."Item Journal Batch";
         ItemJnlLine."Line No." := LineNo;
         ItemJnlLine.Validate("Posting Date", PostingDate);
+
+        ItemJnlLine.Validate("Expiration Date", LotExpirationDate);
+
         ItemJnlLine."Source No." := VicinityLabel;
         ItemJnlLine."Source Code" := SourceCodeSetup."Item Journal";
         ItemJnlLine."Document No." := DocumentNo;
@@ -141,6 +145,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
                         ReservationEntry."Quantity (Base)" := ItemJnlLine."Quantity (Base)";
                         ReservationEntry."Source Subtype" := 2;
                         ReservationEntry."Expected Receipt Date" := ItemJnlLine."Posting Date";
+                        ReservationEntry."Expiration Date" := ItemJnlLine."Expiration Date";
                     end else begin
                         ReservationEntry.Quantity := -ItemJnlLine.Quantity;
                         ReservationEntry."Quantity (Base)" := -ItemJnlLine."Quantity (Base)";
@@ -166,6 +171,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
 
     var
         PostingDate: Date;
+        LotExpirationDate: Date;
         DocumentNo: Text;
         ItemNo: Code[20];
         LocationCode: Code[20];
