@@ -1,14 +1,14 @@
-page 50153 GetBCItems
+page 50159 VICStandardCostWorksheet
 {
     PageType = API;
     APIPublisher = 'Vicinity';
     APIGroup = 'App1';
     APIVersion = 'v1.0';
-    EntityName = 'GetBCItems';
-    EntitySetName = 'GetBCItems';
+    EntityName = 'VICStandardCostWorksheet';
+    EntitySetName = 'VICStandardCostWorksheet';
     DelayedInsert = true;
-    SourceTable = "Item";
-    Caption = 'GetBCItems';
+    SourceTable = "Standard Cost Worksheet";
+    Caption = 'VICStandardCostWorksheet';
     ApplicationArea = All;
     UsageCategory = Lists;
     ODataKeyFields = "No.";
@@ -19,26 +19,21 @@ page 50153 GetBCItems
         {
             repeater(General)
             {
-                field("ItemNo"; Rec."No.")
+                field(Type; Rec."Type")
                 {
                     ApplicationArea = All;
                 }
-                field("LotSize"; Rec."Lot Size")
+                field(No; Rec."No.")
                 {
                     ApplicationArea = All;
                 }
-                field("SafetyStockQuantity"; Rec."Safety Stock Quantity")
+                field(WorksheetName; Rec."Standard Cost Worksheet Name")
                 {
                     ApplicationArea = All;
                 }
-                field(SystemModifiedAt; Rec."SystemModifiedAt")
+                field(NewStandardCost; Rec."New Standard Cost")
                 {
                     ApplicationArea = All;
-                }
-                field("MinimumOrderQuantity"; Rec."Minimum Order Quantity")
-                {
-                    ApplicationArea = All;
-
                 }
             }
         }
