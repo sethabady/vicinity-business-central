@@ -31,6 +31,15 @@ page 50153 GetBCItems
                 {
                     ApplicationArea = All;
                 }
+                field(SystemModifiedAt; Rec."SystemModifiedAt")
+                {
+                    ApplicationArea = All;
+                }
+                field("MinimumOrderQuantity"; Rec."Minimum Order Quantity")
+                {
+                    ApplicationArea = All;
+
+                }
             }
         }
     }
