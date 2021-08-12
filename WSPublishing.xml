@@ -122,15 +122,14 @@
             <Published>true</Published>
         </TenantWebService>
         <TenantWebService>
-<<<<<<< HEAD
             <ObjectType>Query</ObjectType>
             <ServiceName>GetBCItemLedgerEntries</ServiceName>
             <ObjectID>50161</ObjectID>
-=======
+            <Published>true</Published>
+        </TenantWebService>
             <ObjectType>Page</ObjectType>
             <ServiceName>BCStandardCostWorksheet</ServiceName>
             <ObjectID>50159</ObjectID>
->>>>>>> 4db93f73800cf7d96a288ddb4dc982f002514cf5
             <Published>true</Published>
         </TenantWebService>
     </TenantWebServiceCollection>
