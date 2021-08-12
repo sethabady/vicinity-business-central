@@ -127,9 +127,10 @@
             <ObjectID>50161</ObjectID>
             <Published>true</Published>
         </TenantWebService>
+        <TenantWebService>
             <ObjectType>Page</ObjectType>
             <ServiceName>BCStandardCostWorksheet</ServiceName>
-            <ObjectID>50159</ObjectID>
+            <ObjectID>50162</ObjectID>
             <Published>true</Published>
         </TenantWebService>
     </TenantWebServiceCollection>

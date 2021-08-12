@@ -99,6 +99,9 @@ query 50161 "GetBCItemLedgerEntries"
             column(Dimension_Set_ID; "Dimension Set ID")
             {
             }
+            column(SystemCreatedAt; "SystemCreatedAt")
+            {
+            }
             column(SystemModifiedAt; "SystemModifiedAt")
             {
             }
