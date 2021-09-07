@@ -35,6 +35,8 @@ query 50162 VICOpenSales
                 { }
                 column(Item_No_; "No.")
                 { }
+                column(SystemCreatedAt; SystemCreatedAt)
+                { }
                 column(SystemModifiedAt; SystemModifiedAt)
                 { }
                 column(SystemId; SystemId)
