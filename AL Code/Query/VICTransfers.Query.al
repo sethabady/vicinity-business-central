@@ -12,6 +12,8 @@ query 50164 VICTransfers
     {
         dataitem(TH; "Transfer Header")
         {
+            column(No_; "No.")
+            { }
             column(Transfer_from_Code; "Transfer-from Code")
             { }
             column(Transfer_to_Code; "Transfer-to Code")

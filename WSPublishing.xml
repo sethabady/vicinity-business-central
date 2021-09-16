@@ -145,5 +145,11 @@
             <ObjectID>50163</ObjectID>
             <Published>true</Published>
         </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICTransfers</ServiceName>
+            <ObjectID>50164</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
     </TenantWebServiceCollection>
 </ExportedData>
