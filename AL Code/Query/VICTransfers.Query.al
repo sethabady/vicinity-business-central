@@ -25,7 +25,9 @@ query 50164 VICTransfers
             dataitem(Transfer_Line; "Transfer Line")
             {
                 DataItemLink = "Document No." = TH."No.";
-                column(Outstanding_Qty___Base_; "Outstanding Qty. (Base)")
+                column(Item_No; "Item No.")
+                { }
+                column(Outstanding_Qty_Base; "Outstanding Qty. (Base)")
                 { }
                 column(SystemCreatedAt; SystemCreatedAt)
                 { }

@@ -26,6 +26,8 @@ query 50162 VICOpenSales
             { }
             column(Order_Date; "Order Date")
             { }
+            column(Status; Status)
+            { }
             dataitem(SL; "Sales Line")
             {
                 DataItemLink = "Document No." = SH."No.";
