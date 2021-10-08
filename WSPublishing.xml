@@ -129,8 +129,8 @@
         </TenantWebService>
         <TenantWebService>
             <ObjectType>Page</ObjectType>
-            <ServiceName>BCStandardCostWorksheet</ServiceName>
-            <ObjectID>50162</ObjectID>
+            <ServiceName>VICStandardCostWorksheet</ServiceName>
+            <ObjectID>50159</ObjectID>
             <Published>true</Published>
         </TenantWebService>
         <TenantWebService>
