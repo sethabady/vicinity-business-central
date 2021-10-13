@@ -12,11 +12,13 @@ query 50163 VICPostedSales
     {
         dataitem(SIH; "Sales Invoice Header")
         {
+            column(No_; "No.")
+            { }
             column(Document_Number; "Order No.")
             { }
             column(Customer_Name; "Sell-to Customer Name")
             { }
-            column(Custumer_PO; "External Document No.")
+            column(Customer_PO; "External Document No.")
             { }
             column(Ship_to_City; "Ship-to City")
             { }
@@ -26,10 +28,20 @@ query 50163 VICPostedSales
             { }
             column(Order_Date; "Order Date")
             { }
+            column(Customer_Posting_Group; "Customer Posting Group")
+            { }
+            column(Gen_Bus_Posting_Group; "Gen. Bus. Posting Group")
+            { }
+            column(Bill_to_Customer_No; "Bill-to Customer No.")
+            { }
+            column(Ship_to_Code; "Ship-to Code")
+            { }
+            column(Document_Date; "Document Date")
+            { }
             dataitem(SIL; "Sales Invoice Line")
             {
                 DataItemLink = "Document No." = SIH."No.";
-                column(Quantity__Base_; "Quantity (Base)")
+                column(Quantity_Base_; "Quantity (Base)")
                 { }
                 column(Shipment_Date; "Shipment Date")
                 { }
@@ -40,6 +52,10 @@ query 50163 VICPostedSales
                 column(SystemModifiedAt; SystemModifiedAt)
                 { }
                 column(SystemId; SystemId)
+                { }
+                column(Gen_Prod_Posting_Group; "Gen. Prod. Posting Group")
+                { }
+                column(Line_No; "Line No.")
                 { }
             }
         }

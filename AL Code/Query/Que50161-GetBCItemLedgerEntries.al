@@ -6,7 +6,7 @@ query 50161 "GetBCItemLedgerEntries"
     APIVersion = 'v1.0';
     EntityName = 'GetBCItemLedgerEntries';
     EntitySetName = 'GetBCItemLedgerEntries';
-    Caption = 'GetBCComponents';
+    Caption = 'GetBCItemLedgerEntries';
 
     elements
     {
@@ -105,6 +105,8 @@ query 50161 "GetBCItemLedgerEntries"
             column(SystemModifiedAt; "SystemModifiedAt")
             {
             }
+            column(Document_Line_No; "Document Line No.")
+            { }
         }
     }
 }
