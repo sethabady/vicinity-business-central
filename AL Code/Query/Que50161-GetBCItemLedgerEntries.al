@@ -107,6 +107,14 @@ query 50161 "GetBCItemLedgerEntries"
             }
             column(Document_Line_No; "Document Line No.")
             { }
+            column(Vicinity_Batch_No_; "Vicinity Batch No.")
+            { }
+            column(Vicinity_Facility_ID; "Vicinity Facility ID")
+            { }
+            column(Vicinity_Line_ID_No_; "Vicinity Line ID No.")
+            { }
+            column(Vicinity_Event_ID_No_; "Vicinity Event ID No.")
+            { }
         }
     }
 }

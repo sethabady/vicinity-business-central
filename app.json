@@ -2,7 +2,7 @@
   "id": "52ced3bf-2ec6-4f4d-94e6-c35c80a0e2d8",
   "name": "Vicinity Software",
   "publisher": "Vicinity Software",
-  "version": "18.3.0.8",
+  "version": "19.0.0.0",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -10,10 +10,10 @@
   "help": "",
   "url": "",  
   "logo": "",
-  "application": "18.3.0.0",
+  "application": "19.0.0.0",
   "dependencies": [],
   "screenshots": [],
-  "platform": "18.0.0.0",
+  "platform": "19.0.0.0",
   "idRanges":
   [
         {
