@@ -103,7 +103,13 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
             ItemJnlLine."Entry Type" := ItemJnlLine."Entry Type"::"Negative Adjmt.";
             ItemJnlLine.VALIDATE(Quantity, Abs(Qty));
             ItemJnlLine.VALIDATE(Quantity);
+
+
         end;
+
+        // BC 20.0.0.0 - MUST SET LOT NO TO A BLANK -- AFTER THE VALIDATION.
+        ItemJnlLine."Lot No." := '';
+
 
         ItemJnlLine."Vicinity Batch No." := BatchNumber;
         ItemJnlLine."Vicinity Facility ID" := FacilityID;
@@ -114,7 +120,8 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         ItemJnlLine.INSERT;
 
         // Lot Tracking
-        if ItemJnlLine."Lot No." <> '' then begin
+        //        if ItemJnlLine."Lot No." <> '' then begin
+        if LotNo <> '' then begin
             Item.GET(ItemJnlLine."Item No.");
             if Item."Item Tracking Code" <> '' then begin
                 ItemTrackingCode.GET(Item."Item Tracking Code");
@@ -131,7 +138,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
 
                     ReservationEntry."Item No." := ItemJnlLine."Item No.";
                     ReservationEntry."Location Code" := ItemJnlLine."Location Code";
-                    ReservationEntry."Lot No." := ItemJnlLine."Lot No.";
+                    ReservationEntry."Lot No." := LotNo; // ItemJnlLine."Lot No.";
                     ReservationEntry."Reservation Status" := ReservationEntry."Reservation Status"::Prospect;
                     ReservationEntry."Creation Date" := ItemJnlLine."Posting Date";
                     ReservationEntry."Source Type" := 83;

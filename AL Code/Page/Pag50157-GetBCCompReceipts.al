@@ -9,7 +9,7 @@ page 50157 GetBCCompReceipts
     EntitySetName = 'GetBCComponentReceipts';
     DelayedInsert = true;
     SourceTable = "Purchase Line";
-    SourceTableView = where("Document Type" = const(1));
+    SourceTableView = where("Document Type" = const(Order));
     Caption = 'GetBCComponentReceipts';
     ApplicationArea = All;
     UsageCategory = Lists;
