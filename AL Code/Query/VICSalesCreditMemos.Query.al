@@ -43,6 +43,10 @@ query 50167 VICSalesCreditMemos
                 { }
                 column(Item_No; "No.")
                 { }
+                column(Location_Code; "Location Code")
+                {
+
+                }
                 column(Shipment_Date; "Shipment Date")
                 { }
                 column(SystemCreatedAt; SystemCreatedAt)

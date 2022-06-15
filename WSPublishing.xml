@@ -175,5 +175,23 @@
             <ObjectID>50168</ObjectID>
             <Published>true</Published>
         </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICItemLedgerEntries</ServiceName>
+            <ObjectID>50170</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICItems</ServiceName>
+            <ObjectID>50171</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICStockkeepingUnits</ServiceName>
+            <ObjectID>50172</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
     </TenantWebServiceCollection>
 </ExportedData>

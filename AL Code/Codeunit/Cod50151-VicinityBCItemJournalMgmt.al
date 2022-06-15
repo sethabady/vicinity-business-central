@@ -5,7 +5,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         InsertItemJournal();
     end;
 
-    procedure SetItemJournalParameters(pPostingDate: Date; pDocumentNo: Text; pItemNo: Code[20]; pLocationCode: Code[20]; pBinCode: Code[20]; pUoMCode: Code[20]; pLotNo: Code[20]; pQty: Decimal; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; pSourceCodeSetup: Record "Source Code Setup"; pLotExpirationDate: Date)
+    procedure SetItemJournalParameters(pPostingDate: Date; pDocumentNo: Text; pItemNo: Code[20]; pLocationCode: Code[20]; pBinCode: Code[20]; pUoMCode: Code[20]; pLotNo: Code[25]; pQty: Decimal; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; pSourceCodeSetup: Record "Source Code Setup"; pLotExpirationDate: Date)
     begin
         PostingDate := pPostingDate;
         DocumentNo := pDocumentNo;
@@ -184,7 +184,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         LocationCode: Code[20];
         BinCode: Code[20];
         UoMCode: Code[20];
-        LotNo: Code[20];
+        LotNo: Code[25];
         Qty: Decimal;
         Amount: Decimal;
         BatchNumber: Code[20];

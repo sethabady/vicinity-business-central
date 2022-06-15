@@ -47,6 +47,8 @@ query 50163 VICPostedSales
                 { }
                 column(Item_No_; "No.")
                 { }
+                column(Location_Code; "Location Code")
+                { }
                 column(SystemCreatedAt; SystemCreatedAt)
                 { }
                 column(SystemModifiedAt; SystemModifiedAt)
