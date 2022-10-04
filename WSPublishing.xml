@@ -193,5 +193,17 @@
             <ObjectID>50172</ObjectID>
             <Published>true</Published>
         </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICOpenPurchaseHeaders</ServiceName>
+            <ObjectID>50174</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICOpenPurchaseLines</ServiceName>
+            <ObjectID>50175</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
     </TenantWebServiceCollection>
 </ExportedData>
