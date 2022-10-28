@@ -89,6 +89,12 @@ query 50171 VICItems
             {
 
             }
+            column(SystemCreatedAt; "SystemCreatedAt")
+            {
+            }
+            column(SystemModifiedAt; "SystemModifiedAt")
+            {
+            }
 
             dataitem(ItemTracking; "Item Tracking Code")
             {

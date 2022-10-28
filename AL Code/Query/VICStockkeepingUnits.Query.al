@@ -49,6 +49,12 @@ query 50172 VICStockkeepingUnits
             {
 
             }
+            column(SystemCreatedAt; "SystemCreatedAt")
+            {
+            }
+            column(SystemModifiedAt; "SystemModifiedAt")
+            {
+            }
         }
     }
 }
