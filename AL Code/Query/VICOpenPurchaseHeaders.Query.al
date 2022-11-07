@@ -11,7 +11,7 @@ query 50174 VICOpenPurchaseHeaders
     {
         dataitem(Purchase_Header; "Purchase Header")
         {
-            DataItemTableFilter = "Document Type" = const(Order), Status = const(Open);
+            DataItemTableFilter = "Document Type" = const(Order);
             column(No_;
             "No.")
             { }
