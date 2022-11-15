@@ -33,13 +33,18 @@ query 50162 VICOpenSales
                 DataItemLink = "Document No." = SH."No.";
                 column(Quantity__Base_; "Quantity (Base)")
                 { }
+                column(Qty_To_Ship_Base; "Qty. to Ship (Base)")
+                { }
+                column(Qty_To_Invoice_Base; "Qty. to Invoice (Base)")
+                { }
+                column(Quantity_Shipped; "Quantity Shipped")
+                { }
                 column(Shipment_Date; "Shipment Date")
                 { }
                 column(Item_No_; "No.")
                 { }
                 column(Location_Code; "Location Code")
                 {
-
                 }
                 column(SystemCreatedAt; SystemCreatedAt)
                 { }
