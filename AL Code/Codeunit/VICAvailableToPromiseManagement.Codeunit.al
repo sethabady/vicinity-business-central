@@ -36,9 +36,12 @@ codeunit 50146 "VICATPManagement"
             Error('Vicinity Setup record does not exist')
         end;
 
-        // VicinityApiUrl := VicinitySetup.ApiUrl;
-        // VicinityCompanyId := VicinitySetup.CompanyId;
-        // VicinityUserId := VicinitySetup.ApiUserName;
+        VicinityApiUrl := VicinitySetup.ApiUrl;
+        VicinityCompanyId := VicinitySetup.CompanyId;
+        VicinityUserId := VicinitySetup.ApiUserName;
+        if (StrLen(VicinityUserId) = 0) then begin
+            VicinityUserId := UserId;
+        end;
 
         // https://vwswampdev.cloud.vicinitybrew.com/api/vicinityservice/planning/planningtransactions?companyId=SwampDevBC&userId=SABADY&componentId=DC-FG01&locationId=WAREHOUSE&includeErpData=true
 
@@ -49,9 +52,9 @@ codeunit 50146 "VICATPManagement"
         OpeningBalance := 0;
         LineNo := 1;
 
-        VicinityCompanyId := 'SwampDevBC';
-        VicinityApiUrl := 'https://vwswampdev.cloud.vicinitybrew.com/api/vicinityservice';
-        Url := VicinityApiUrl + '/planning/planningtransactions?companyId=' + VicinityCompanyId + '&userId=SABADY&componentId=' + ItemNo + ' &locationId=' + LocationCode + '&includeErpData=true';
+//        VicinityCompanyId := 'SwampDevBC';
+//        VicinityApiUrl := 'https://vwswampdev.cloud.vicinitybrew.com/api/vicinityservice';
+//        Url := VicinityApiUrl + '/planning/planningtransactions?companyId=' + VicinityCompanyId + '&userId=SABADY&componentId=' + ItemNo + ' &locationId=' + LocationCode + '&includeErpData=true';
 
         Url := StrSubstNo('%1/planning/planningtransactions?companyId=%2&userId=%3&componentId=%4&locationId=%5&includeErpData=true', VicinityApiUrl, VicinityCompanyId, VicinityUserId, ItemNo, LocationCode);
 

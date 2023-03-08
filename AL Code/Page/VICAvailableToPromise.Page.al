@@ -76,40 +76,40 @@ page 50146 "VICAvailableToPromise"
                     end;
                 }
 
-/*                 field(LocationFilter; LocationFilter)
-                {
-                    ApplicationArea = Location;
-                    Caption = 'Location Filter';
-                    ToolTip = 'Specifies the location that availability is shown for.';
+                /*                 field(LocationFilter; LocationFilter)
+                                {
+                                    ApplicationArea = Location;
+                                    Caption = 'Location Filter';
+                                    ToolTip = 'Specifies the location that availability is shown for.';
 
-                    trigger OnLookup(var Text: Text): Boolean
-                    var
-                        Location: Record Location;
-                        LocationList: Page "Location List";
-                    begin
-                        LocationList.SetTableView(Location);
-                        LocationList.LookupMode := true;
-                        if LocationList.RunModal = ACTION::LookupOK then begin
-                            LocationList.GetRecord(Location);
-                            Text := Location.Code;
-                            exit(true);
-                        end;
-                        exit(false);
-                    end;
+                                    trigger OnLookup(var Text: Text): Boolean
+                                    var
+                                        Location: Record Location;
+                                        LocationList: Page "Location List";
+                                    begin
+                                        LocationList.SetTableView(Location);
+                                        LocationList.LookupMode := true;
+                                        if LocationList.RunModal = ACTION::LookupOK then begin
+                                            LocationList.GetRecord(Location);
+                                            Text := Location.Code;
+                                            exit(true);
+                                        end;
+                                        exit(false);
+                                    end;
 
-                    trigger OnValidate()
-                    begin
-                        if LocationFilter <> Item.GetFilter("Location Filter") then begin
-                            Item.SetRange("Location Filter");
-                            if LocationFilter <> '' then
-                                Item.SetFilter("Location Filter", LocationFilter);
-                            Rec.DeleteAll();
-                            CalcVicinityATPPageDate.CreateVicinityATP(ItemNo, Location, Rec, IncludePlannedOrders);
-                            CurrPage.Update(false);
-                        end;
-                    end;
-                }
-*/
+                                    trigger OnValidate()
+                                    begin
+                                        if LocationFilter <> Item.GetFilter("Location Filter") then begin
+                                            Item.SetRange("Location Filter");
+                                            if LocationFilter <> '' then
+                                                Item.SetFilter("Location Filter", LocationFilter);
+                                            Rec.DeleteAll();
+                                            CalcVicinityATPPageDate.CreateVicinityATP(ItemNo, Location, Rec, IncludePlannedOrders);
+                                            CurrPage.Update(false);
+                                        end;
+                                    end;
+                                }
+                */
                 field(IncludePlannedOrders; IncludePlannedOrders)
                 {
                     ApplicationArea = Basic, Suite;
@@ -148,6 +148,12 @@ page 50146 "VICAvailableToPromise"
                     Style = Strong;
                     StyleExpr = Emphasize;
                     ToolTip = 'Specifies the description of the availability line.';
+/* 
+                    trigger OnDrillDown()
+                    begin
+                        HyperLink('vmp://VicinityDrillBack/?ProductID=BatchEntry&FacilityID=FMI&BatchNumber=A01-110514');
+                    end;
+ */
                 }
                 field(Source; Rec.Source)
                 {
@@ -239,7 +245,7 @@ page 50146 "VICAvailableToPromise"
     begin
         Location.Copy(NewLocation);
         LocationCode := Location.Code;
-//        LocationFilter := NewLocation;
+        //        LocationFilter := NewLocation;
     end;
 
     local procedure UpdateItemRequestFields(var Item: Record Item)
@@ -264,7 +270,7 @@ page 50146 "VICAvailableToPromise"
             Item.Get(ItemNo);
             if LocationFilter <> '' then
                 Item.SetFilter("Location Filter", LocationFilter);
-//            OnValidateItemNoOnBeforeInitAndCalculatePeriodEntries(Item);
+            //            OnValidateItemNoOnBeforeInitAndCalculatePeriodEntries(Item);
             OnValidateItemNo(Item);
             Rec.DeleteAll();
             CalcVicinityATPPageDate.CreateVicinityATP(ItemNo, LocationCode, Rec, IncludePlannedOrders);
@@ -279,12 +285,13 @@ page 50146 "VICAvailableToPromise"
         if LocationCode <> Location.Code then begin
             Location.Get(LocationCode);
             OnValidateLocation(Location);
-/*             Item.Get(ItemNo);
-            if LocationFilter <> '' then
-                Item.SetFilter("Location Filter", LocationFilter);
-//            OnValidateItemNoOnBeforeInitAndCalculatePeriodEntries(Item);
-            OnValidateItemNo(Item);
- */            Rec.DeleteAll();
+            /*             Item.Get(ItemNo);
+                        if LocationFilter <> '' then
+                            Item.SetFilter("Location Filter", LocationFilter);
+            //            OnValidateItemNoOnBeforeInitAndCalculatePeriodEntries(Item);
+                        OnValidateItemNo(Item);
+             */
+            Rec.DeleteAll();
             CalcVicinityATPPageDate.CreateVicinityATP(ItemNo, LocationCode, Rec, IncludePlannedOrders);
 
             //            InitAndCalculatePeriodEntries();

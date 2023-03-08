@@ -45,6 +45,26 @@ table 50109 "Vicinity Setup"
             DataClassification = ToBeClassified;
             TableRelation = "Gen. Journal Batch".Name WHERE ("Journal Template Name" = CONST ('GENERAL'));
         }
+        field(80; ApiUrl; Text[200])
+        {
+            Caption = 'Vicinity API URL';
+            DataClassification = ToBeClassified;
+        }
+        field(90; CompanyId; Text[10])
+        {
+            Caption = 'Vicinity Company ID';
+            DataClassification = ToBeClassified;
+        }
+        field(100; ApiUserName; Text[100])
+        {
+            Caption = 'Vicinity API User Name';
+            DataClassification = ToBeClassified;
+        }
+        field(110; ApiAccessKey; Text[100])
+        {
+            Caption = 'Vicinity API Access Key';
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
