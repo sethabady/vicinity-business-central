@@ -28,6 +28,8 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
     end;
 
     local procedure InsertItemJournal()
+    var
+        applyToEventNo : Integer;
     begin
         VicinitySetup.TestField("Vicinity Enabled");
         VicinitySetup.TestField("Item Journal Batch");
@@ -61,6 +63,12 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
 
         if PostingDate = 0D then
             PostingDate := WorkDate();
+        
+        applyToEventNo := 0;
+        if DocumentNo <> '' then begin
+            Evaluate(applyToEventNo, DocumentNo);
+            DocumentNo := '';
+        end;
 
         if DocumentNo = '' then begin
             ItemJournalBatch.Get(ItemJnlTemplate, VicinitySetup."Item Journal Batch");
@@ -79,6 +87,9 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         ItemJnlLine."Source No." := VicinityLabel;
         ItemJnlLine."Source Code" := SourceCodeSetup."Item Journal";
         ItemJnlLine."Document No." := DocumentNo;
+
+        if (applyToEventNo <> 0) then
+            ItemJnlLine."Applies-to Entry" := applyToEventNo;
 
         ItemJnlLine.VALIDATE("Item No.", ItemNo);
         ItemJnlLine."Gen. Bus. Posting Group" := VicinitySetup."Gen. Bus. Posting Group";

@@ -41,15 +41,53 @@ page 50149 "Vicinity Setup"
 
                 field("Warehouse Journal Batch"; Rec."Warehouse Journal Batch")
                 {
-                    Visible = false;
+                    Visible = true;
                     ApplicationArea = All;
-
                 }
-
+                field("Vicinity API URL"; Rec."ApiUrl")
+                {
+                    Visible = true;
+                    ApplicationArea = All;
+                }
+                field("Vicinity Company ID"; Rec."CompanyId")
+                {
+                    Visible = true;
+                    ApplicationArea = All;
+                }
+                field("Vicinity API User Name"; Rec.ApiUserName)
+                {
+                    Visible = true;
+                    ApplicationArea = All;
+                }
+                field("Vicinity API Access Key"; Rec.ApiAccessKey)
+                {
+                    ExtendedDatatype = Masked;
+                    Visible = true;
+                    ApplicationArea = All;
+                }
             }
         }
     }
 
+    /* 
+        actions
+        {
+            area(Processing)
+            {
+                action("My Actions")
+                {
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    ApplicationArea = All;
+                    trigger OnAction()
+                    begin
+                        HyperLink('vmp://VicinityDrillBack/?ProductID=BatchEntry&FacilityID=FMI&BatchNumber=A01-110514');                    
+                        Message('Hello World');
+                    end;
+                }            
+            }
+        }
+     */
     [ServiceEnabled]
     [Scope('Cloud')]
     procedure InsertGenJournal(postingdate: Date; documentno: Text; glaccountno: Text; glbalaccountno: Text; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean) Output: Text
@@ -125,5 +163,18 @@ page 50149 "Vicinity Setup"
         end;
 
         actionContext.SetResultCode(WebServiceActionResultCode::Get);
+    end;
+
+    // V4-2009
+    [ServiceEnabled]
+    [Scope('Cloud')]
+    procedure GetVicinityExtensionVersion() Output: Text
+    var
+        ModuleInfo: ModuleInfo;
+        AppVersion: Version;
+    begin
+        NavApp.GetCurrentModuleInfo(ModuleInfo);
+        AppVersion := ModuleInfo.AppVersion;
+        exit(Format(AppVersion));
     end;
 }

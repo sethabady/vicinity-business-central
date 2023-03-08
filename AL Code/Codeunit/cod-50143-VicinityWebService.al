@@ -47,6 +47,11 @@ codeunit 50143 "Vicinity Web Service"
         ItemJournalLineTemp.Amount := pAmount;
         ItemJournalLineTemp."Lot No." := UPPERCASE(pLotNo);
 
+        // V4-2009
+        if pCustom4 <> '' then begin
+            Evaluate(ItemJournalLineTemp."Applies-to Entry", pCustom4);
+        end;
+
         IF NOT VicinityPopulateJournal.RUN(ItemJournalLineTemp) THEN BEGIN
             VicinityPopulateJournal.ReturnVicinityErrorLogInfo(VicinityErrorLog);
             IF NOT VicinityErrorLogT.FINDLAST THEN;

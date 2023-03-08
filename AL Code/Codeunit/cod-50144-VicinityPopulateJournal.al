@@ -151,6 +151,9 @@ codeunit 50144 "Vicinity Populate Journal"
             NewItemJournalLine.VALIDATE(Quantity);
         END;
 
+        // V4-2009
+        NewItemJournalLine."Applies-to Entry" := pItemJournalLine."Applies-to Entry";
+
         // Lot Tracking
         IF pItemJournalLine."Lot No." <> '' THEN BEGIN
             IF ItemRec.GET(NewItemJournalLine."Item No.") THEN BEGIN
