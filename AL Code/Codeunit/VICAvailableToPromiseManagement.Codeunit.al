@@ -89,7 +89,7 @@ codeunit 50146 "VICATPManagement"
                     2, 3, 4:
                         begin
                             // By/Co Product, End-Item, Firm Planned Order
-                            if (IncludePlannedOrders) then begin
+                            if (IncludePlannedOrders or (EntityType <> 5)) then begin
                                 InvtPageData.Init();
                                 InvtPageData.Code := '';
                                 InvtPageData."Line No." := LineNo;
