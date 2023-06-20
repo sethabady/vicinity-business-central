@@ -26,7 +26,7 @@ codeunit 50143 "Vicinity Web Service"
         COMMIT;
     end;
 
-    procedure WriteItemJournalLine(pBatchNumber: Text[20]; pFacilityID: Text[15]; pLineIDNumber: Integer; pEventIDNumber: Integer; pItemNo: Text[20]; pLocationCode: Text[10]; pUnitOfMeasureCode: Text[10]; pQuantity: Decimal; pAmount: Decimal; pLotNo: Text[20]; pCustom1: Text[20]; pCustom2: Text[20]; pCustom3: Text[20]; pCustom4: Text[20]; var ProcessedOK: Boolean; var pErrorText: Text[250]; var pErrorLocation: Text[50])
+    procedure WriteItemJournalLine(pBatchNumber: Text[20]; pFacilityID: Text[15]; pLineIDNumber: Integer; pEventIDNumber: Integer; pItemNo: Text[20]; pLocationCode: Text[10]; pUnitOfMeasureCode: Text[10]; pQuantity: Decimal; pAmount: Decimal; pLotNo: Text[50]; pCustom1: Text[20]; pCustom2: Text[20]; pCustom3: Text[20]; pCustom4: Text[20]; var ProcessedOK: Boolean; var pErrorText: Text[250]; var pErrorLocation: Text[50])
     var
         VicinityErrorLog: Record "Vicinity Error Log";
         VicinityErrorLogT: Record "Vicinity Error Log";
