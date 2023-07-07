@@ -8,6 +8,10 @@ page 50154 GetBCCompIndependentDemand
     EntitySetName = 'GetBCComponentIndependentDemand';
     DelayedInsert = true;
     SourceTable = "Sales Line";
+    //SourceTableView = WHERE("Type"=const(Item), "Shipment Date"=filter(<> 0D));
+
+    // V4-2120
+    SourceTableView = where("Document Type" = filter(<> "Return Order"), "Type" = const(Item));
     Caption = 'GetBCComponentIndependentDemand';
     ApplicationArea = All;
     UsageCategory = Lists;
@@ -46,5 +50,4 @@ page 50154 GetBCCompIndependentDemand
             }
         }
     }
-
 }
