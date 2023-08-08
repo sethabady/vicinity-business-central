@@ -39,7 +39,11 @@ page 50154 GetBCCompIndependentDemand
                 {
                     ApplicationArea = All;
                 }
-                field("ShipmentDate"; Rec."Shipment Date")
+                // field("ShipmentDate"; Rec."Shipment Date")
+                // {
+                //     ApplicationArea = All;
+                // }
+                field("ShipmentDate"; GetDemandDate())
                 {
                     ApplicationArea = All;
                 }
@@ -50,4 +54,21 @@ page 50154 GetBCCompIndependentDemand
             }
         }
     }
+
+    // V4-2120 (20.0.1.3) : if line dates are blank default to header dates.
+    local procedure GetDemandDate() DemandDate: Date
+    var
+        SalesHeader: Record "Sales Header";
+    begin
+        if Rec."Requested Delivery Date" <> 0D then
+            exit(Rec."Requested Delivery Date");
+        if Rec."Shipment Date" <> 0D then
+            exit(Rec."Shipment Date");
+        if SalesHeader.Get(SalesHeader."Document Type"::Order, Rec."Document No.") then begin
+            if SalesHeader."Requested Delivery Date" <> 0D then
+                exit(SalesHeader."Requested Delivery Date");
+            exit(SalesHeader."Order Date");
+        end;
+        exit(0D);
+    end;
 }
