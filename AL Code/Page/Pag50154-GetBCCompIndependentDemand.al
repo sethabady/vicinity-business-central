@@ -60,10 +60,11 @@ page 50154 GetBCCompIndependentDemand
     var
         SalesHeader: Record "Sales Header";
     begin
-        if Rec."Requested Delivery Date" <> 0D then
-            exit(Rec."Requested Delivery Date");
+        // Demand date is Shipment Date so test its value first.
         if Rec."Shipment Date" <> 0D then
             exit(Rec."Shipment Date");
+        if Rec."Requested Delivery Date" <> 0D then
+            exit(Rec."Requested Delivery Date");
         if SalesHeader.Get(SalesHeader."Document Type"::Order, Rec."Document No.") then begin
             if SalesHeader."Requested Delivery Date" <> 0D then
                 exit(SalesHeader."Requested Delivery Date");
