@@ -158,7 +158,7 @@ page 50149 "Vicinity Setup"
         ItemLedgerEntry.SetRange("Vicinity Batch No.", batchnumber);
         ItemLedgerEntry.SetRange("Vicinity Line ID No.", lineid);
         ItemLedgerEntry.SetRange("Vicinity Event ID No.", eventid);
-        if ItemLedgerEntry.FindSet() then
+        if ItemLedgerEntry.FindFirst() then
             DuplicateFound := true;
 
         // Only return ILE records if post was called.
