@@ -137,10 +137,45 @@ page 50149 "Vicinity Setup"
         ItemRegister: Record "Item Register";
         SourceCodeSetup: Record "Source Code Setup";
         ItemLedgerFilter: Text;
+        ItemLedgerEntry: Record "Item Ledger Entry";
+
+        // V4-2101
+        JsonILEArray: JsonArray;
+        JsonILEObject: JsonObject;
+        ReturnJsonText: Text;
+        CostAmount: Decimal;
+        ValueEntry: Record "Value Entry";
+        DuplicateFound: Boolean;
     begin
         actionContext.SetObjectType(ObjectType::Page);
         actionContext.SetObjectId(Page::"Vicinity Setup");
         actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
+
+        DuplicateFound := false;
+        ItemLedgerEntry.Reset();
+        ItemLedgerEntry.SetCurrentKey("Vicinity Batch No.", "Vicinity Facility ID", "Vicinity Line ID No.", "Vicinity Event ID No.");
+        ItemLedgerEntry.SetRange("Vicinity Facility ID", facilityid);
+        ItemLedgerEntry.SetRange("Vicinity Batch No.", batchnumber);
+        ItemLedgerEntry.SetRange("Vicinity Line ID No.", lineid);
+        ItemLedgerEntry.SetRange("Vicinity Event ID No.", eventid);
+        if ItemLedgerEntry.FindSet() then
+            DuplicateFound := true;
+
+        // Only return ILE records if post was called.
+
+        // Don't write a record to journal if it has already been posted and written to ILE.
+        if DuplicateFound and not post then begin
+            // Not posting and the record needs to be skipped.
+            exit(BuildReturnJson('', '', '', 'Skipped'));
+        end;
+        if DuplicateFound and post and firstLine then begin
+            // Posting but this record is a duplicate and no other records have been written so skip.
+            exit(BuildReturnJson('', '', '', 'Skipped'));
+        end;
+        if DuplicateFound then begin
+            // We're not skipping because we are posting, but we don't want to write current record because it is a duplicate.
+            itemno := '';
+        end;
 
         SourceCodeSetup.Get();
         VicinityBCItemJournalMgmt.SetItemJournalParameters(postingdate, documentno, itemno, locationcode, bincode, uomcode, lotno, qty, amount, batchnumber, facilityid, lineid, eventid, firstline, post, Rec, SourceCodeSetup, lotexpirationdate);
@@ -155,26 +190,85 @@ page 50149 "Vicinity Setup"
                     ItemLedgerFilter := StrSubstNo('EntryNo eq %1', ItemRegister."From Entry No.")
                 else
                     ItemLedgerFilter := StrSubstNo('EntryNo ge %1 and EntryNo le %2', ItemRegister."From Entry No.", ItemRegister."To Entry No.");
-                exit(ItemLedgerFilter);
-            end else
-                exit('Inserted');
-        end else begin
-            exit('Error: ' + GetLastErrorText);
-        end;
 
+                // V4-2101
+                ReturnJsonText := BuildReturnJson(facilityId, batchNumber, ItemLedgerFilter, 'Posted');
+                exit(ReturnJsonText);
+            end else begin
+                exit(BuildReturnJson('', '', '', 'Inserted'));
+            end
+        end else begin
+            if post then begin
+                // Query and return ItemLE records when the ItemJournal is posted.
+                exit(BuildReturnJson(facilityid, batchnumber, '', 'Error: ' + GetLastErrorText()))
+            end
+            else
+                exit(BuildReturnJson('', '', '', 'Error: ' + GetLastErrorText()))
+        end;
         actionContext.SetResultCode(WebServiceActionResultCode::Get);
     end;
+
+    // V4-2101
+    local procedure BuildReturnJson(facilityId: text; batchNumber: text; itemLedgerFilter: text; message: text) returnJsonText: Text
+    var
+        ItemLedgerEntry: Record "Item Ledger Entry";
+        JsonILEArray: JsonArray;
+        JsonILEObject: JsonObject;
+        JsonReturnObject: JsonObject;
+        CostAmount: Decimal;
+        ValueEntry: Record "Value Entry";
+        ModuleInfo: ModuleInfo;
+        AppVersion: Version;
+    begin
+        JsonReturnObject.Add('Message', message);
+        JsonReturnObject.Add('ItemLedgerFilter', itemLedgerFilter);
+
+        NavApp.GetCurrentModuleInfo(ModuleInfo);
+        AppVersion := ModuleInfo.AppVersion;
+
+        JsonReturnObject.Add('VicinityExtensionVersion', Format(AppVersion));
+        if batchNumber <> '' then begin
+            ItemLedgerEntry.Reset();
+            ItemLedgerEntry.SetCurrentKey("Vicinity Batch No.", "Vicinity Facility ID", "Vicinity Line ID No.", "Vicinity Event ID No.");
+            ItemLedgerEntry.SetRange("Vicinity Facility ID", facilityId);
+            ItemLedgerEntry.SetRange("Vicinity Batch No.", batchNumber);
+            if ItemLedgerEntry.FindSet() then begin
+                repeat
+                    JsonILEObject.Add('EventIdNo', ItemLedgerEntry."Vicinity Event ID No.");
+                    JsonILEObject.Add('LineIdNo', ItemLedgerEntry."Vicinity Line ID No.");
+                    ValueEntry.Reset();
+                    ValueEntry.SetCurrentKey(ValueEntry."Entry No.");
+                    ValueEntry.SetRange("Item Ledger Entry No.", ItemLedgerEntry."Entry No.");
+                    CostAmount := 0;
+                    if ValueEntry.CalcSums("Cost Amount (Actual)") then
+                        CostAmount := ValueEntry."Cost Amount (Actual)";
+                    JsonILEObject.Add('ExtendedCost', CostAmount);
+                    JsonILEObject.Add('ErpDocumentNo', ItemLedgerEntry."Document No.");
+                    JsonILEObject.Add('EntryNo', ItemLedgerEntry."Entry No.");
+                    JsonILEArray.Add(JsonILEObject);
+                    Clear(JsonILEObject);
+                until ItemLedgerEntry.Next() = 0;
+            end
+        end;
+        JsonReturnObject.Add('ItemLedgerEntries', JsonILEArray);
+        JsonReturnObject.WriteTo(returnJsonText);
+        exit(returnJsonText);
+    end;
+
+
 
     // V4-2009
     [ServiceEnabled]
     [Scope('Cloud')]
     procedure GetVicinityExtensionVersion() Output: Text
     var
+        actionContext: WebServiceActionContext;
         ModuleInfo: ModuleInfo;
         AppVersion: Version;
     begin
         NavApp.GetCurrentModuleInfo(ModuleInfo);
         AppVersion := ModuleInfo.AppVersion;
         exit(Format(AppVersion));
+        actionContext.SetResultCode(WebServiceActionResultCode::Get);
     end;
 }

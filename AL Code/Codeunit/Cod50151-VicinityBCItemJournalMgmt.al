@@ -34,8 +34,18 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         VicinitySetup.TestField("Vicinity Enabled");
         VicinitySetup.TestField("Item Journal Batch");
         VicinitySetup.TestField("Gen. Bus. Posting Group");
-
         SourceCodeSetup.TestField("Item Journal");
+
+        // V4-2101 : if item is blank, then we're skipping write to item journal but we may be posting.
+        if (ItemNo = '') then begin
+            if Post then begin
+                ItemJnlLine.Reset();
+                ItemJnlLine.SetRange("Journal Template Name", ItemJnlTemplate);
+                ItemJnlLine.SetRange("Journal Batch Name", VicinitySetup."Item Journal Batch");
+                ItemJnlPostBatch.Run(ItemJnlLine);
+            end;
+            exit;
+        end;
 
         LineNo := 0;
         if FirstLine then begin
