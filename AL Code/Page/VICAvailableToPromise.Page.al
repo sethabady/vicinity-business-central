@@ -1,7 +1,7 @@
 page 50146 "VICAvailableToPromise"
 {
     Caption = 'Vicinity Available to Promise';
-    DataCaptionExpression = PageCaption;
+    DataCaptionExpression = ATPPageCaption;
     DeleteAllowed = false;
     InsertAllowed = false;
     LinksAllowed = false;
@@ -230,7 +230,7 @@ page 50146 "VICAvailableToPromise"
         [InDataSet]
         Emphasize: Boolean;
 
-    local procedure PageCaption(): Text[250]
+    local procedure ATPPageCaption(): Text[250]
     begin
         exit(StrSubstNo('%1 %2', Item."No.", Item.Description));
     end;
