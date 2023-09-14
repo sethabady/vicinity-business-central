@@ -169,8 +169,9 @@ page 50149 "Vicinity Setup"
             exit(BuildReturnJson('', '', '', 'Skipped'));
         end;
         if DuplicateFound and post and firstLine then begin
+            // V4-2101
             // Posting but this record is a duplicate and no other records have been written so skip.
-            exit(BuildReturnJson('', '', '', 'Skipped'));
+            exit(BuildReturnJson(facilityId, batchNumber, '', 'Skipped'));
         end;
         if DuplicateFound then begin
             // We're not skipping because we are posting, but we don't want to write current record because it is a duplicate.
