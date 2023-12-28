@@ -173,7 +173,9 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
                         ReservationEntry."Quantity (Base)" := ItemJnlLine."Quantity (Base)";
                         ReservationEntry."Source Subtype" := 2;
                         ReservationEntry."Expected Receipt Date" := ItemJnlLine."Posting Date";
-                        ReservationEntry."Expiration Date" := ItemJnlLine."Expiration Date";
+
+                        // V4-2211 : Expiration date not transferring to ILE.
+                        ReservationEntry."Expiration Date" := LotExpirationDate; // ItemJnlLine."Expiration Date";
                     end else begin
                         ReservationEntry.Quantity := -ItemJnlLine.Quantity;
                         ReservationEntry."Quantity (Base)" := -ItemJnlLine."Quantity (Base)";
