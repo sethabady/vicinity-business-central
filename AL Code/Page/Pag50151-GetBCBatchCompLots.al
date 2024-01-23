@@ -9,8 +9,8 @@ page 50151 GetBCBatchCompLots
     DelayedInsert = true;
     SourceTable = "Item Ledger Entry";
     Caption = 'GetBCBatchComponentLots';
-    ApplicationArea = All;
-    UsageCategory = Lists;
+    // ApplicationArea = All;
+    // UsageCategory = Lists;
     ODataKeyFields = "Item No.";
 
     layout

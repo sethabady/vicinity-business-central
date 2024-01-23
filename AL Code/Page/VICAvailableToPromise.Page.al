@@ -6,7 +6,7 @@ page 50146 "VICAvailableToPromise"
     InsertAllowed = false;
     LinksAllowed = false;
     ModifyAllowed = false;
-    PageType = ListPlus;
+    PageType = Worksheet;
     SourceTable = "Inventory Page Data";
     SourceTableTemporary = true;
     SourceTableView = SORTING("Period Start", "Line No.")
@@ -148,12 +148,6 @@ page 50146 "VICAvailableToPromise"
                     Style = Strong;
                     StyleExpr = Emphasize;
                     ToolTip = 'Specifies the description of the availability line.';
-/* 
-                    trigger OnDrillDown()
-                    begin
-                        HyperLink('vmp://VicinityDrillBack/?ProductID=BatchEntry&FacilityID=FMI&BatchNumber=A01-110514');
-                    end;
- */
                 }
                 field(Source; Rec.Source)
                 {
@@ -196,9 +190,77 @@ page 50146 "VICAvailableToPromise"
         }
     }
 
+    actions
+    {
+        area(processing)
+        {
+            action("Show Document")
+            {
+                ApplicationArea = Basic, Suite;
+                Caption = 'Show Document';
+                Enabled = EnableShowDocumentAction;
+                Image = View;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                ShortCutKey = 'Shift+F7';
+                ToolTip = 'Open the document that the selected line exists on.';
+
+                trigger OnAction()
+                var
+                    Drillback: Text;
+                    VICATPManagement: Codeunit VICATPManagement;
+                    CalcItemAvailability: Codeunit "Calc. Item Availability";
+                    SalesHeader: Record "Sales Header";
+                    POHeader: Record "Purchase Header";
+                    RecId: RecordId;
+                    SalesDocumentType: Enum "Sales Document Type";
+                    TransactionEntityType: Enum TransactionEntityType;
+                begin
+                    Drillback := VICATPManagement.GetDrillback(Rec);
+                    if Format(Drillback) = '' then begin
+                        if Enum::TransactionEntityType.FromInteger(Rec.VicinityEntityType) = TransactionEntityType::POReceipt then begin
+                            POHeader.SetCurrentKey("No.");
+                            POHeader.SetRange("No.", Rec."Document No.");
+                            if POHeader.Find('-') then begin
+                                RecId := POHeader.RecordId;
+                                CalcItemAvailability.ShowDocument(RecId);
+                                exit;
+                            end;
+                        end
+                        else begin
+                            SalesHeader.SetCurrentKey("No.");
+                            SalesHeader.SetRange("No.", Rec."Document No.");
+                            if SalesHeader.Find('-') then begin
+                                RecId := SalesHeader.RecordId;
+                                CalcItemAvailability.ShowDocument(RecId);
+                                exit;
+                            end;
+                        end;
+                        SalesHeader.SetCurrentKey("No.");
+                        SalesHeader.SetRange("No.", Rec."Document No.");
+                        if SalesHeader.Find('-') then begin
+                            RecId := SalesHeader.RecordId;
+                            CalcItemAvailability.ShowDocument(RecId);
+                            exit;
+                        end;
+                        Message('Document not found in Vicinity drillbacks, Sales Order Headers, or Purchase Order Headers.');
+                    end
+                    else
+                        HyperLink(Drillback);
+                end;
+            }
+        }
+    }
+
     trigger OnAfterGetRecord()
     begin
         Emphasize := EmphasizeLine;
+        if rec.VicinityEntityType = 0 then
+            EnableShowDocumentAction := false
+        else
+            EnableShowDocumentAction := true;
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
@@ -225,10 +287,15 @@ page 50146 "VICAvailableToPromise"
         LocationFilter: Text;
         CalcVicinityATPPageDate: Codeunit "VICATPManagement";
         ItemNo: Code[20];
+
         [InDataSet]
         IncludePlannedOrders: Boolean;
+
         [InDataSet]
         Emphasize: Boolean;
+
+        [InDataSet]
+        EnableShowDocumentAction: Boolean;
 
     local procedure ATPPageCaption(): Text[250]
     begin
@@ -309,3 +376,5 @@ page 50146 "VICAvailableToPromise"
     begin
     end;
 }
+
+

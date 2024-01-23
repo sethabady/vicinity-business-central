@@ -11,10 +11,11 @@ page 50154 GetBCCompIndependentDemand
     //SourceTableView = WHERE("Type"=const(Item), "Shipment Date"=filter(<> 0D));
 
     // V4-2120
-    SourceTableView = where("Document Type" = filter(<> "Return Order"), "Type" = const(Item));
+//    SourceTableView = where("Document Type" = filter(<> "Return Order"), "Type" = const(Item));
+    SourceTableView = where("Document Type" = filter(= "Order" | "Blanket Order" | "Invoice"), "Type" = const(Item));
     Caption = 'GetBCComponentIndependentDemand';
-    ApplicationArea = All;
-    UsageCategory = Lists;
+    // ApplicationArea = All;
+    // UsageCategory = Lists;
     ODataKeyFields = "No.";
 
     layout
@@ -65,7 +66,7 @@ page 50154 GetBCCompIndependentDemand
             exit(Rec."Shipment Date");
         if Rec."Requested Delivery Date" <> 0D then
             exit(Rec."Requested Delivery Date");
-        if SalesHeader.Get(SalesHeader."Document Type"::Order, Rec."Document No.") then begin
+        if SalesHeader.Get(Rec."Document Type", Rec."Document No.") then begin
             if SalesHeader."Requested Delivery Date" <> 0D then
                 exit(SalesHeader."Requested Delivery Date");
             exit(SalesHeader."Order Date");

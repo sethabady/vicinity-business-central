@@ -9,8 +9,8 @@ page 50159 VICStandardCostWorksheet
     DelayedInsert = true;
     SourceTable = "Standard Cost Worksheet";
     Caption = 'VICStandardCostWorksheet';
-    ApplicationArea = All;
-    UsageCategory = Lists;
+    // ApplicationArea = All;
+    // UsageCategory = Lists;
     ODataKeyFields = "No.";
 
     layout

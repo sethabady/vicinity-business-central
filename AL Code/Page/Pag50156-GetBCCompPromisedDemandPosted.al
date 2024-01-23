@@ -10,8 +10,8 @@ page 50156 GetBCCompPromisedDemandPosted
     DelayedInsert = true;
     SourceTable = "Sales Invoice Line";
     Caption = 'GetBCComponentPromisedDemandPosted';
-    ApplicationArea = All;
-    UsageCategory = Lists;
+    // ApplicationArea = All;
+    // UsageCategory = Lists;
     ODataKeyFields = "No.";
 
     layout

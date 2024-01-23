@@ -52,9 +52,9 @@ codeunit 50146 "VICATPManagement"
         OpeningBalance := 0;
         LineNo := 1;
 
-//        VicinityCompanyId := 'SwampDevBC';
-//        VicinityApiUrl := 'https://vwswampdev.cloud.vicinitybrew.com/api/vicinityservice';
-//        Url := VicinityApiUrl + '/planning/planningtransactions?companyId=' + VicinityCompanyId + '&userId=SABADY&componentId=' + ItemNo + ' &locationId=' + LocationCode + '&includeErpData=true';
+        //        VicinityCompanyId := 'SwampDevBC';
+        //        VicinityApiUrl := 'https://vwswampdev.cloud.vicinitybrew.com/api/vicinityservice';
+        //        Url := VicinityApiUrl + '/planning/planningtransactions?companyId=' + VicinityCompanyId + '&userId=SABADY&componentId=' + ItemNo + ' &locationId=' + LocationCode + '&includeErpData=true';
 
         Url := StrSubstNo('%1/planning/planningtransactions?companyId=%2&userId=%3&componentId=%4&locationId=%5&includeErpData=true', VicinityApiUrl, VicinityCompanyId, VicinityUserId, ItemNo, LocationCode);
 
@@ -97,6 +97,9 @@ codeunit 50146 "VICATPManagement"
                                 InvtPageData."Period Type" := Date."Period Type";
                                 InvtPageData.Description := GetJsonToken(PlanningTransactionDetailToken.AsObject(), 'Description').AsValue().AsText();
                                 ScheduledReceipt := GetJsonToken(PlanningTransactionDetailToken.AsObject(), 'Quantity').AsValue().AsDecimal();
+                                InvtPageData."Document No." := GetJsonToken(PlanningTransactionDetailToken.AsObject(), 'Document').AsValue().AsText();
+                                InvtPageData.FacilityId := GetJsonToken(PlanningTransactionDetailToken.AsObject(), 'FacilityId').AsValue().AsText();
+                                InvtPageData.VicinityEntityType := GetJsonToken(PlanningTransactionDetailToken.AsObject(), 'EntityType').AsValue().AsInteger();
                                 OpeningBalance := OpeningBalance + ScheduledReceipt;
                                 InvtPageData."Projected Inventory" := OpeningBalance;
                                 DateFromRecord := GetJsonToken(PlanningTransactionDetailToken.AsObject(), 'TransactionDate').AsValue.AsText();
@@ -106,7 +109,7 @@ codeunit 50146 "VICATPManagement"
                                 Evaluate(InvtPageData."Period Start", DateParts.Get(1));
                                 Evaluate(InvtPageData.Code, DateParts.Get(1));
                                 InvtPageData."Scheduled Receipt" := ScheduledReceipt;
-                                InvtPageData.Source := GetEntityTypeDescription(EntityType);
+                                InvtPageData.Source := GetEntityTypeDescription(TransactionEntityType.FromInteger(EntityType));
                                 InvtPageData.Level := 1;
                                 InvtPageData.Insert();
                             end;
@@ -128,7 +131,10 @@ codeunit 50146 "VICATPManagement"
                             Evaluate(InvtPageData."Period Start", DateParts.Get(1));
                             Evaluate(InvtPageData.Code, DateParts.Get(1));
                             InvtPageData."Gross Requirement" := GrossRequirement;
-                            InvtPageData.Source := GetEntityTypeDescription(EntityType);
+                            InvtPageData.Source := GetEntityTypeDescription(TransactionEntityType.FromInteger(EntityType));
+                            InvtPageData."Document No." := GetJsonToken(PlanningTransactionDetailToken.AsObject(), 'Document').AsValue().AsText();
+                            InvtPageData.FacilityId := GetJsonToken(PlanningTransactionDetailToken.AsObject(), 'FacilityId').AsValue().AsText();
+                            InvtPageData.VicinityEntityType := GetJsonToken(PlanningTransactionDetailToken.AsObject(), 'EntityType').AsValue().AsInteger();
                             InvtPageData.Level := 1;
                             InvtPageData.Insert();
                         end;
@@ -139,44 +145,61 @@ codeunit 50146 "VICATPManagement"
             Message('Web service call failed.');
     end;
 
-    /* 
-            enum TransactionEntityType : byte
-            {
-                OpeningBalance = 0,
-                Ingredient = 1,
-                ByCoProduct = 2,
-                BOM = 3,
-                EndItem = 4,
-                PlannedOrder = 5,
-                POReceipt = 6,
-                SOShipment = 7
-            }
-     */
-
-    local procedure GetEntityTypeDescription(EntityType: integer): Text
+    local procedure GetEntityTypeDescription(EntityType: enum TransactionEntityType): Text
     var
         Description: Text;
+        TransactionEntityType: enum TransactionEntityType;
     begin
         Description := 'Unknown';
         case EntityType of
-            0:
+            TransactionEntityType::OpeningBalance:
                 Description := '';
-            1:
+            TransactionEntityType::Ingredient:
                 Description := 'Batch Ingredient';
-            2:
+            TransactionEntityType::ByCoProduct:
                 Description := 'Batch By/Co Product';
-            3:
+            TransactionEntityType::BillOfMaterial:
                 Description := 'Batch Bill of Material';
-            4:
+            TransactionEntityType::EndItem:
                 Description := 'Batch End Item';
-            5:
+            TransactionEntityType::PlannedOrder:
                 Description := 'Firm Planned Order';
-            6:
+            TransactionEntityType::POReceipt:
                 Description := 'Purchase Order';
-            7:
+            TransactionEntityType::SOShipment:
                 Description := 'Sales Order';
         end;
         Exit(Description);
+    end;
+
+    procedure GetDrillback(InvtPageData: Record "Inventory Page Data"): Text
+    var
+        Drillback: Text;
+        TransactionEntityType: enum TransactionEntityType;
+        DrillbackId: Integer;
+        VicinityDrillback: Record VICDrillback;
+    begin
+        DrillbackId := -1;
+        case Enum::TransactionEntityType.FromInteger(InvtPageData.VicinityEntityType) of
+            TransactionEntityType::Ingredient, TransactionEntityType::ByCoProduct, TransactionEntityType::BillOfMaterial, TransactionEntityType::EndItem:
+                DrillbackId := 1;
+            TransactionEntityType::PlannedOrder:
+                DrillbackId := 9;
+        end;
+        if DrillbackId <> -1 then begin
+            VicinityDrillback.SetCurrentKey("Drillback ID");
+            VicinityDrillback.SetRange("Drillback ID", DrillbackId);
+            if VicinityDrillback.Find('-') then begin
+                Drillback := VicinityDrillback."Drillback Hyperlink";
+                case Enum::TransactionEntityType.FromInteger(InvtPageData.VicinityEntityType) of
+                    TransactionEntityType::Ingredient, TransactionEntityType::ByCoProduct, TransactionEntityType::BillOfMaterial, TransactionEntityType::EndItem:
+                        Drillback := Drillback + '&FacilityID=' + InvtPageData.FacilityId + '&BatchNumber=' + InvtPageData."Document No.";
+                    TransactionEntityType::PlannedOrder:
+                        Drillback := Drillback + '&FacilityID=' + InvtPageData.FacilityId + '&PlannedOrderNumber=' + InvtPageData."Document No.";
+                end
+            end
+        end;
+        Exit(Drillback);
     end;
 
     local procedure GetJsonToken(JsonObject: JsonObject; TokenKey: text) JsonToken: JsonToken

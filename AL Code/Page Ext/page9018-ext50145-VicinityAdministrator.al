@@ -21,6 +21,14 @@ pageextension 50145 "Vicinity Administrator" extends "Administrator Role Center"
                     Caption = 'Vicinity Error Log';
                     RunObject = page "Vicinity Error Log";
                 }
+
+                action(VicinityDrillbacks)
+                {
+                    Caption = 'Vicinity Drillbacks';
+                    RunObject = Page VICDrillbackSetup;
+                    ApplicationArea = All;
+                }
+
                 /*
                 Action(VicinityTest)
                 {

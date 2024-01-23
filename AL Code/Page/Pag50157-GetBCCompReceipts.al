@@ -13,8 +13,8 @@ page 50157 GetBCCompReceipts
     // V4-2120
     SourceTableView = where("Document Type" = const(Order), "Type" = const(Item));
     Caption = 'GetBCComponentReceipts';
-    ApplicationArea = All;
-    UsageCategory = Lists;
+    // ApplicationArea = All;
+    // UsageCategory = Lists;
     ODataKeyFields = "No.";
 
     layout

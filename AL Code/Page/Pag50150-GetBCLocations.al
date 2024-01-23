@@ -10,8 +10,8 @@ page 50150 GetBCLocations
     SourceTable = Location;
     Caption = 'GetBCLocations';
     ODataKeyFields = Code;
-    ApplicationArea = All;
-    UsageCategory = Lists;
+    // ApplicationArea = All;
+    // UsageCategory = Lists;
 
     layout
     {

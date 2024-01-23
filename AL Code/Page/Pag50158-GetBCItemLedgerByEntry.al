@@ -9,8 +9,8 @@ page 50158 GetBCItemLedgerByEntry
     DelayedInsert = true;
     SourceTable = "Item Ledger Entry";
     Caption = 'GetBCItemLedgerByEntry';
-    ApplicationArea = All;
-    UsageCategory = Lists;
+    // ApplicationArea = All;
+    // UsageCategory = Lists;
     ODataKeyFields = "Item No.";
 
     layout

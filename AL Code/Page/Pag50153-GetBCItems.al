@@ -9,8 +9,8 @@ page 50153 GetBCItems
     DelayedInsert = true;
     SourceTable = "Item";
     Caption = 'GetBCItems';
-    ApplicationArea = All;
-    UsageCategory = Lists;
+//    ApplicationArea = All;
+//    UsageCategory = Lists;
     ODataKeyFields = "No.";
 
     layout

@@ -45,6 +45,12 @@ query 50154 GetBCCompStartingBalancesSKU
             {
                 Method = Max;
             }
+
+            // V4-2162
+            column(MinimumOrderQuantity;"Minimum Order Quantity")
+            {
+                Method = Sum;
+            }
         }
     }
 }
