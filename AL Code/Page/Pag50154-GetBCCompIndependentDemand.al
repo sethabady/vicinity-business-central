@@ -40,14 +40,14 @@ page 50154 GetBCCompIndependentDemand
                 {
                     ApplicationArea = All;
                 }
-                // field("ShipmentDate"; Rec."Shipment Date")
-                // {
-                //     ApplicationArea = All;
-                // }
-                field("ShipmentDate"; GetDemandDate())
+                field("ShipmentDate"; Rec."Shipment Date")
                 {
                     ApplicationArea = All;
                 }
+                // field("ShipmentDate"; GetDemandDate())
+                // {
+                //     ApplicationArea = All;
+                // }
                 field("OutstandingQtyBase"; Rec."Outstanding Qty. (Base)")
                 {
                     ApplicationArea = All;

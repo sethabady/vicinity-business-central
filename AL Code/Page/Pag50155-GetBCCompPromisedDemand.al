@@ -33,11 +33,11 @@ page 50155 GetBCCompPromisedDemand
                 {
                     ApplicationArea = All;
                 }
-                field("RequestedDeliveryDate"; GetDemandDate())
+                field("RequestedDeliveryDate"; Rec."Requested Delivery Date")
                 {
                     ApplicationArea = All;
                 }
-                // field("RequestedDeliveryDate"; Rec."Requested Delivery Date")
+                // field("RequestedDeliveryDate"; GetDemandDate())
                 // {
                 //     ApplicationArea = All;
                 // }
