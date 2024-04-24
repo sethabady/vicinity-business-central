@@ -2,7 +2,7 @@
   "id": "52ced3bf-2ec6-4f4d-94e6-c35c80a0e2d8",
   "name": "Vicinity Software",
   "publisher": "Vicinity Software",
-  "version": "20.1.20240226.1",
+  "version": "20.1.20240423.2",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -10,17 +10,21 @@
   "help": "",
   "url": "",  
   "logo": "",
-  "application": "19.0.0.0",
+  "application": "23.0.0.0",
   "dependencies": [],
   "screenshots": [],
-  "platform": "19.0.0.0",
+  "platform": "23.0.0.0",
   "idRanges":
   [
         {
       "from": 50100,
-      "to": 50299
+      "to": 50499
     }
   ],
-  "showMyCode": false,
-  "runtime": "6.0"
+  "resourceExposurePolicy": {
+    "allowDebugging": true, 
+    "allowDownloadingSource": false, 
+    "includeSourceInSymbolFile": false
+  },
+  "runtime": "12.0"
 }

@@ -31,6 +31,8 @@ query 50155 GetBCBatchCompLotsB
             }
             column("RemainingQuantity"; "Remaining Quantity")
             {
+                // V4-2270
+                Method = Sum;
             }
             dataitem(ReservationEntry; "Reservation Entry")
             {
