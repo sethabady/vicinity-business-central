@@ -29,6 +29,7 @@ query 50152 GetBCBatchCompBins
             }
             column(SumQtyBase; "Qty. (Base)")
             {
+                ColumnFilter = SumQtyBase = FILTER(<> 0);
                 Method = Sum;
             }
         }

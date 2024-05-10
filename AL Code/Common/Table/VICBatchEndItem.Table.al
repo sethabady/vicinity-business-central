@@ -1,7 +1,8 @@
-table 50181 VICBatchEndItem
+table 50421 VICBatchEndItem
 {
     DataClassification = ToBeClassified;
     Caption = 'Batch End Item';
+    TableType = Temporary;
 
     fields
     {

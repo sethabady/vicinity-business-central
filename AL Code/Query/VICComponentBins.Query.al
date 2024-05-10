@@ -26,6 +26,7 @@ query 50173 VICComponentBins
             }
             column(SumQtyBase; "Qty. (Base)")
             {
+                ColumnFilter = SumQtyBase = FILTER(<> 0);
                 Method = Sum;
             }
         }

@@ -1,4 +1,4 @@
-table 50220 VICDrillback
+table 50422 VICDrillback
 {
     Caption = 'VICDrillback';
     DataClassification = ToBeClassified;

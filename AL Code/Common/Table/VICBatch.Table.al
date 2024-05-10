@@ -1,7 +1,8 @@
-table 50180 VICBatch
+table 50420 VICBatch
 {
     DataClassification = ToBeClassified;
     Caption = 'Batch';
+    TableType = Temporary;
     
     fields
     {

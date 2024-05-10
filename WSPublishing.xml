@@ -195,6 +195,12 @@
         </TenantWebService>
         <TenantWebService>
             <ObjectType>Query</ObjectType>
+            <ServiceName>VICComponentBins</ServiceName>
+            <ObjectID>50173</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
             <ServiceName>VICOpenPurchaseHeaders</ServiceName>
             <ObjectID>50174</ObjectID>
             <Published>true</Published>
@@ -203,6 +209,18 @@
             <ObjectType>Query</ObjectType>
             <ServiceName>VICOpenPurchaseLines</ServiceName>
             <ObjectID>50175</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICComponentStartingBalances</ServiceName>
+            <ObjectID>50176</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
+        <TenantWebService>
+            <ObjectType>CodeUnit</ObjectType>
+            <ServiceName>VICWarehouseService</ServiceName>
+            <ObjectID>50148</ObjectID>
             <Published>true</Published>
         </TenantWebService>
     </TenantWebServiceCollection>

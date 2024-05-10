@@ -32,6 +32,7 @@ query 50155 GetBCBatchCompLotsB
             column("RemainingQuantity"; "Remaining Quantity")
             {
                 // V4-2270
+                ColumnFilter = RemainingQuantity = filter(<> 0);
                 Method = Sum;
             }
             dataitem(ReservationEntry; "Reservation Entry")
@@ -41,6 +42,7 @@ query 50155 GetBCBatchCompLotsB
 
                 column(ReservationEntryQuantityBase; "Quantity (Base)")
                 {
+                    ColumnFilter = ReservationEntryQuantityBase = filter(<> 0);
                     Method = Sum;
                 }
 
