@@ -1,4 +1,4 @@
-page 50222 VICRoleCenter
+page 50422 VICRoleCenter
 {
     PageType = RoleCenter;
     Caption = 'Vicinity';

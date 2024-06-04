@@ -223,5 +223,11 @@
             <ObjectID>50148</ObjectID>
             <Published>true</Published>
         </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICComponentLots</ServiceName>
+            <ObjectID>50177</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
     </TenantWebServiceCollection>
 </ExportedData>
