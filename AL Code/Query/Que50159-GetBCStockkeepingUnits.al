@@ -49,6 +49,11 @@ query 50159 GetBCStockKeepingUnits
             {
 
             }
+            // V4-2274
+            column(SafetyLeadTime;"Safety Lead Time")
+            {
+
+            }
         }
     }
 }

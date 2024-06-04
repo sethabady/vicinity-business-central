@@ -45,6 +45,11 @@ query 50172 VICStockkeepingUnits
             {
 
             }
+            // V4-2274
+            column(SafetyLeadTime;"Safety Lead Time")
+            {
+
+            }
             column(LeadTimeCalculation; "Lead Time Calculation")
             {
 
