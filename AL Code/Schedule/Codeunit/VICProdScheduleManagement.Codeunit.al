@@ -276,8 +276,6 @@ codeunit 50410 VICProdScheduleManagement
         if not Client.Send(Request, Response) then
             Error('Unable to update planning schedule.');
         Response.Content.ReadAs(ResponseString);
-
-
     end;
 
 
