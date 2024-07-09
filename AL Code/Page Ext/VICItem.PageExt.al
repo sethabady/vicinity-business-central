@@ -41,6 +41,41 @@ pageextension 50147 VICItem extends "Item Card"
         }
     }
 
+    actions
+    {
+        addlast(Promoted)
+        {
+            actionref(VicinityItemInfoRef; VicinityItemInfo)
+            {
+            }
+        }
+
+        addlast(Functions)
+        {
+            action(VicinityItemInfo)
+            {
+                ApplicationArea = All;
+                Visible = true;
+                Caption = 'Vicinity Item Details';
+                Image = AvailableToPromise;
+                trigger OnAction();
+                var
+                    VICPlanningItemDetailsPage: Page VICPlanningItemDetails;
+                    PlanningItemQuantitiesDetails: JsonToken;
+                    PlanningItemQuantitiesDetailsArray: JsonArray;
+                begin
+                    if not PlanningItemQuantities.AsToken().SelectToken('[' + '''' + 'PlanningItemQuantityDetails' + '''' + ']', PlanningItemQuantitiesDetails) then
+                        exit;
+                    PlanningItemQuantitiesDetailsArray := PlanningItemQuantitiesDetails.AsArray();
+                    VICPlanningItemDetailsPage.SetItem(Rec);
+                    VICPlanningItemDetailsPage.SetPlanningItemDetails(PlanningItemQuantitiesDetailsArray);
+                    VICPlanningItemDetailsPage.LookupMode := true;
+                    if VICPlanningItemDetailsPage.RunModal = ACTION::LookupOK then begin end;
+                end;
+            }
+        }
+    }
+
     var
         QtyOnBatchEndItem: Decimal;
         QtyOnBatchEndItemBOM: Decimal;
@@ -49,6 +84,10 @@ pageextension 50147 VICItem extends "Item Card"
         QtyOnPlannedOrders: Decimal;
         VicinityATPFormsMgt: Codeunit "VICATPManagement";
         IsConfigured: Boolean;
+        VICPlanningItemQuantity: Record VICPlanningItemQuantity temporary;
+        PlanningItemQuantities: JsonObject;
+        JSONUtilities: Codeunit VICJSONUtilities;
+        VICJsonUtilities: Codeunit VICJSONUtilities;
 
     trigger OnOpenPage()
     var
@@ -65,8 +104,6 @@ pageextension 50147 VICItem extends "Item Card"
     trigger OnAfterGetRecord()
     var
         ProductionScheduleManagement: Codeunit VICProdScheduleManagement;
-        JSONUtilities: Codeunit VICJSONUtilities;
-        PlanningItemQuantities: JsonObject;
     begin
         if IsConfigured then begin
             PlanningItemQuantities := ProductionScheduleManagement.FetchPlanningItemQuantitiesFromWebApi(rec."No.");
@@ -75,7 +112,6 @@ pageextension 50147 VICItem extends "Item Card"
             QtyOnBatchIngredients := JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnBatchIngredients');
             QtyOnBatchByCoProducts := JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnBatchByCoProducts');
             QtyOnPlannedOrders := JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnPlannedOrders');
-
         end;
     end;
 }
