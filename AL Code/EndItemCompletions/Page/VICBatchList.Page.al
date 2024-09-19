@@ -3,7 +3,7 @@ page 50180 VICBatchList
     Caption = 'Vicinity End-Item Completions';
     PageType = List;
     ApplicationArea = All;
-    // UsageCategory = Tasks;
+    UsageCategory = Tasks;
     SourceTable = VICBatch;
     CardPageId = VICBatchEndItemPost;
     SourceTableView = sorting(BatchNumber, FacilityId) order(ascending);

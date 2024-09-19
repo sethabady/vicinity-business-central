@@ -53,8 +53,9 @@ page 50422 VICRoleCenter
                 {
                     ApplicationArea = All;
                     Caption = 'Production Schedule';
-                    RunObject = page VICDoDrillbacks;
-                    RunPageView = WHERE("Drillback ID" = filter(3));
+                    RunObject = page VICProductionSchedule;
+                    // RunObject = page VICDoDrillbacks;
+                    // RunPageView = WHERE("Drillback ID" = filter(3));
                 }
                 Action(ProductionCalendar)
                 {

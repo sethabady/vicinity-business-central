@@ -2,8 +2,8 @@ page 50181 VICBatchEndItemPost
 {
     Caption = 'Post Batch End-Items';
     PageType = Document;
-    //    ApplicationArea = All;
-    //    UsageCategory = Tasks;
+    ApplicationArea = All;
+    UsageCategory = Tasks;
     SourceTable = VICBatch;
     InsertAllowed = false;
     DeleteAllowed = false;

@@ -410,5 +410,23 @@ codeunit 50144 "Vicinity Populate Journal"
             pItemJournalLine."Vicinity Facility ID" := LastItemJournalLine."Vicinity Facility ID";
         END; //if
     end;
+
+    // [EventSubscriber(ObjectType::Codeunit, Codeunit::"Item Jnl.-Post Line", 'OnAfterInitValueEntry', '', false, false)]
+    // local procedure Cod_ItemJnlPostLine_OnAfterInitValueEntry(VAR ValueEntry: Record "Value Entry"; ItemJournalLine: Record "Item Journal Line"; VAR ValueEntryNo: Integer)
+    // var
+    //     LookupValueEntry: Record "Value Entry";
+    // begin
+    //     if (ValueEntry."Source No." = 'VICINITY') and (ValueEntry."Vicinity Batch No." = '') then begin
+    //         LookupValueEntry.SetCurrentKey("Item Ledger Entry No.", "Entry Type");
+    //         LookupValueEntry.SetRange("Item Ledger Entry No.", ValueEntry."Item Ledger Entry No.");
+    //         LookupValueEntry.SetRange("Entry Type", ValueEntry."Entry Type"::"Direct Cost");
+    //         if LookupValueEntry.Find('-') then begin
+    //             ValueEntry."Vicinity Batch No." := LookupValueEntry."Vicinity Batch No.";
+    //             ValueEntry."Vicinity Facility ID" := LookupValueEntry."Vicinity Facility ID";
+    //             ValueEntry."Vicinity Line ID No." := LookupValueEntry."Vicinity Line ID No.";
+    //             ValueEntry."Vicinity Event ID No." := LookupValueEntry."Vicinity Event ID No."
+    //         end
+    //     end;
+    // end;
 }
 
