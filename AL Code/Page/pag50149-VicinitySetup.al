@@ -256,8 +256,6 @@ page 50149 "Vicinity Setup"
         exit(returnJsonText);
     end;
 
-
-
     // V4-2009
     [ServiceEnabled]
     [Scope('Cloud')]
@@ -271,5 +269,16 @@ page 50149 "Vicinity Setup"
         AppVersion := ModuleInfo.AppVersion;
         exit(Format(AppVersion));
         actionContext.SetResultCode(WebServiceActionResultCode::Get);
+    end;
+
+    [ServiceEnabled]
+    [Scope('Cloud')]
+    procedure AddToRequisitionWorksheet(worksheetTemplateName: Text; journalBatchName: Text; initialize: Boolean; vicinityRequisitions: Text) Output: Text
+    var
+        VICRequisitionService: Codeunit VICRequisitionService;
+        vicinityRequisitionsJsonArray: JsonArray;
+    begin
+        vicinityRequisitionsJsonArray.ReadFrom(vicinityRequisitions);
+        exit(VICRequisitionService.AddToWorksheet(worksheetTemplateName, journalBatchName, initialize,  vicinityRequisitionsJsonArray));
     end;
 }

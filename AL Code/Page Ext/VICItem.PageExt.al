@@ -63,7 +63,20 @@ pageextension 50147 VICItem extends "Item Card"
                     VICPlanningItemDetailsPage: Page VICPlanningItemDetails;
                     PlanningItemQuantitiesDetails: JsonToken;
                     PlanningItemQuantitiesDetailsArray: JsonArray;
+
+                    // V4-2152: Used Item Card as test harness.
+                    // VICRequisitionService: Codeunit VICRequisitionService;
+                    // VicinityRequisitions: JsonArray;
+                    // VicinityRequisition: JsonObject;
                 begin
+                    // // Initialize the json object. -- for testing requisitions
+                    // VicinityRequisition.Add('ComponentId', Rec."No.");
+                    // VicinityRequisition.Add('LocationCode', 'WAREHOUSE');
+                    // VicinityRequisition.Add('Quantity', 110);
+                    // VicinityRequisition.Add('DueDate', CurrentDateTime);
+                    // VicinityRequisitions.Add(VicinityRequisition);
+                    // Message(VICRequisitionService.AddToWorksheet('REQ.', 'VICINITY', true, VicinityRequisitions));
+
                     if not PlanningItemQuantities.AsToken().SelectToken('[' + '''' + 'PlanningItemQuantityDetails' + '''' + ']', PlanningItemQuantitiesDetails) then
                         exit;
                     PlanningItemQuantitiesDetailsArray := PlanningItemQuantitiesDetails.AsArray();
