@@ -20,11 +20,28 @@ codeunit 50140 "Vicinity Event Managment"
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Item Jnl.-Post Line", 'OnAfterInitValueEntry', '', false, false)]
     local procedure Cod_ItemJnlPostLine_OnAfterInitValueEntry(VAR ValueEntry: Record "Value Entry"; ItemJournalLine: Record "Item Journal Line"; VAR ValueEntryNo: Integer)
+    var
+        LookupValueEntry: Record "Value Entry";
     begin
+        if (ValueEntry."Source No." <> 'VICINITY') then
+            exit;
         ValueEntry."Vicinity Batch No." := ItemJournalLine."Vicinity Batch No.";
         ValueEntry."Vicinity Facility ID" := ItemJournalLine."Vicinity Facility ID";
         ValueEntry."Vicinity Line ID No." := ItemJournalLine."Vicinity Line ID No.";
         ValueEntry."Vicinity Event ID No." := ItemJournalLine."Vicinity Event ID No.";
+
+        // V4-2298 : BC is doing a cost adjustment on an Item Journal created by Vicinity. 
+        if (ValueEntry."Vicinity Batch No." = '') then begin
+            LookupValueEntry.SetCurrentKey("Item Ledger Entry No.", "Entry Type");
+            LookupValueEntry.SetRange("Item Ledger Entry No.", ValueEntry."Item Ledger Entry No.");
+            LookupValueEntry.SetRange("Entry Type", ValueEntry."Entry Type"::"Direct Cost");
+            if LookupValueEntry.Find('-') then begin
+                ValueEntry."Vicinity Batch No." := LookupValueEntry."Vicinity Batch No.";
+                ValueEntry."Vicinity Facility ID" := LookupValueEntry."Vicinity Facility ID";
+                ValueEntry."Vicinity Line ID No." := LookupValueEntry."Vicinity Line ID No.";
+                ValueEntry."Vicinity Event ID No." := LookupValueEntry."Vicinity Event ID No."
+            end
+        end;
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Inventory Posting To G/L", 'OnBeforePostInvtPostBuf', '', false, false)]

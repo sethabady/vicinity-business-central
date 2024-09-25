@@ -224,6 +224,12 @@
             <Published>true</Published>
         </TenantWebService>
         <TenantWebService>
+            <ObjectType>CodeUnit</ObjectType>
+            <ServiceName>VICRequisitionService</ServiceName>
+            <ObjectID>50149</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
+        <TenantWebService>
             <ObjectType>Query</ObjectType>
             <ServiceName>VICComponentLots</ServiceName>
             <ObjectID>50177</ObjectID>
