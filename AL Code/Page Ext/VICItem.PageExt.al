@@ -68,8 +68,16 @@ pageextension 50147 VICItem extends "Item Card"
                     // VICRequisitionService: Codeunit VICRequisitionService;
                     // VicinityRequisitions: JsonArray;
                     // VicinityRequisition: JsonObject;
+                    // VICStandardCostService: Codeunit VICStandardCostService;
+                    // VICStandardCostWorksheets: JsonArray;
+                    // VICStandardCostWorksheet: JsonObject;
                 begin
                     // // Initialize the json object. -- for testing requisitions
+                    // VICStandardCostWorksheet.Add('ComponentId', Rec."No.");
+                    // VICStandardCostWorksheet.Add('NewStandardCost', 12.75);
+                    // VICStandardCostWorksheets.Add(VICStandardCostWorksheet);
+                    // Message(VICStandardCostService.AddToStandardCostWorksheet('VICINITY', true, VICStandardCostWorksheets));
+
                     // VicinityRequisition.Add('ComponentId', Rec."No.");
                     // VicinityRequisition.Add('LocationCode', 'WAREHOUSE');
                     // VicinityRequisition.Add('Quantity', 110);

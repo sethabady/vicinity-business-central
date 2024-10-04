@@ -235,5 +235,11 @@
             <ObjectID>50177</ObjectID>
             <Published>true</Published>
         </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICGeneralPostingGroups</ServiceName>
+            <ObjectID>50178</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
     </TenantWebServiceCollection>
 </ExportedData>
