@@ -276,9 +276,20 @@ page 50149 "Vicinity Setup"
     procedure AddToRequisitionWorksheet(worksheetTemplateName: Text; journalBatchName: Text; initialize: Boolean; vicinityRequisitions: Text) Output: Text
     var
         VICRequisitionService: Codeunit VICRequisitionService;
-        vicinityRequisitionsJsonArray: JsonArray;
+        VicinityRequisitionsJsonArray: JsonArray;
     begin
-        vicinityRequisitionsJsonArray.ReadFrom(vicinityRequisitions);
-        exit(VICRequisitionService.AddToWorksheet(worksheetTemplateName, journalBatchName, initialize,  vicinityRequisitionsJsonArray));
+        VicinityRequisitionsJsonArray.ReadFrom(vicinityRequisitions);
+        exit(VICRequisitionService.AddToWorksheet(worksheetTemplateName, journalBatchName, initialize,  VicinityRequisitionsJsonArray));
+    end;
+
+    [ServiceEnabled]
+    [Scope('Cloud')]
+    procedure AddToStandardCostWorksheet(worksheetName: Text; initialize: Boolean; standardCostWorksheets: Text) Output: Text
+    var
+        VICStandardCostService: Codeunit VICStandardCostService;
+        vicinityStandardCostWorksheetsJsonArray: JsonArray;
+    begin
+        vicinityStandardCostWorksheetsJsonArray.ReadFrom(standardCostWorksheets);
+        exit(VICStandardCostService.AddToStandardCostWorksheet(worksheetName, initialize, VicinityStandardCostWorksheetsJsonArray));
     end;
 }
