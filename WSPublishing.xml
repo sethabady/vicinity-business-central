@@ -218,6 +218,12 @@
             <Published>true</Published>
         </TenantWebService>
         <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICGeneralPostingGroups</ServiceName>
+            <ObjectID>50178</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
+        <TenantWebService>
             <ObjectType>CodeUnit</ObjectType>
             <ServiceName>VICWarehouseService</ServiceName>
             <ObjectID>50148</ObjectID>
