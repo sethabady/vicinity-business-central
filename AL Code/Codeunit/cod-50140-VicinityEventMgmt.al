@@ -45,7 +45,7 @@ codeunit 50140 "Vicinity Event Managment"
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Inventory Posting To G/L", 'OnBeforePostInvtPostBuf', '', false, false)]
-    local procedure Cod_InvPosttoGL_OnBeforePostInvtPostBuf(VAR GenJournalLine: Record "Gen. Journal Line"; VAR InvtPostingBuffer: Record "Invt. Posting Buffer"; ValueEntry: Record "Value Entry"; VAR GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line")
+    local procedure Cod_InvPosttoGL_OnBeforePostInvtPostBuf(VAR GenJournalLine: Record "Gen. Journal Line"; ValueEntry: Record "Value Entry"; VAR GenJnlPostLine: Codeunit "Gen. Jnl.-Post Line")
     begin
         GenJournalLine."Vicinity Batch No." := ValueEntry."Vicinity Batch No.";
         GenJournalLine."Vicinity Facility ID" := ValueEntry."Vicinity Facility ID";

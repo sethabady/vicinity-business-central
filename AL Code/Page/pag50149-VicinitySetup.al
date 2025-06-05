@@ -88,6 +88,11 @@ page 50149 "Vicinity Setup"
             }
         }
      */
+
+    // V4-2337
+    var
+        HasGotGLSetup: Boolean;
+
     [ServiceEnabled]
     [Scope('Cloud')]
     procedure InsertGenJournal(postingdate: Date; documentno: Text; glaccountno: Text; glbalaccountno: Text; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean) Output: Text
@@ -279,7 +284,7 @@ page 50149 "Vicinity Setup"
         VicinityRequisitionsJsonArray: JsonArray;
     begin
         VicinityRequisitionsJsonArray.ReadFrom(vicinityRequisitions);
-        exit(VICRequisitionService.AddToWorksheet(worksheetTemplateName, journalBatchName, initialize,  VicinityRequisitionsJsonArray));
+        exit(VICRequisitionService.AddToWorksheet(worksheetTemplateName, journalBatchName, initialize, VicinityRequisitionsJsonArray));
     end;
 
     [ServiceEnabled]
@@ -291,5 +296,72 @@ page 50149 "Vicinity Setup"
     begin
         vicinityStandardCostWorksheetsJsonArray.ReadFrom(standardCostWorksheets);
         exit(VICStandardCostService.AddToStandardCostWorksheet(worksheetName, initialize, VicinityStandardCostWorksheetsJsonArray));
+    end;
+
+    // V4-2337
+    [ServiceEnabled]
+    [Scope('Cloud')]
+    procedure GetBCDimensions() Output: Text
+    var
+        GLSetup: Record "General Ledger Setup";
+        Dimension: Record Dimension;
+        DimensionValue: Record "Dimension Value";
+        GLSetupShortcutDimCode: array[8] of Code[20];
+        GLSetupGlobalDimCode: array[2] of Code[20];
+        GLSetupGlobalDimFilter: array[2] of Code[20];
+        JsonReturnObject: JsonObject;
+        JsonDimensionObject: JsonObject;
+        JsonDimensionValueObject: JsonObject;
+        JsonDimensionArray: JsonArray;
+        JsonDimensionValueArray: JsonArray;
+        JsonReturnText: Text;
+    begin
+        if not HasGotGLSetup then begin
+            GLSetup.Get();
+            GLSetupShortcutDimCode[1] := GLSetup."Shortcut Dimension 1 Code";
+            GLSetupShortcutDimCode[2] := GLSetup."Shortcut Dimension 2 Code";
+            GLSetupShortcutDimCode[3] := GLSetup."Shortcut Dimension 3 Code";
+            GLSetupShortcutDimCode[4] := GLSetup."Shortcut Dimension 4 Code";
+            GLSetupShortcutDimCode[5] := GLSetup."Shortcut Dimension 5 Code";
+            GLSetupShortcutDimCode[6] := GLSetup."Shortcut Dimension 6 Code";
+            GLSetupShortcutDimCode[7] := GLSetup."Shortcut Dimension 7 Code";
+            GLSetupShortcutDimCode[8] := GLSetup."Shortcut Dimension 8 Code";
+            GLSetupGlobalDimCode[1] := GLSetup."Global Dimension 1 Code";
+            GLSetupGlobalDimFilter[1] := GLSetup."Global Dimension 1 Filter";
+            GLSetupGlobalDimCode[2] := GLSetup."Global Dimension 2 Code";
+            GLSetupGlobalDimFilter[2] := GLSetup."Global Dimension 1 Filter";
+            HasGotGLSetup := true;
+        end;
+        JsonReturnObject.Add('GlobalDimension1Code', GLSetupGlobalDimCode[1]);
+        JsonReturnObject.Add('GlobalDimension2Code', GLSetupGlobalDimCode[2]);
+        JsonReturnObject.Add('GlobalDimension1CodeFilter', GLSetupGlobalDimFilter[1]);
+        JsonReturnObject.Add('GlobalDimension2CodeFilter', GLSetupGlobalDimFilter[2]);
+        Dimension.Reset();
+        if Dimension.FindSet() then begin
+            repeat
+                JsonDimensionObject.Add('Code', Dimension.Code);
+                JsonDimensionObject.Add('Name', Dimension.Name);
+                DimensionValue.SetRange("Dimension Code", Dimension.Code);
+                if DimensionValue.FindSet() then
+                begin
+                    repeat
+                        JsonDimensionValueObject.Add('DimensionCode', DimensionValue."Dimension Code");
+                        JsonDimensionValueObject.Add('Code', DimensionValue."Code");
+                        JsonDimensionValueObject.Add('Name', DimensionValue.Name);
+                        JsonDimensionValueObject.Add('DimensionValueType', DimensionValue."Dimension Value Type");
+                        JsonDimensionValueObject.Add('DimensionValueID', DimensionValue."Dimension Value ID");
+                        JsonDimensionValueArray.Add(JsonDimensionValueObject);
+                        Clear(JsonDimensionValueObject);
+                    until DimensionValue.Next() = 0;
+                    JsonDimensionObject.Add('DimensionValues', JsonDimensionValueArray);
+                    Clear(JsonDimensionValueArray);
+                end;
+                JsonDimensionArray.Add((JsonDimensionObject));
+                Clear(JsonDimensionObject);
+            until Dimension.Next() = 0;
+        end;
+        JsonReturnObject.Add('Dimensions', JsonDimensionArray);
+        JsonReturnObject.WriteTo(JsonReturnText);
+        exit(JsonReturnText);
     end;
 }

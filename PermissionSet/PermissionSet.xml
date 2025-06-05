@@ -159,5 +159,6 @@
       <DeletePermission>1</DeletePermission>
       <ExecutePermission>0</ExecutePermission>
       <SecurityFilter />
+    </Permission>
   </PermissionSet>
 </PermissionSets>

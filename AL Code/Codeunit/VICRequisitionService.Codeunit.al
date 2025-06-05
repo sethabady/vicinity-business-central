@@ -29,14 +29,19 @@ codeunit 50149 "VICRequisitionService"
                 RequisitionLine."Worksheet Template Name" := worksheetTemplateName;
                 RequisitionLine."Journal Batch Name" :=  journalBatchName;
                 RequisitionLine."Line No." := LineNo;
-                LineNo := LineNo + 10000;
                 RequisitionLine.Type := "Requisition Line Type"::Item;
-                RequisitionLine."No." := ComponentId;
-                RequisitionLine.Description := Item.Description;
-                RequisitionLine."Location Code" := VICJsonUtilities.GetTextFromJson(RequisitionDetail, 'LocationCode');
+                LineNo := LineNo + 10000;
+
+                // V4-2349 : Validation triggers the missing defaulting logic.
+                RequisitionLine.Validate("No.", ComponentId);
+                RequisitionLine.Validate("Location Code", VICJsonUtilities.GetTextFromJson(RequisitionDetail, 'LocationCode'));
+                // RequisitionLine."No." := ComponentId;
+                // RequisitionLine.Description := Item.Description;
+                // RequisitionLine."Location Code" := VICJsonUtilities.GetTextFromJson(RequisitionDetail, 'LocationCode');
                 RequisitionLine.Quantity := VICJsonUtilities.GetDecimalFromJson(RequisitionDetail, 'Quantity');
                 RequisitionLine."Due Date" := DT2Date(VICJsonUtilities.GetDateFromJson(RequisitionDetail,'DueDate'));
                 RequisitionLine."Action Message" := "Action Message Type"::New;
+                RequisitionLine."Accept Action Message" := true;
                 if not RequisitionLine.Insert() then begin
                     Output := 'Error inserting ' + ComponentId + ' LineNo: ' + Format(LineNo);
                     Exit;
