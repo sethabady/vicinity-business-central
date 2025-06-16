@@ -5,7 +5,7 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         InsertGenJournal();
     end;
 
-    procedure SetGenJournalParameters(pPostingDate: Date; pDocumentNo: Text; pGLAccountNo: Code[20]; pGLBalAccountNo: Code[20]; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup")
+    procedure SetGenJournalParameters(pPostingDate: Date; pDocumentNo: Text; pGLAccountNo: Code[20]; pGLBalAccountNo: Code[20]; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; psGlobalDimensionCode1: Text; psGlobalDimensionCode2: Text; pcodGenBusPostingGroup: Code[20])
     begin
         PostingDate := pPostingDate;
         DocumentNo := pDocumentNo;
@@ -19,6 +19,9 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         FirstLine := pFirstLine;
         Post := pPost;
         VicinitySetup := pVicinitySetup;
+        sGlobalDimensionCode1 := psGlobalDimensionCode1;
+        sGlobalDimensionCode2 := psGlobalDimensionCode2;
+        codGenBusPostingGroup := pcodGenBusPostingGroup;
     end;
 
     local procedure InsertGenJournal()
@@ -75,11 +78,26 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         GenJnlLine."Source Code" := SourceCodeSetup."General Journal";
         GenJnlLine."Source No." := VicinityLabel;
 
+        if (codGenBusPostingGroup <> '') then
+            GenJnlLine.Validate("Gen. Bus. Posting Group", codGenBusPostingGroup)
+        else
+            // V4-2337 : Use the Gen. Bus. Posting Group from Vicinity Setup.
+            GenJnlLine."Gen. Bus. Posting Group" := VicinitySetup."Gen. Bus. Posting Group";
+
         GenJnlLine."Vicinity Batch No." := BatchNumber;
         GenJnlLine."Vicinity Facility ID" := FacilityID;
         GenJnlLine."Vicinity Line ID No." := LineID;
         GenJnlLine."Vicinity Event ID No." := EventID;
         GenJnlLine."Called From Vicinity" := true;
+
+        // V4-2337
+        if (sGlobalDimensionCode1 <> '') then begin
+            GenJnlLine.Validate("Shortcut Dimension 1 Code", sGlobalDimensionCode1);
+        end;
+        if (sGlobalDimensionCode2 <> '') then begin
+            GenJnlLine.Validate("Shortcut Dimension 2 Code", sGlobalDimensionCode2);
+        end;
+
         GenJnlLine.INSERT;
 
         if Post then begin
@@ -111,4 +129,7 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         GenJnlTemplate: Label 'GENERAL';
         VicinityLabel: Label 'VICINITY';
         LineNo: Integer;
+        sGlobalDimensionCode1: Text[20];
+        sGlobalDimensionCode2: Text[20];
+        codGenBusPostingGroup: Code[20];
 }

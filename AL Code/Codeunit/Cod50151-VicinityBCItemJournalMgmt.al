@@ -5,7 +5,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         InsertItemJournal();
     end;
 
-    procedure SetItemJournalParameters(pPostingDate: Date; pDocumentNo: Text; pItemNo: Code[20]; pLocationCode: Code[20]; pBinCode: Code[20]; pUoMCode: Code[20]; pLotNo: Code[50]; pQty: Decimal; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; pSourceCodeSetup: Record "Source Code Setup"; pLotExpirationDate: Date)
+    procedure SetItemJournalParameters(pPostingDate: Date; pDocumentNo: Text; pItemNo: Code[20]; pLocationCode: Code[20]; pBinCode: Code[20]; pUoMCode: Code[20]; pLotNo: Code[50]; pQty: Decimal; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; pSourceCodeSetup: Record "Source Code Setup"; pLotExpirationDate: Date; psGlobalDimensionCode1: Text; psGlobalDimensionCode2: Text; pcodGenBusPostingGroup: Code[20])
     begin
         PostingDate := pPostingDate;
         DocumentNo := pDocumentNo;
@@ -25,6 +25,9 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         VicinitySetup := pVicinitySetup;
         SourceCodeSetup := pSourceCodeSetup;
         LotExpirationDate := pLotExpirationDate;
+        sGlobalDimensionCode1 := psGlobalDimensionCode1;
+        sGlobalDimensionCode2 := psGlobalDimensionCode2;
+        codGenBusPostingGroup := pcodGenBusPostingGroup;
     end;
 
     local procedure InsertItemJournal()
@@ -102,7 +105,12 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
             ItemJnlLine."Applies-to Entry" := applyToEventNo;
 
         ItemJnlLine.VALIDATE("Item No.", ItemNo);
-        ItemJnlLine."Gen. Bus. Posting Group" := VicinitySetup."Gen. Bus. Posting Group";
+
+        if (codGenBusPostingGroup <> '') then
+            ItemJnlLine.Validate("Gen. Bus. Posting Group", codGenBusPostingGroup)
+        else
+            // V4-2337 : Use the Gen. Bus. Posting Group from Vicinity Setup.
+            ItemJnlLine."Gen. Bus. Posting Group" := VicinitySetup."Gen. Bus. Posting Group";
 
         if LocationCode <> '' then
             ItemJnlLine.VALIDATE("Location Code", LocationCode);
@@ -128,9 +136,16 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
 
         end;
 
+        // V4-2337
+        if (sGlobalDimensionCode1 <> '') then begin
+            ItemJnlLine.Validate("Shortcut Dimension 1 Code", sGlobalDimensionCode1);
+        end;
+        if (sGlobalDimensionCode2 <> '') then begin
+            ItemJnlLine.Validate("Shortcut Dimension 2 Code", sGlobalDimensionCode2);
+        end;
+
         // BC 20.0.0.0 - MUST SET LOT NO TO A BLANK -- AFTER THE VALIDATION.
         ItemJnlLine."Lot No." := '';
-
 
         ItemJnlLine."Vicinity Batch No." := BatchNumber;
         ItemJnlLine."Vicinity Facility ID" := FacilityID;
@@ -229,4 +244,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         LineNo: Integer;
         EntryNo: Integer;
         NoSeriesMgt: Codeunit NoSeriesManagement;
+        sGlobalDimensionCode1: Text[20];
+        sGlobalDimensionCode2: Text[20];
+        codGenBusPostingGroup: Code[20];
 }

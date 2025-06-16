@@ -45,7 +45,14 @@ codeunit 50411 VICJSONUtilities
         DateText: Text;
         // DateParts: List of [Text];
         DateFromJson: DateTime;
+        ljtTemp: JsonToken;
     begin
+        // V4-2407//V4-2337: added proper support for a null date.
+        if (Token.AsObject().Get(TokenKey, ljtTemp)) then begin
+            if (ljtTemp.AsValue().IsNull()) then
+                exit(0DT);
+        end;       
+
         DateText := GetTextFromJson(Token, TokenKey);
 
         // Date is expected to be YYYY-MM-DD so we need to remove the time portion.

@@ -93,22 +93,62 @@ page 50149 "Vicinity Setup"
     var
         HasGotGLSetup: Boolean;
 
+    // V4-2337 : support for dimensions
     [ServiceEnabled]
     [Scope('Cloud')]
-    procedure InsertGenJournal(postingdate: Date; documentno: Text; glaccountno: Text; glbalaccountno: Text; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean) Output: Text
+    procedure InsertGeneralJournalJson(psVicinityGeneralJournalJson: Text) Output: Text
     var
+        lcuVICJsonUtilities: Codeunit VICJSONUtilities;
         actionContext: WebServiceActionContext;
+        ljtVicinityGeneralJournal: JsonToken;
+        ldtPostingDate: Date;
+        lsDocumentNo: Text;
+        lsGlAccountNo: Text;
+        lsGlBalAccountNo: Text;
+        ldAmount: Decimal;
+        lsBatchNumber: Text;
+        lsFacilityId: Text;
+        liLineId: Integer;
+        liEventId: Integer;
+        lbFirstLine: Boolean;
+        lbPost: Boolean;
+        lsGlobalDimensionCode1: Text;
+        lsGlobalDimensionCode2: Text;
+        lsOutputText: Text;
+        lcodGenBusPostingGroup: Code[20];
+    begin
+        actionContext.SetObjectType(ObjectType::Page);
+        actionContext.SetObjectId(Page::"Vicinity Setup");
+        actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
+        ljtVicinityGeneralJournal.ReadFrom(psVicinityGeneralJournalJson);
+        ldtPostingDate := DT2Date(lcuVICJsonUtilities.GetDateFromJson(ljtVicinityGeneralJournal, 'PostingDate'));
+        lsDocumentNo := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'DocumentNo');
+        lsGlAccountNo :=lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'GLAccountNo');
+        lsGlBalAccountNo := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'GLBalAccountNo');
+        ldAmount := lcuVICJsonUtilities.GetDecimalFromJson(ljtVicinityGeneralJournal, 'Amount');
+        lsBatchNumber := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'BatchNumber');
+        lsFacilityId := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'FacilityId');
+        liLineId := lcuVICJsonUtilities.GetIntegerFromJson(ljtVicinityGeneralJournal, 'LineId');
+        liEventId := lcuVICJsonUtilities.GetIntegerFromJson(ljtVicinityGeneralJournal, 'EventId');
+        lbFirstLine := lcuVICJsonUtilities.GetBooleanFromJson(ljtVicinityGeneralJournal, 'FirstLine');
+        lsGlobalDimensionCode1 := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'GlobalDimensionCode1');
+        lsGlobalDimensionCode2 := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'GlobalDimensionCode2');
+        lbPost := lcuVICJsonUtilities.GetBooleanFromJson(ljtVicinityGeneralJournal, 'Post');
+        lcodGenBusPostingGroup := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'GeneralBusinessPostingGroup');
+        lsOutputText := processInsertGeneralJournalCall(ldtPostingDate, lsDocumentNo, lsGlAccountNo, lsGlBalAccountNo, ldAmount, lsBatchNumber, lsFacilityId, liLineId, liEventId, lbFirstLine, lbPost, lsGlobalDimensionCode1, lsGlobalDimensionCode2, lcodGenBusPostingGroup);
+        exit (lsOutputText);
+        actionContext.SetResultCode(WebServiceActionResultCode::Get);
+    end;
+
+    local procedure processInsertGeneralJournalCall(postingdate: Date; documentno: Text; glaccountno: Text; glbalaccountno: Text; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean; psGlobalDimension1: Text[20]; psGlobalDimension2: Text[20]; pcodGenBusPostingGroup: Code[20]) Output: Text
+    var
         VicinityBCGenJournalMgmt: Codeunit "Vicinity BC Gen Journal Mgmt";
         GLRegister: Record "G/L Register";
         SourceCodeSetup: Record "Source Code Setup";
         GLFilter: Text;
     begin
-        actionContext.SetObjectType(ObjectType::Page);
-        actionContext.SetObjectId(Page::"Vicinity Setup");
-        actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
-
         SourceCodeSetup.Get();
-        VicinityBCGenJournalMgmt.SetGenJournalParameters(postingdate, documentno, glaccountno, glbalaccountno, amount, batchnumber, facilityid, lineid, eventid, firstline, post, Rec);
+        VicinityBCGenJournalMgmt.SetGenJournalParameters(postingdate, documentno, glaccountno, glbalaccountno, amount, batchnumber, facilityid, lineid, eventid, firstline, post, Rec, psGlobalDimension1, psGlobalDimension2, pcodGenBusPostingGroup);
         if VicinityBCGenJournalMgmt.Run() = true then begin
             if post then begin
                 GLRegister.Reset();
@@ -126,18 +166,87 @@ page 50149 "Vicinity Setup"
         end else begin
             exit('Error: ' + GetLastErrorText);
         end;
-
-        actionContext.SetResultCode(WebServiceActionResultCode::Get);
     end;
-
-    // V4-1753 : added lot expiration date
-
 
     [ServiceEnabled]
     [Scope('Cloud')]
-    procedure InsertItemJournal(postingdate: Date; documentno: Text; itemno: Text; locationcode: Text; bincode: Text; uomcode: Text; lotno: Text; qty: Decimal; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean; lotexpirationdate: Date) Output: Text
+    procedure InsertGenJournal(postingdate: Date; documentno: Text; glaccountno: Text; glbalaccountno: Text; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean) Output: Text
     var
         actionContext: WebServiceActionContext;
+        VicinityBCGenJournalMgmt: Codeunit "Vicinity BC Gen Journal Mgmt";
+        GLRegister: Record "G/L Register";
+        SourceCodeSetup: Record "Source Code Setup";
+        GLFilter: Text;
+        lsOutputText: Text;
+    begin
+        actionContext.SetObjectType(ObjectType::Page);
+        actionContext.SetObjectId(Page::"Vicinity Setup");
+        actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
+        SourceCodeSetup.Get();
+        lsOutputText := processInsertGeneralJournalCall(postingdate, documentno, glaccountno, glbalaccountno, amount, batchnumber, facilityid, lineid, eventid, firstline, post, '', '', '');
+        exit(lsOutputText);
+        actionContext.SetResultCode(WebServiceActionResultCode::Get);
+    end;
+
+    // V4-2337 : support for dimensions
+    [ServiceEnabled]
+    [Scope('Cloud')]
+    procedure InsertItemJournalJson(psVicinityItemJournalJson: Text) Output: Text
+    var
+        lcuVICJsonUtilities: Codeunit VICJSONUtilities;
+        actionContext: WebServiceActionContext;
+        ljtVicinityInventoryTransaction: JsonToken;
+        ldtPostingDate: Date;
+        lsDocumentNo: Text;
+        lsItemNo: Text;
+        lsLocationCode: Text;
+        lsBinCode: Text;
+        lsUOMCode: Text;
+        lsLotNo: Text;
+        ldQty: Decimal;
+        ldAmount: Decimal;
+        lsBatchNumber: Text;
+        lsFacilityId: Text;
+        liLineId: Integer;
+        liEventId: Integer;
+        lbFirstLine: Boolean;
+        lbPost: Boolean;
+        ldtLotExpirationDate: Date;
+        lsGlobalDimensionCode1: Text;
+        lsGlobalDimensionCode2: Text;
+        lsOutputText: Text;
+        lcodGenBusPostingGroup: Code[20];
+    begin
+        actionContext.SetObjectType(ObjectType::Page);
+        actionContext.SetObjectId(Page::"Vicinity Setup");
+        actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
+        ljtVicinityInventoryTransaction.ReadFrom(psVicinityItemJournalJson);
+        ldtPostingDate := DT2Date(lcuVICJsonUtilities.GetDateFromJson(ljtVicinityInventoryTransaction, 'PostingDate'));
+        lsDocumentNo := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'DocumentNo');
+        lsItemNo := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'ItemNo');
+        lsLocationCode := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'LocationCode');
+        lsBinCode := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'BinCode');
+        lsUOMCode := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'UOMCode');
+        lsLotNo := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'LotNo');
+        ldQty := lcuVICJsonUtilities.GetDecimalFromJson(ljtVicinityInventoryTransaction, 'Qty');
+        ldAmount := lcuVICJsonUtilities.GetDecimalFromJson(ljtVicinityInventoryTransaction, 'Amount');
+        lsBatchNumber := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'BatchNumber');
+        lsFacilityId := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'FacilityId');
+        liLineId := lcuVICJsonUtilities.GetIntegerFromJson(ljtVicinityInventoryTransaction, 'LineId');
+        liEventId := lcuVICJsonUtilities.GetIntegerFromJson(ljtVicinityInventoryTransaction, 'EventId');
+        lbFirstLine := lcuVICJsonUtilities.GetBooleanFromJson(ljtVicinityInventoryTransaction, 'FirstLine');
+        ldtLotExpirationDate := DT2Date(lcuVICJsonUtilities.GetDateFromJson(ljtVicinityInventoryTransaction, 'LotExpirationDate'));
+        lsGlobalDimensionCode1 := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'GlobalDimensionCode1');
+        lsGlobalDimensionCode2 := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'GlobalDimensionCode2');
+        lbPost := lcuVICJsonUtilities.GetBooleanFromJson(ljtVicinityInventoryTransaction, 'Post');
+        lcodGenBusPostingGroup := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'GeneralBusinessPostingGroup');
+        lsOutputText := processInsertItemJournalCall(ldtPostingDate, lsDocumentNo, lsItemNo, lsLocationCode, lsBinCode, lsUOMCode, lsLotNo, ldQty, ldQty, lsBatchNumber, lsFacilityId, liLineId, liEventId, lbFirstLine, lbPost, ldtLotExpirationDate, lsGlobalDimensionCode1, lsGlobalDimensionCode2, lcodGenBusPostingGroup);
+        exit (lsOutputText);
+        actionContext.SetResultCode(WebServiceActionResultCode::Get);
+    end;
+
+    local procedure processInsertItemJournalCall(postingdate: Date; documentno: Text; itemno: Text; locationcode: Text; bincode: Text; uomcode: Text; lotno: Text; qty: Decimal; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean; lotexpirationdate: Date; psGlobalDimension1: Text[20]; psGlobalDimension2: Text[20]; pcodGenBusPostingGroup: Code[20]) Output: Text
+    var
         VicinityBCItemJournalMgmt: Codeunit "Vicinity BC Item Journal Mgmt";
         ItemRegister: Record "Item Register";
         SourceCodeSetup: Record "Source Code Setup";
@@ -152,10 +261,6 @@ page 50149 "Vicinity Setup"
         ValueEntry: Record "Value Entry";
         DuplicateFound: Boolean;
     begin
-        actionContext.SetObjectType(ObjectType::Page);
-        actionContext.SetObjectId(Page::"Vicinity Setup");
-        actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
-
         DuplicateFound := false;
         ItemLedgerEntry.Reset();
         ItemLedgerEntry.SetCurrentKey("Vicinity Batch No.", "Vicinity Facility ID", "Vicinity Line ID No.", "Vicinity Event ID No.");
@@ -184,7 +289,9 @@ page 50149 "Vicinity Setup"
         end;
 
         SourceCodeSetup.Get();
-        VicinityBCItemJournalMgmt.SetItemJournalParameters(postingdate, documentno, itemno, locationcode, bincode, uomcode, lotno, qty, amount, batchnumber, facilityid, lineid, eventid, firstline, post, Rec, SourceCodeSetup, lotexpirationdate);
+
+        // V4-2337 : global dimensions
+        VicinityBCItemJournalMgmt.SetItemJournalParameters(postingdate, documentno, itemno, locationcode, bincode, uomcode, lotno, qty, amount, batchnumber, facilityid, lineid, eventid, firstline, post, Rec, SourceCodeSetup, lotexpirationdate, psGlobalDimension1, psGlobalDimension2, pcodGenBusPostingGroup);
         if VicinityBCItemJournalMgmt.Run() = true then begin
             if post then begin
                 ItemRegister.Reset();
@@ -211,6 +318,22 @@ page 50149 "Vicinity Setup"
             else
                 exit(BuildReturnJson('', '', '', 'Error: ' + GetLastErrorText()))
         end;
+    end;
+
+    // V4-1753 : added lot expiration date
+    // V4-2337 : global dimensions
+    [ServiceEnabled]
+    [Scope('Cloud')]
+    procedure InsertItemJournal(postingdate: Date; documentno: Text; itemno: Text; locationcode: Text; bincode: Text; uomcode: Text; lotno: Text; qty: Decimal; amount: Decimal; batchnumber: Text; facilityid: Text; lineid: integer; eventid: Integer; firstline: Boolean; post: Boolean; lotexpirationdate: Date) Output: Text
+    var
+        actionContext: WebServiceActionContext;
+        lsOutputText: Text;
+    begin
+        actionContext.SetObjectType(ObjectType::Page);
+        actionContext.SetObjectId(Page::"Vicinity Setup");
+        actionContext.AddEntityKey(Rec.FieldNo("Primary Key"), Rec."Primary Key");
+        lsOutputText := processInsertItemJournalCall(postingdate, documentno, itemno, locationcode, bincode, uomcode, lotno, qty, amount, batchnumber, facilityid, lineid, eventid, firstline, post, lotexpirationdate, '', '', '');
+        exit(lsOutputText);
         actionContext.SetResultCode(WebServiceActionResultCode::Get);
     end;
 
@@ -342,8 +465,7 @@ page 50149 "Vicinity Setup"
                 JsonDimensionObject.Add('Code', Dimension.Code);
                 JsonDimensionObject.Add('Name', Dimension.Name);
                 DimensionValue.SetRange("Dimension Code", Dimension.Code);
-                if DimensionValue.FindSet() then
-                begin
+                if DimensionValue.FindSet() then begin
                     repeat
                         JsonDimensionValueObject.Add('DimensionCode', DimensionValue."Dimension Code");
                         JsonDimensionValueObject.Add('Code', DimensionValue."Code");

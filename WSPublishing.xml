@@ -247,5 +247,11 @@
             <ObjectID>50152</ObjectID>
             <Published>true</Published>
         </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICItemJournalBatches</ServiceName>
+            <ObjectID>50179</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
     </TenantWebServiceCollection>
 </ExportedData>
