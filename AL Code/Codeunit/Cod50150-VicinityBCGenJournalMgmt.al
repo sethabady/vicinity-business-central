@@ -78,11 +78,13 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         GenJnlLine."Source Code" := SourceCodeSetup."General Journal";
         GenJnlLine."Source No." := VicinityLabel;
 
-        if (codGenBusPostingGroup <> '') then
-            GenJnlLine.Validate("Gen. Bus. Posting Group", codGenBusPostingGroup)
-        else
-            // V4-2337 : Use the Gen. Bus. Posting Group from Vicinity Setup.
-            GenJnlLine."Gen. Bus. Posting Group" := VicinitySetup."Gen. Bus. Posting Group";
+        // V4-2337 : We tried but can't use the Gen. Bus. Posting Group. Accounts will 
+        // continue to be explicitly defined in the calling code.
+        // if (codGenBusPostingGroup <> '') then
+        //     GenJnlLine.Validate("Gen. Bus. Posting Group", codGenBusPostingGroup)
+        // else
+        //     // V4-2337 : Use the Gen. Bus. Posting Group from Vicinity Setup.
+        //     GenJnlLine."Gen. Bus. Posting Group" := VicinitySetup."Gen. Bus. Posting Group";
 
         GenJnlLine."Vicinity Batch No." := BatchNumber;
         GenJnlLine."Vicinity Facility ID" := FacilityID;

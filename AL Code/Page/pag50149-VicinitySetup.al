@@ -135,6 +135,8 @@ page 50149 "Vicinity Setup"
         lsGlobalDimensionCode2 := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'GlobalDimensionCode2');
         lbPost := lcuVICJsonUtilities.GetBooleanFromJson(ljtVicinityGeneralJournal, 'Post');
         lcodGenBusPostingGroup := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'GeneralBusinessPostingGroup');
+        lsGlAccountNo := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'GLAccountNo');
+        lsGlBalAccountNo := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityGeneralJournal, 'GLBalAccountNo');
         lsOutputText := processInsertGeneralJournalCall(ldtPostingDate, lsDocumentNo, lsGlAccountNo, lsGlBalAccountNo, ldAmount, lsBatchNumber, lsFacilityId, liLineId, liEventId, lbFirstLine, lbPost, lsGlobalDimensionCode1, lsGlobalDimensionCode2, lcodGenBusPostingGroup);
         exit (lsOutputText);
         actionContext.SetResultCode(WebServiceActionResultCode::Get);
