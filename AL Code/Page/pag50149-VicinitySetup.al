@@ -242,7 +242,9 @@ page 50149 "Vicinity Setup"
         lsGlobalDimensionCode2 := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'GlobalDimensionCode2');
         lbPost := lcuVICJsonUtilities.GetBooleanFromJson(ljtVicinityInventoryTransaction, 'Post');
         lcodGenBusPostingGroup := lcuVICJsonUtilities.GetTextFromJson(ljtVicinityInventoryTransaction, 'GeneralBusinessPostingGroup');
-        lsOutputText := processInsertItemJournalCall(ldtPostingDate, lsDocumentNo, lsItemNo, lsLocationCode, lsBinCode, lsUOMCode, lsLotNo, ldQty, ldQty, lsBatchNumber, lsFacilityId, liLineId, liEventId, lbFirstLine, lbPost, ldtLotExpirationDate, lsGlobalDimensionCode1, lsGlobalDimensionCode2, lcodGenBusPostingGroup);
+
+        // V4-2434 : was passing ldQty twice instead of lqQty and ldAmount.
+        lsOutputText := processInsertItemJournalCall(ldtPostingDate, lsDocumentNo, lsItemNo, lsLocationCode, lsBinCode, lsUOMCode, lsLotNo, ldQty, ldAmount, lsBatchNumber, lsFacilityId, liLineId, liEventId, lbFirstLine, lbPost, ldtLotExpirationDate, lsGlobalDimensionCode1, lsGlobalDimensionCode2, lcodGenBusPostingGroup);
         exit (lsOutputText);
         actionContext.SetResultCode(WebServiceActionResultCode::Get);
     end;
