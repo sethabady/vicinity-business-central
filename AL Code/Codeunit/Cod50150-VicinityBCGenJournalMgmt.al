@@ -56,7 +56,7 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         if DocumentNo = '' then begin
             GenJournalBatch.Get(GenJnlTemplate, VicinitySetup."Gen. Journal Batch");
             GenJournalBatch.TestField("No. Series");
-            DocumentNo := NoSeriesMgt.GetNextNo(GenJournalBatch."No. Series", TODAY, FALSE);
+            DocumentNo := NoSeriesMgt.PeekNextNo(GenJournalBatch."No. Series", TODAY);
         end;
 
         GenJnlLine.Init();
@@ -127,7 +127,7 @@ codeunit 50150 "Vicinity BC Gen Journal Mgmt"
         SourceCodeSetup: Record "Source Code Setup";
         GenJournalBatch: Record "Gen. Journal Batch";
         GenJnlPostBatch: Codeunit "Gen. Jnl.-Post Batch";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         GenJnlTemplate: Label 'GENERAL';
         VicinityLabel: Label 'VICINITY';
         LineNo: Integer;

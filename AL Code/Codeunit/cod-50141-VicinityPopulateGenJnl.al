@@ -15,7 +15,7 @@ codeunit 50141 "Vicinity Populate General Jnl"
         VicinitySetup: Record "Vicinity Setup";
         TempDocNo: Text[30];
         TempWhseDocNo: Text[30];
-        NoSeriesMgt: Codeunit "NoSeriesManagement";
+        NoSeriesMgt: Codeunit "No. Series";
         VicinityErrorLog: Record "Vicinity Error Log";
         GenJournalLine: Record "Gen. Journal Line";
 
@@ -26,7 +26,7 @@ codeunit 50141 "Vicinity Populate General Jnl"
         VicinityErrorLog: Record "Vicinity Error Log";
         VicinitySetup: Record "Vicinity Setup";
         GenJournalBatch: Record "Gen. Journal Batch";
-        NoSeriesMgt: Codeunit "NoSeriesManagement";
+        NoSeriesMgt: Codeunit "No. Series";
         PostingDate: Date;
         iMonth: Integer;
         iDay: Integer;
@@ -69,7 +69,7 @@ codeunit 50141 "Vicinity Populate General Jnl"
             END;
 
             IF pDocumentNo = '' THEN BEGIN
-                pDocumentNo := NoSeriesMgt.GetNextNo(GenJournalBatch."No. Series", TODAY, FALSE);
+                pDocumentNo := NoSeriesMgt.PeekNextNo(GenJournalBatch."No. Series", TODAY);
             END;
 
             IF STRLEN(pPostingDate) > 0 THEN BEGIN

@@ -62,9 +62,11 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
             ItemJnlLine.Reset();
             ItemJnlLine.SetRange("Journal Template Name", ItemJnlTemplate);
             ItemJnlLine.SetRange("Journal Batch Name", VicinitySetup."Item Journal Batch");
-            if ItemJnlLine.IsEmpty = false then
+            if ItemJnlLine.IsEmpty = false then begin
                 ItemJnlLine.DeleteAll(true);
-        end else begin
+            end
+        end
+        else begin
             ItemJnlLine.Reset();
             ItemJnlLine.SetRange("Journal Template Name", ItemJnlTemplate);
             ItemJnlLine.SetRange("Journal Batch Name", VicinitySetup."Item Journal Batch");
@@ -86,7 +88,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         if DocumentNo = '' then begin
             ItemJournalBatch.Get(ItemJnlTemplate, VicinitySetup."Item Journal Batch");
             ItemJournalBatch.TestField("No. Series");
-            DocumentNo := NoSeriesMgt.GetNextNo(ItemJournalBatch."No. Series", TODAY, FALSE);
+            DocumentNo := NoSeriesMgt.PeekNextNo(ItemJournalBatch."No. Series", TODAY);
         end;
 
         ItemJnlLine.INIT;
@@ -94,12 +96,10 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         ItemJnlLine."Journal Batch Name" := VicinitySetup."Item Journal Batch";
         ItemJnlLine."Line No." := LineNo;
         ItemJnlLine.Validate("Posting Date", PostingDate);
-
         ItemJnlLine.Validate("Expiration Date", LotExpirationDate);
-
         ItemJnlLine."Source No." := VicinityLabel;
         ItemJnlLine."Source Code" := SourceCodeSetup."Item Journal";
-        ItemJnlLine."Document No." := DocumentNo;
+        ItemJnlLine.Validate("Document No.", DocumentNo);
 
         if (applyToEventNo <> 0) then
             ItemJnlLine."Applies-to Entry" := applyToEventNo;
@@ -243,7 +243,7 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         VicinityLabel: Label 'VICINITY';
         LineNo: Integer;
         EntryNo: Integer;
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         sGlobalDimensionCode1: Text[20];
         sGlobalDimensionCode2: Text[20];
         codGenBusPostingGroup: Code[20];

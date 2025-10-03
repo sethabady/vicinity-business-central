@@ -16,7 +16,7 @@ codeunit 50143 "Vicinity Web Service"
         ItemJournalLine: Record "Item Journal Line";
         VicinityErrorLog: Record "Vicinity Error Log";
         VicinitySetup: Record "Vicinity Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         PostingDate: Date;
         iMonth: Integer;
         iDay: Integer;
@@ -78,7 +78,7 @@ codeunit 50143 "Vicinity Web Service"
         GenJournalLine: Record "Gen. Journal Line";
         VicinityErrorLog: Record "Vicinity Error Log";
         VicinitySetup: Record "Vicinity Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        NoSeriesMgt: Codeunit "No. Series";
         PostingDate: Date;
         iMonth: Integer;
         iDay: Integer;
