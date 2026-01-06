@@ -29,6 +29,16 @@ tableextension 50143 "VicinityItemJournalLine" extends "Item Journal Line" //MyT
             DataClassification = ToBeClassified;
 
         }
-    }
+        field(90005;VICBatchItemJournalSourceType; Enum VICBatchItemJournalSourceType)
+        {
+            Caption = 'Vicinity Batch Source';
+            DataClassification = ToBeClassified;
 
+        }
+        field(90006; "VIC Quantity Remaining"; Decimal)
+        {
+            Caption = 'VIC Quantity Remaining';
+            DataClassification = ToBeClassified;
+        }
+    }
 }

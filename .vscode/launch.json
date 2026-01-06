@@ -1,24 +1,12 @@
 {
     "version": "0.2.0",
     "configurations": [
-        
         {
             "type": "al",
             "request": "launch",
-            
-            //cloud
             "name": "Publish",
             "tenant": "31916a16-8d4d-4e9b-b8bd-a4031001d6e5",
             "schemaUpdateMode": "ForceSync"
-          
-            //"schemaUpdateMode": "ForceSync"
-            //local
-            /*
-            "name": "Your own server",
-            "server": "http://localhost",
-            "serverInstance": "BC140",
-            "authentication": "Windows",
-            */
         }
     ]
 }

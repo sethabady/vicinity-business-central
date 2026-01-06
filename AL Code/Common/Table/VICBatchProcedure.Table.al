@@ -1,8 +1,8 @@
-table 50421 VICBatchEndItem
+table 50426 VICBatchProcedure
 {
     DataClassification = ToBeClassified;
-    Caption = 'Batch End Item';
-    // TableType = Temporary;
+    Caption = 'Batch Procedure';
+    TableType = Temporary ;
 
     fields
     {
@@ -81,6 +81,10 @@ table 50421 VICBatchEndItem
         field(16; "EventIdNumber"; Integer)
         {
             Caption = 'Event ID Number';
+        }
+        field(17; PhaseType; enum TransactionEntityType)
+        {
+            Caption = 'Phase Type';
         }
     }
 

@@ -13,7 +13,7 @@ codeunit 50146 "VICATPManagement"
         JToken: JsonToken;
         JArray: JsonArray;
         JsonObject: JsonObject;
-        JsonToken: JsonToken;
+//        JsonToken: JsonToken;
         PlanningTransactionDetailToken: JsonToken;
         VicinitySetup: Record "Vicinity Setup";
 
@@ -60,11 +60,13 @@ codeunit 50146 "VICATPManagement"
 
         if Client.Get(Url, ResponseMessage) then begin
             ResponseMessage.Content.ReadAs(ResponseString);
+            
+            // if not JsonToken.ReadFrom(ResponseString) then
+            //     Error('Invalid JSON from Vicinity ATP service.');
 
-            // Message('%1 EndItems: %2', Url, ResponseString);
+            if not JToken.ReadFrom(ResponseString) then
+                Error('Reading JSON from Vicinity ATP service failed.');
 
-            JsonToken.ReadFrom(ResponseString);
-            JToken.ReadFrom(ResponseString);
             if not JToken.SelectToken('[' + '''' + 'PlanningTransactionDetails' + '''' + ']', PlanningTransactionDetails) then
                 Error('SelectToken PlanningTransactionDetails failed');
             JArray := PlanningTransactionDetails.AsArray();

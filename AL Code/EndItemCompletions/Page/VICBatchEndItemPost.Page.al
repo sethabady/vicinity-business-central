@@ -3,7 +3,7 @@ page 50181 VICBatchEndItemPost
     Caption = 'Post Batch End-Items';
     PageType = Document;
     //    ApplicationArea = All;
-    //    UsageCategory = Tasks;
+    UsageCategory = None; //  Tasks; IN DEVELOPMENT
     SourceTable = VICBatch;
     InsertAllowed = false;
     DeleteAllowed = false;

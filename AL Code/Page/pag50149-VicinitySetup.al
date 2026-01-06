@@ -65,6 +65,11 @@ page 50149 "Vicinity Setup"
                     Visible = true;
                     ApplicationArea = All;
                 }
+                field("Vicinity Drillback URL"; Rec."VicinityDrillbackUrl")
+                {
+                    Visible = true;
+                    ApplicationArea = All;
+                }
             }
         }
     }

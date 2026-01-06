@@ -77,4 +77,84 @@ codeunit 50411 VICJSONUtilities
     begin
         exit(Json);
     end;
+
+    // ---------------------------
+    // Safe getters (null tolerant)
+    // ---------------------------
+
+    procedure ResolveToObject(Tok: JsonToken; var IdIndex: Dictionary of [Text, Text]): JsonObject
+    var
+        Obj: JsonObject;
+        RefTok: JsonToken;
+        RefId: Text;
+        RefJson: Text;
+    begin
+        if Tok.IsObject() then begin
+            Obj := Tok.AsObject();
+
+            // If it is a {$ref:"x"} object, resolve from index
+            if Obj.Get('$ref', RefTok) then begin
+                RefId := RefTok.AsValue().AsText();
+                if (RefId <> '') and IdIndex.Get(RefId, RefJson) then begin
+                    Obj.ReadFrom(RefJson);
+                    exit(Obj);
+                end;
+            end;
+
+            exit(Obj);
+        end;
+
+        exit(Obj); // empty
+    end;    
+
+    procedure GetText(Obj: JsonObject; PropertyName: Text; var IdIndex: Dictionary of [Text, Text]): Text
+    var
+        Tok: JsonToken;
+        RefObj: JsonObject;
+    begin
+        if Obj.Get(PropertyName, Tok) then begin
+            if Tok.AsValue().IsNull() then
+                exit('');
+            if Tok.IsValue() then
+                exit(Tok.AsValue().AsText());
+            if Tok.IsObject() then begin
+                RefObj := ResolveToObject(Tok, IdIndex);
+                if RefObj.Get(PropertyName, Tok) and Tok.IsValue() then
+                    exit(Tok.AsValue().AsText());
+            end;
+        end;
+        exit('');
+    end;
+
+    procedure GetDecimal(Obj: JsonObject; PropertyName: Text; var IdIndex: Dictionary of [Text, Text]): Decimal
+    var
+        Tok: JsonToken;
+        D: Decimal;
+        T: Text;
+    begin
+        if Obj.Get(PropertyName, Tok) then begin
+            if Tok.AsValue().IsNull() then
+                exit(0);
+
+            if Tok.IsValue() then begin
+                // handles JSON numbers without locale issues
+                T := Tok.AsValue().AsText();
+                Evaluate(D, T);
+                exit(D);
+            end;
+        end;
+        exit(0);
+    end;    
+
+    procedure GetInt(Obj: JsonObject; PropertyName: Text; var IdIndex: Dictionary of [Text, Text]): Integer
+    var
+        T: Text;
+        I: Integer;
+    begin
+        T := GetText(Obj, PropertyName, IdIndex);
+        if T = '' then
+            exit(0);
+        Evaluate(I, T);
+        exit(I);
+    end;
 }

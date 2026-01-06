@@ -253,5 +253,11 @@
             <ObjectID>50179</ObjectID>
             <Published>true</Published>
         </TenantWebService>
+        <TenantWebService>
+            <ObjectType>Query</ObjectType>
+            <ServiceName>VICLotTrackedShipments</ServiceName>
+            <ObjectID>50187</ObjectID>
+            <Published>true</Published>
+        </TenantWebService>
     </TenantWebServiceCollection>
 </ExportedData>

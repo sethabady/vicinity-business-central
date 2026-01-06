@@ -65,6 +65,11 @@ table 50109 "Vicinity Setup"
             Caption = 'Vicinity API Access Key';
             DataClassification = ToBeClassified;
         }
+        field(120; VicinityDrillbackUrl; Text[200])
+        {
+            Caption = 'Vicinity Drillback URL';
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

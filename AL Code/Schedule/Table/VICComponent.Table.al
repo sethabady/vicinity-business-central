@@ -5,13 +5,17 @@ table 50414 VICComponent
 
     fields
     {
-        field(10; ComponentId; Text[32])
+        field(1; ComponentId; Text[32])
         {
-            DataClassification = ToBeClassified;
+            Caption = 'Component ID';
         }
-        field(15; Description; Text[60])
+        field(2; Description; Text[60])
         {
-            DataClassification = ToBeClassified;
+            Caption = 'Name';
+        }
+        field(30; DefaultFacilityId; Text[15])
+        {
+            Caption = 'Default Facility ID';
         }
     }
 
@@ -23,7 +27,6 @@ table 50414 VICComponent
         }
         key(Key2; Description)
         {
-
         }
     }
 }

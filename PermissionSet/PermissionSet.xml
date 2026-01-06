@@ -160,5 +160,15 @@
       <ExecutePermission>0</ExecutePermission>
       <SecurityFilter />
     </Permission>
+    <Permission>
+      <ObjectID>50425</ObjectID>
+      <ObjectType>0</ObjectType>
+      <ReadPermission>1</ReadPermission>
+      <InsertPermission>1</InsertPermission>
+      <ModifyPermission>1</ModifyPermission>
+      <DeletePermission>1</DeletePermission>
+      <ExecutePermission>0</ExecutePermission>
+      <SecurityFilter />
+    </Permission>
   </PermissionSet>
 </PermissionSets>

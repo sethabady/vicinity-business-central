@@ -45,6 +45,9 @@ pageextension 50147 VICItem extends "Item Card"
     {
         addlast(Promoted)
         {
+            actionref(VicinityItemStructureRef; VicinityItemStructure)
+            {
+            }
             actionref(VicinityItemInfoRef; VicinityItemInfo)
             {
             }
@@ -52,6 +55,24 @@ pageextension 50147 VICItem extends "Item Card"
 
         addlast(Functions)
         {
+            action(VicinityItemStructure)
+            {
+                ApplicationArea = All;
+                Visible = false;  // IN DEVELOPMENT
+                Caption = 'Vicinity Item Structure';
+                Image = BOM;
+
+                
+
+                trigger OnAction();
+                var
+                    VICItemStructurePage: Page VICItemStructure;
+                begin
+                    VICItemStructurePage.SetItem(Rec);
+                    VICItemStructurePage.LookupMode := true;
+                    if VICItemStructurePage.RunModal = ACTION::LookupOK then begin end;
+                end;
+            }
             action(VicinityItemInfo)
             {
                 ApplicationArea = All;
@@ -64,13 +85,13 @@ pageextension 50147 VICItem extends "Item Card"
                     PlanningItemQuantitiesDetails: JsonToken;
                     PlanningItemQuantitiesDetailsArray: JsonArray;
 
-                    // V4-2152: Used Item Card as test harness.
-                    // VICRequisitionService: Codeunit VICRequisitionService;
-                    // VicinityRequisitions: JsonArray;
-                    // VicinityRequisition: JsonObject;
-                    // VICStandardCostService: Codeunit VICStandardCostService;
-                    // VICStandardCostWorksheets: JsonArray;
-                    // VICStandardCostWorksheet: JsonObject;
+                // V4-2152: Used Item Card as test harness.
+                // VICRequisitionService: Codeunit VICRequisitionService;
+                // VicinityRequisitions: JsonArray;
+                // VicinityRequisition: JsonObject;
+                // VICStandardCostService: Codeunit VICStandardCostService;
+                // VICStandardCostWorksheets: JsonArray;
+                // VICStandardCostWorksheet: JsonObject;
                 begin
                     // // Initialize the json object. -- for testing requisitions
                     // VICStandardCostWorksheet.Add('ComponentId', Rec."No.");

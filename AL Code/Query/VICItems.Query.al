@@ -89,6 +89,21 @@ query 50171 VICItems
             {
 
             }
+            column(MinimumOrderQuantity; "Minimum Order Quantity")
+            {
+
+            }
+
+            column(VendorNo; "Vendor No.")
+            {
+
+            }
+
+            column(VendorItemNo; "Vendor Item No.")
+            {
+
+            }
+
             column(SystemCreatedAt; "SystemCreatedAt")
             {
             }
@@ -107,8 +122,15 @@ query 50171 VICItems
                 column(LotSpecificTracking; "Lot Specific Tracking")
                 {
                 }
+                DataItem(VendorNameLookup; Vendor)
+                {
+                    DataItemLink = "No." = Item."Vendor No.";
+                    SqlJoinType = LeftOuterJoin;
+                    column(VendorName; Name)
+                    {
+                    }
+                }
             }
         }
     }
 }
-

@@ -2,6 +2,8 @@ table 50420 VICBatch
 {
     DataClassification = ToBeClassified;
     Caption = 'Batch';
+//    LookupPageId = VICBatchListTemp;
+
     // TableType = Temporary;
     
     fields
@@ -73,6 +75,9 @@ table 50420 VICBatch
         key(Key1; FacilityId, BatchNumber)
         {
             Clustered = true;
+        }
+        key(key2; BatchNumber)
+        {
         }
     }
 
