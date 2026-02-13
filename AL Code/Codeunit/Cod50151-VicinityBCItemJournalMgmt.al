@@ -2,7 +2,19 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
 {
     trigger OnRun()
     begin
-        InsertItemJournal();
+//        InsertItemJournal();
+
+        AddProdJournalLine(
+            'CONSUMP', // Journal Template Name
+            'DEFAULT', // Journal Batch Name
+            '101001',   // Prod Order No
+            ItemJnlLine."Entry Type"::Consumption, // Entry Type
+            'VP-RM1',    // Item No
+            10,         // Quantity
+            'MAIN',    // Location Code
+            WorkDate(),// Posting Date
+            'DOC1001'  // Document No
+        );
     end;
 
     procedure SetItemJournalParameters(pPostingDate: Date; pDocumentNo: Text; pItemNo: Code[20]; pLocationCode: Code[20]; pBinCode: Code[20]; pUoMCode: Code[20]; pLotNo: Code[50]; pQty: Decimal; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; pSourceCodeSetup: Record "Source Code Setup"; pLotExpirationDate: Date; psGlobalDimensionCode1: Text; psGlobalDimensionCode2: Text; pcodGenBusPostingGroup: Code[20])
@@ -29,6 +41,72 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
         sGlobalDimensionCode2 := psGlobalDimensionCode2;
         codGenBusPostingGroup := pcodGenBusPostingGroup;
     end;
+
+    local procedure AddProdJournalLine(
+        JnlTemplateName: Code[10];
+        JnlBatchName: Code[10];
+        ProdOrderNo: Code[20];
+        EntryType: Enum "Item Journal Entry Type";
+        ItemNo: Code[20];
+        Qty: Decimal;
+        LocationCode: Code[10];
+        PostingDate: Date;
+        DocumentNo: Code[20])
+    var
+        IJL: Record "Item Journal Line";
+        NextLineNo: Integer;
+    begin
+        if ItemNo = '' then
+            Error('Item No. is required.');
+        if Qty = 0 then
+            Error('Quantity must be non-zero.');
+
+        NextLineNo := GetNextLineNo(JnlTemplateName, JnlBatchName);
+
+        IJL.Init();
+        IJL.Validate("Journal Template Name", JnlTemplateName);
+        IJL.Validate("Journal Batch Name", JnlBatchName);
+        IJL.Validate("Line No.", NextLineNo);
+
+        // Core posting fields
+        IJL.Validate("Posting Date", PostingDate);
+        IJL.Validate("Document No.", DocumentNo);
+
+        // Set Production context (IMPORTANT if you want this tied to a Prod. Order)
+        if ProdOrderNo <> '' then begin
+            IJL.Validate("Order Type", IJL."Order Type"::Production);
+            IJL.Validate("Order No.", ProdOrderNo);
+            IJL.Validate("Order Line No.", 10000);
+        end;
+
+        // Line specifics
+        IJL.Validate("Entry Type", EntryType);
+        IJL.Validate("Item No.", ItemNo);
+        IJL.Validate("Source No.", ItemNo); // Using Item No. as Source No. for tracking
+
+        if LocationCode <> '' then
+            IJL.Validate("Location Code", LocationCode);
+
+        // For Consumption + Output journals, Qty is typically entered as a positive number.
+        // BC will handle sign based on Entry Type when posting.
+        IJL.Validate(Quantity, Qty);
+
+        IJL.Insert(true);
+    end;
+
+    local procedure GetNextLineNo(JnlTemplateName: Code[10]; JnlBatchName: Code[10]) NextLineNo: Integer
+    var
+        IJL: Record "Item Journal Line";
+    begin
+        IJL.SetRange("Journal Template Name", JnlTemplateName);
+        IJL.SetRange("Journal Batch Name", JnlBatchName);
+
+        if IJL.FindLast() then
+            exit(IJL."Line No." + 10000);
+
+        exit(10000);
+    end;
+
 
     local procedure InsertItemJournal()
     var

@@ -58,21 +58,20 @@ pageextension 50147 VICItem extends "Item Card"
             action(VicinityItemStructure)
             {
                 ApplicationArea = All;
-                Visible = false;  // IN DEVELOPMENT
+                Visible = true;
                 Caption = 'Vicinity Item Structure';
                 Image = BOM;
 
-                
-
                 trigger OnAction();
                 var
-                    VICItemStructurePage: Page VICItemStructure;
+                    VICItemStructurePage: Page "pte_vic_ItemStructure";
                 begin
                     VICItemStructurePage.SetItem(Rec);
                     VICItemStructurePage.LookupMode := true;
                     if VICItemStructurePage.RunModal = ACTION::LookupOK then begin end;
                 end;
             }
+
             action(VicinityItemInfo)
             {
                 ApplicationArea = All;
@@ -134,12 +133,14 @@ pageextension 50147 VICItem extends "Item Card"
     trigger OnOpenPage()
     var
         VicinitySetup: Record "Vicinity Setup";
+        VICWebServiceInterface: Codeunit VICWebApiInterface;
     begin
         QtyOnBatchEndItem := 100;
         IsConfigured := false;
         if VicinitySetup.Get()
         then begin
             IsConfigured := StrLen(VicinitySetup.ApiUrl) > 0;
+            VICWebServiceInterface.OnFetchVICFacilities();
         end;
     end;
 
@@ -149,11 +150,11 @@ pageextension 50147 VICItem extends "Item Card"
     begin
         if IsConfigured then begin
             PlanningItemQuantities := ProductionScheduleManagement.FetchPlanningItemQuantitiesFromWebApi(rec."No.");
-            QtyOnBatchEndItem := JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnBatchEndItem');
-            QtyOnBatchEndItemBOM := JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnBatchEndItemBOM');
-            QtyOnBatchIngredients := JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnBatchIngredients');
-            QtyOnBatchByCoProducts := JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnBatchByCoProducts');
-            QtyOnPlannedOrders := JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnPlannedOrders');
+            QtyOnBatchEndItem := PlanningItemQuantities.GetDecimal('TotalQuantityOnBatchEndItem', true); //   JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnBatchEndItem');
+            QtyOnBatchEndItemBOM := PlanningItemQuantities.GetDecimal('TotalQuantityOnBatchEndItemBOM', true); // JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnBatchEndItemBOM');
+            QtyOnBatchIngredients := PlanningItemQuantities.GetDecimal('TotalQuantityOnBatchIngredients', true); // JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnBatchIngredients');
+            QtyOnBatchByCoProducts := PlanningItemQuantities.GetDecimal('TotalQuantityOnBatchByCoProducts', true); // JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnBatchByCoProducts');
+            QtyOnPlannedOrders := PlanningItemQuantities.GetDecimal('TotalQuantityOnPlannedOrders', true); // JSONUtilities.GetDecimalFromJson(PlanningItemQuantities.AsToken(), 'TotalQuantityOnPlannedOrders');
         end;
     end;
 }

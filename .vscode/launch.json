@@ -7,6 +7,53 @@
             "name": "Publish",
             "tenant": "31916a16-8d4d-4e9b-b8bd-a4031001d6e5",
             "schemaUpdateMode": "ForceSync"
+        },
+        {
+            "name": "AL: Generated Snapshot request",
+            "request": "snapshotInitialize",
+            "type": "al",
+            "server": "http://BcSandbox272",
+            "serverInstance": "BC",
+            "authentication": "UserPassword",
+            "port": 7049,
+            "sessionId": 80,
+            "breakOnNext": "WebClient",
+            "executionContext": "DebugAndProfile"
+        },
+        {
+            "name": "AL: Generated Attach request",
+            "request": "attach",
+            "type": "al",
+            "server": "https://BcSandbox272",
+            "serverInstance": "BC",
+            "authentication": "UserPassword",
+            "port": 7049,
+            "tenant": "default",
+            "sessionId": 80,
+            "breakOnNext": "WebClient",
+            "breakOnError": "ExcludeTry"
+        },
+        {
+            "name": "AL: Generated Launch request",
+            "request": "launch",
+            "type": "al",
+            "server": "https://BcSandbox272",
+            "serverInstance": "BC",
+            "authentication": "UserPassword",
+            "port": 7049,
+            "tenant": "default",
+            "breakOnError": "ExcludeTry"
+        },
+        {
+            "name": "AL: Generated Download Symbols request",
+            "request": "launch",
+            "type": "al",
+            "server": "https://BcSandbox272",
+            "serverInstance": "BC",
+            "authentication": "UserPassword",
+            "port": 7049,
+            "tenant": "default",
+            "breakOnError": "ExcludeTry"
         }
     ]
 }

@@ -903,8 +903,16 @@ codeunit 50410 VICProdScheduleManagement
         Headers.Add('Content-Type', 'application/json');
         Request.Content := Content;
         if not Client.Send(Request, Response) then
-            Error('Unable to retrieve planning item quantities.');
+            Error('Unable to retrieve planning item quantities.\\' + GetLastErrorText);
+
+        // lhcClient.UseServerCertificateValidation(false);
+        // if not lhcClient.Send(lhrRequest, lhrspResponse) then
+        //     Error('OnVICFetchFacilitiesSubscriber Client.Send error:\\' + GetLastErrorText);
+
         Response.Content.ReadAs(ResponseString);
-        PlanningItemQuantities.ReadFrom(ResponseString);     
+        if PlanningItemQuantities.ReadFrom(ResponseString) then
+            exit(PlanningItemQuantities);
+        Clear(RequestObject);
+        PlanningItemQuantities := RequestObject;
     end;
 }

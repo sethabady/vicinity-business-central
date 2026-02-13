@@ -1,6 +1,6 @@
-table 50429 VICItemStructurePageData
+table 50433 pte_vic_ItemStructureLine
 {
-    Caption = 'Vicinity Item Structure Page Data';
+    Caption = 'Vicinity Item Structure Line';
     TableType = Temporary;
     DataClassification = ToBeClassified;
 
@@ -21,7 +21,7 @@ table 50429 VICItemStructurePageData
             Caption = 'Line No.';
             Editable = false;
         }
-        field(4; LineType; Enum VICItemStructureLineType)
+        field(4; LineType; Enum pte_vic_ItemStructLineType)
         {
             Caption = 'Line Type';
             Editable = false;
@@ -42,10 +42,21 @@ table 50429 VICItemStructurePageData
             Editable = false;
             DecimalPlaces = 0 : 5;
         }
-        field(8; Level; Integer)
+        field(8; QtyType; Enum pte_vic_ItemStructLineQtyType)
+        {
+            Caption = 'Quantity type';
+            Editable = false;
+        }
+        field(9; Level; Integer)
         {
             Caption = 'Level';
             Editable = false;
+        }
+        field(10; Instruction; Text[250])
+        {
+            Caption = 'Instruction';
+            Editable = false;
+            // ToolTip = 'Specifies the quantity of the availability line.';
         }
     }
     keys

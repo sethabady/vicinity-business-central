@@ -90,16 +90,19 @@ codeunit 50180 VICWebApiInterface
         lsUrl := StrSubstNo('%1/facility/%2/list', lsVicinityApiUrl, lsVicinityCompanyId);
         lhrRequest.Method := 'GET';
         lhrRequest.SetRequestUri(lsUrl);
+//        lhcClient.UseServerCertificateValidation(false);
         if not lhcClient.Send(lhrRequest, lhrspResponse) then
             Error('OnVICFetchFacilitiesSubscriber Client.Send error:\\' + GetLastErrorText);
         lhrspResponse.Content.ReadAs(lsResponseString);
         ljtResponseString.ReadFrom(lsResponseString);
-        foreach ljtBatch in ljtResponseString.AsArray()
-        do begin
-            lrecVICFacility.Init();
-            lrecVICFacility.FacilityId := GetJsonToken(ljtBatch.AsObject(), 'FacilityId').AsValue().AsText();
-            lrecVICFacility.Name := GetJsonToken(ljtBatch.AsObject(), 'Name').AsValue().AsText();
-            lrecVICFacility.Insert();
+        if ljtResponseString.IsArray then begin
+            foreach ljtBatch in ljtResponseString.AsArray()
+            do begin
+                lrecVICFacility.Init();
+                lrecVICFacility.FacilityId := GetJsonToken(ljtBatch.AsObject(), 'FacilityId').AsValue().AsText();
+                lrecVICFacility.Name := GetJsonToken(ljtBatch.AsObject(), 'Name').AsValue().AsText();
+                lrecVICFacility.Insert();
+            end;
         end;
     end;
 

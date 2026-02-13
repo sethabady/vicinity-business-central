@@ -1,4 +1,4 @@
-enum 50187 VICItemStructureLineType
+enum 50187 pte_vic_ItemStructLineType
 {
     Extensible = false;
     value(0; " ")
@@ -21,3 +21,4 @@ enum 50187 VICItemStructureLineType
         Caption = 'Runtime';
     }
 }
+
