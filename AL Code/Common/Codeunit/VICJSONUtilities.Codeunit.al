@@ -25,14 +25,29 @@ codeunit 50411 VICJSONUtilities
         Exit(GetJsonToken(Token.AsObject(), TokenKey).AsValue().AsDecimal());
     end;
 
+    procedure GetDecimalFromJson(JsonObject: JsonObject; TokenKey: Text): Decimal
+    begin
+        Exit(GetJsonToken(JsonObject, TokenKey).AsValue().AsDecimal());
+    end;
+
     procedure GetIntegerFromJson(Token: JsonToken; TokenKey: Text): Integer
     begin
         Exit(GetJsonToken(Token.AsObject(), TokenKey).AsValue().AsInteger());
     end;
 
+    procedure GetIntegerFromJson(JsonObject: JsonObject; TokenKey: Text): Integer
+    begin
+        Exit(GetJsonToken(JsonObject, TokenKey).AsValue().AsInteger());
+    end;
+
     procedure GetTextFromJson(Token: JsonToken; TokenKey: Text): Text
     begin
         Exit(GetJsonToken(Token.AsObject(), TokenKey).AsValue().AsText());
+    end;
+
+    procedure GetTextFromJson(JsonObject: JsonObject; TokenKey: Text): Text
+    begin
+        Exit(GetJsonToken(JsonObject, TokenKey).AsValue().AsText());
     end;
 
     procedure GetBooleanFromJson(Token: JsonToken; TokenKey: Text): Boolean
@@ -78,83 +93,92 @@ codeunit 50411 VICJSONUtilities
         exit(Json);
     end;
 
-    // ---------------------------
-    // Safe getters (null tolerant)
-    // ---------------------------
-
-    procedure ResolveToObject(Tok: JsonToken; var IdIndex: Dictionary of [Text, Text]): JsonObject
+    procedure GetArray(J: JsonObject; Name: Text): JsonArray
     var
-        Obj: JsonObject;
-        RefTok: JsonToken;
-        RefId: Text;
-        RefJson: Text;
+        T: JsonToken;
     begin
-        if Tok.IsObject() then begin
-            Obj := Tok.AsObject();
-
-            // If it is a {$ref:"x"} object, resolve from index
-            if Obj.Get('$ref', RefTok) then begin
-                RefId := RefTok.AsValue().AsText();
-                if (RefId <> '') and IdIndex.Get(RefId, RefJson) then begin
-                    Obj.ReadFrom(RefJson);
-                    exit(Obj);
-                end;
-            end;
-
-            exit(Obj);
-        end;
-
-        exit(Obj); // empty
-    end;    
-
-    procedure GetText(Obj: JsonObject; PropertyName: Text; var IdIndex: Dictionary of [Text, Text]): Text
-    var
-        Tok: JsonToken;
-        RefObj: JsonObject;
-    begin
-        if Obj.Get(PropertyName, Tok) then begin
-            if Tok.AsValue().IsNull() then
-                exit('');
-            if Tok.IsValue() then
-                exit(Tok.AsValue().AsText());
-            if Tok.IsObject() then begin
-                RefObj := ResolveToObject(Tok, IdIndex);
-                if RefObj.Get(PropertyName, Tok) and Tok.IsValue() then
-                    exit(Tok.AsValue().AsText());
-            end;
-        end;
-        exit('');
+        if not J.Get(Name, T) then Error('Missing required array "%1".', Name);
+        if not T.IsArray() then Error('"%1" must be an array.', Name);
+        exit(T.AsArray());
     end;
 
-    procedure GetDecimal(Obj: JsonObject; PropertyName: Text; var IdIndex: Dictionary of [Text, Text]): Decimal
-    var
-        Tok: JsonToken;
-        D: Decimal;
-        T: Text;
-    begin
-        if Obj.Get(PropertyName, Tok) then begin
-            if Tok.AsValue().IsNull() then
-                exit(0);
+    // // ---------------------------
+    // // Safe getters (null tolerant)
+    // // ---------------------------
 
-            if Tok.IsValue() then begin
-                // handles JSON numbers without locale issues
-                T := Tok.AsValue().AsText();
-                Evaluate(D, T);
-                exit(D);
-            end;
-        end;
-        exit(0);
-    end;    
+    // procedure ResolveToObject(Tok: JsonToken; var IdIndex: Dictionary of [Text, Text]): JsonObject
+    // var
+    //     Obj: JsonObject;
+    //     RefTok: JsonToken;
+    //     RefId: Text;
+    //     RefJson: Text;
+    // begin
+    //     if Tok.IsObject() then begin
+    //         Obj := Tok.AsObject();
 
-    procedure GetInt(Obj: JsonObject; PropertyName: Text; var IdIndex: Dictionary of [Text, Text]): Integer
-    var
-        T: Text;
-        I: Integer;
-    begin
-        T := GetText(Obj, PropertyName, IdIndex);
-        if T = '' then
-            exit(0);
-        Evaluate(I, T);
-        exit(I);
-    end;
+    //         // If it is a {$ref:"x"} object, resolve from index
+    //         if Obj.Get('$ref', RefTok) then begin
+    //             RefId := RefTok.AsValue().AsText();
+    //             if (RefId <> '') and IdIndex.Get(RefId, RefJson) then begin
+    //                 Obj.ReadFrom(RefJson);
+    //                 exit(Obj);
+    //             end;
+    //         end;
+
+    //         exit(Obj);
+    //     end;
+
+    //     exit(Obj); // empty
+    // end;    
+
+    // procedure GetText(Obj: JsonObject; PropertyName: Text; var IdIndex: Dictionary of [Text, Text]): Text
+    // var
+    //     Tok: JsonToken;
+    //     RefObj: JsonObject;
+    // begin
+    //     if Obj.Get(PropertyName, Tok) then begin
+    //         if Tok.AsValue().IsNull() then
+    //             exit('');
+    //         if Tok.IsValue() then
+    //             exit(Tok.AsValue().AsText());
+    //         if Tok.IsObject() then begin
+    //             RefObj := ResolveToObject(Tok, IdIndex);
+    //             if RefObj.Get(PropertyName, Tok) and Tok.IsValue() then
+    //                 exit(Tok.AsValue().AsText());
+    //         end;
+    //     end;
+    //     exit('');
+    // end;
+
+    // procedure GetDecimal(Obj: JsonObject; PropertyName: Text; var IdIndex: Dictionary of [Text, Text]): Decimal
+    // var
+    //     Tok: JsonToken;
+    //     D: Decimal;
+    //     T: Text;
+    // begin
+    //     if Obj.Get(PropertyName, Tok) then begin
+    //         if Tok.AsValue().IsNull() then
+    //             exit(0);
+
+    //         if Tok.IsValue() then begin
+    //             // handles JSON numbers without locale issues
+    //             T := Tok.AsValue().AsText();
+    //             Evaluate(D, T);
+    //             exit(D);
+    //         end;
+    //     end;
+    //     exit(0);
+    // end;    
+
+    // procedure GetInt(Obj: JsonObject; PropertyName: Text; var IdIndex: Dictionary of [Text, Text]): Integer
+    // var
+    //     T: Text;
+    //     I: Integer;
+    // begin
+    //     T := GetText(Obj, PropertyName, IdIndex);
+    //     if T = '' then
+    //         exit(0);
+    //     Evaluate(I, T);
+    //     exit(I);
+    // end;
 }

@@ -2,7 +2,7 @@
     "id": "52ced3bf-2ec6-4f4d-94e6-c35c80a0e2d8",
     "name": "Vicinity Software",
     "publisher": "Vicinity Software",
-    "version": "25.3.20260210.2",
+    "version": "25.3.20260306.1",
     "brief": "",
     "description": "",
     "privacyStatement": "",
@@ -21,9 +21,9 @@
         }
     ],
     "resourceExposurePolicy": {
-        "allowDebugging": true,
+        "allowDebugging": false,
         "allowDownloadingSource": false,
         "includeSourceInSymbolFile": false
     },
-    "runtime": "15.0"
+    "runtime": "16.0"
 }
