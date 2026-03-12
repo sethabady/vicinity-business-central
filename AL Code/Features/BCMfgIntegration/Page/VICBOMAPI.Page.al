@@ -58,10 +58,16 @@ page 50440 VIC_BOMAPI
                     EntitySetName = 'vicProductionBOMLines';
                     SubPageLink = vicProductionBOMId = field(SystemId);
                 }
-                part(productionRoutingLines; VIC_RoutingLineAPI)
+                part(productionRoutingLines; VIC_BOMRoutingLineAPI)
                 {
                     EntityName = 'vicProductionRoutingLine';
                     EntitySetName = 'vicProductionRoutingLines';
+                    SubPageLink = vicProductionBOMId = field(SystemId);
+                }
+                part(productionRouting; VIC_BOMRoutingAPI)
+                {
+                    EntityName = 'vicProductionRouting';
+                    EntitySetName = 'vicProductionRoutings';
                     SubPageLink = vicProductionBOMId = field(SystemId);
                 }
             }

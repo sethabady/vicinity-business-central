@@ -1,8 +1,8 @@
-page 50442 VIC_RoutingLineAPI
+page 50442 VIC_BOMRoutingLineAPI
 {
     PageType = API;
-    Caption = 'vicRoutingLineAPI';
-    SourceTable = VIC_RoutingLine;
+    Caption = 'vicBOMRoutingLineAPI';
+    SourceTable = VIC_BOMRoutingLine;
     SourceTableTemporary = true;
     APIPublisher = 'VicinitySoftware';
     APIGroup = 'App1';
@@ -51,8 +51,8 @@ page 50442 VIC_RoutingLineAPI
                 {
                 }
                 field(lastModifiedDateTime; Rec.LastModifiedDateTime)
-                {                    
-                } 
+                {
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
-table 50442 VIC_RoutingLine
+table 50442 VIC_BOMRoutingLine
 {
-    Caption = 'VIC Routing Line';
+    Caption = 'VIC BOM Routing Line';
     TableType = Temporary;
     DataClassification = ToBeClassified;
 

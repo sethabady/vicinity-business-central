@@ -63,8 +63,8 @@ table 50440 VIC_BOM
     var
         H: Record "Production BOM Header";
         L: Record "Production BOM Line";
-        RH: Record "Routing Header";
-        RL: Record "Routing Line";
+        // RH: Record "Routing Header";
+        // RL: Record "Routing Line";
     begin
         if not H.Get(BomNo) then begin
             H.Init();
@@ -76,21 +76,21 @@ table 50440 VIC_BOM
             if H.Status <> H.Status::"Under Development" then
                 Error('Only production BOMs with status ''Under Development'' can be created or updated through the API.');
         end;
-        if (Rec.RoutingNo <> '') then begin
-            if (not RH.Get(Rec.RoutingNo)) then begin
-                RH.Init();
-                RH."No." := Rec.RoutingNo;
-                RH.Status := RH.Status::"Under Development";
-                RH.Insert(true);
-            end
-            else begin  
-                if RH.Status <> RH.Status::"Under Development" then
-                    Error('Only routings with status ''Under Development'' can be linked to the production BOM through the API.');
-            end;
-            RH."No." := RoutingNo;
-            RH.Description := RoutingDescription;
-            RH.Modify(true);
-        end;
+        // if (Rec.RoutingNo <> '') then begin
+        //     if (not RH.Get(Rec.RoutingNo)) then begin
+        //         RH.Init();
+        //         RH."No." := Rec.RoutingNo;
+        //         RH.Status := RH.Status::"Under Development";
+        //         RH.Insert(true);
+        //     end
+        //     else begin  
+        //         if RH.Status <> RH.Status::"Under Development" then
+        //             Error('Only routings with status ''Under Development'' can be linked to the production BOM through the API.');
+        //     end;
+        //     RH."No." := RoutingNo;
+        //     RH.Description := RoutingDescription;
+        //     RH.Modify(true);
+        // end;
         H.Description := Description;
         H.Validate("Unit of Measure Code", UnitOfMeasure);
         H.Validate(Status, Status);
@@ -101,8 +101,8 @@ table 50440 VIC_BOM
         L.SetRange("Production BOM No.", BomNo);
         if L.FindSet(true) then
             L.DeleteAll(true);
-        RL.SetRange("Routing No.", Rec.RoutingNo);
-        if RL.FindSet(true) then
-            RL.DeleteAll(true);
+        // RL.SetRange("Routing No.", Rec.RoutingNo);
+        // if RL.FindSet(true) then
+        //     RL.DeleteAll(true);
     end;
 }
