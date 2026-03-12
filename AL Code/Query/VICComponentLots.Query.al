@@ -8,36 +8,22 @@ query 50177 VICComponentLots
     EntitySetName = 'VICComponentLots';
     Caption = 'Vicinity Component Lots';
 
+// V4-2518 
     elements
     {
-        dataitem(Item_Ledger_Entry; "Item Ledger Entry")
+        dataitem(ItemLedgerEntry; "Item Ledger Entry")
         {
             DataItemTableFilter = "Lot No." = filter(<> ''), "Remaining Quantity" = filter(<> 0);
-            column("ItemNo"; "Item No.")
-            {
-            }
-            column("LocationCode"; "Location Code")
-            {
-            }
-            column("LotNo"; "Lot No.")
-            {
-            }
-            column("PostingDate"; "Posting Date")
-            {
-            }
-            column("ExpirationDate"; "Expiration Date")
-            {
-            }
-            column("RemainingQuantity"; "Remaining Quantity")
-            {
-                // V4-2270
-                Method = Sum;
-            }
+            column(ItemNo; "Item No.") { }
+            column(LocationCode; "Location Code") { }
+            column(LotNo; "Lot No.") { }
+            column(PostingDate; "Posting Date") { }
+            column(Expiration_Date;"Expiration Date") { }
+            column(RemainingQuantity; "Remaining Quantity") { }
             dataitem(ReservationEntry; "Reservation Entry")
             {
-                DataItemLink = "Item No." = Item_Ledger_Entry."Item No.", "Location Code" = Item_Ledger_Entry."Location Code", "Lot No." = Item_Ledger_Entry."Lot No.";
+                DataItemLink = "Source Ref. No." = ItemLedgerEntry."Entry No.", "Lot No." = ItemLedgerEntry."Lot No.";
                 SqlJoinType = LeftOuterJoin;
-
                 column(ReservationEntryQuantityBase; "Quantity (Base)")
                 {
                     Method = Sum;
