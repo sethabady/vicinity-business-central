@@ -10,6 +10,7 @@ query 50177 VICComponentLots
 
     elements
     {
+        // V4-2518
         dataitem(ItemLedgerEntry; "Item Ledger Entry")
         {
             DataItemTableFilter = "Lot No." = filter(<> ''), "Remaining Quantity" = filter(<> 0);
@@ -17,7 +18,7 @@ query 50177 VICComponentLots
             column(LocationCode; "Location Code") { }
             column(LotNo; "Lot No.") { }
             column(PostingDate; "Posting Date") { }
-            column(Expiration_Date;"Expiration Date") { }
+            column(ExpirationDate;"Expiration Date") { }
             column(RemainingQuantity; "Remaining Quantity") { }
             dataitem(ReservationEntry; "Reservation Entry")
             {
