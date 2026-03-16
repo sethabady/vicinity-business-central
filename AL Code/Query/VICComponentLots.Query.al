@@ -19,7 +19,7 @@ query 50177 VICComponentLots
             column(LotNo; "Lot No.") { }
             column(PostingDate; "Posting Date") { }
             column(ExpirationDate;"Expiration Date") { }
-            column(RemainingQuantity; "Remaining Quantity") { }
+            column(RemainingQuantity; "Remaining Quantity") { Method = Sum; }
             dataitem(ReservationEntry; "Reservation Entry")
             {
                 DataItemLink = "Source Ref. No." = ItemLedgerEntry."Entry No.", "Lot No." = ItemLedgerEntry."Lot No.";
