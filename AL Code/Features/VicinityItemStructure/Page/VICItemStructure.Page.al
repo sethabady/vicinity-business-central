@@ -6,24 +6,15 @@ page 50334 "pte_vic_ItemStructure"
     // InsertAllowed = true;
     // LinksAllowed = false;
     // ModifyAllowed = true;
-    InsertAllowed = true;
-    ModifyAllowed = true;
+    DeleteAllowed = false;
+    InsertAllowed = false;
+    ModifyAllowed = false;
     PageType = ListPlus;
     RefreshOnActivate = true;
     SourceTable = pte_vic_ItemStructureHeader;
     SourceTableTemporary = true;
     SourceTableView = sorting(LineNo) order(ascending);
     ApplicationArea = All;
-
-    // Caption = 'Vicinity Item Structure';
-    // DeleteAllowed = false;
-    // InsertAllowed = false;
-    // LinksAllowed = false;
-    // ModifyAllowed = false;
-    // PageType = Worksheet;
-    // SourceTableTemporary = true;
-    // SourceTableView = sorting("Period Start", "Line No.")
-    //                   order(ascending);
 
     layout
     {
@@ -87,7 +78,7 @@ page 50334 "pte_vic_ItemStructure"
                                 Error('Facility ID %1 does not exist.', SelectedFacilityId);
                         end;
                         if TempVICComponentLocation.Get(Rec.ComponentId, SelectedFacilityId) then begin
-                            LocalAssignedToFacility := true;
+                            LocalAssignedToFacility := false; // for initial release, don't allow modifications // true;
                             // Rec.FacilityId := TempVICComponentLocation.LocationId;
                             SelectedFacilityId := TempVICComponentLocation.LocationId;
                             FormulaId := TempVICComponentLocation.FormulaId;
@@ -409,7 +400,7 @@ page 50334 "pte_vic_ItemStructure"
         //        DefaultFacilityId := TempVICComponent.DefaultFacilityId;
 
         if TempVICComponentLocation.Get(Rec.ComponentId, Rec.DefaultFacilityId) then begin
-            LocalAssignedToFacility := true;
+            LocalAssignedToFacility := false; // initial release don't allow edits // true;
 
 
 
@@ -710,8 +701,8 @@ page 50336 "VicItemStructureLine"
     PageType = ListPart;
     SourceTable = pte_vic_ItemStructureLine;
     SourceTableTemporary = true; // Crucial
-    InsertAllowed = true;
-    ModifyAllowed = true;
+    InsertAllowed = false;
+    ModifyAllowed = false;
 
     layout
     {
