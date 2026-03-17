@@ -2,34 +2,34 @@ tableextension 50143 "VicinityItemJournalLine" extends "Item Journal Line" //MyT
 {
     fields
     {
-        field(90000; "Vicinity Batch No."; Code[20])
+        field(92250; "Vicinity Batch No."; Code[20])
         {
             Caption = 'Batch No.';
             DataClassification = ToBeClassified;
         }
-        field(90001; "Vicinity Facility ID"; Code[15])
+        field(92251; "Vicinity Facility ID"; Code[15])
         {
             Caption = 'Facility ID';
             DataClassification = ToBeClassified;
         }
-        field(90002; "Vicinity Line ID No."; Integer)
+        field(92252; "Vicinity Line ID No."; Integer)
         {
             Caption = 'Line ID No.';
             DataClassification = ToBeClassified;
         }
-        field(90003; "Vicinity Event ID No."; Integer)
+        field(92253; "Vicinity Event ID No."; Integer)
         {
             Caption = 'Event ID No.';
             DataClassification = ToBeClassified;
 
         }
-        field(90004; "Called From Vicinity"; Boolean)
+        field(92254; "Called From Vicinity"; Boolean)
         {
             Caption = 'Called from Vicinity';
             DataClassification = ToBeClassified;
 
         }
-        field(90005;VICBatchItemJournalSourceType; Enum VICBatchItemJournalSourceType)
+        field(92255;VICBatchItemJournalSourceType; Enum VICBatchItemJournalSourceType)
         {
             Caption = 'Vicinity Batch Source';
             DataClassification = ToBeClassified;
