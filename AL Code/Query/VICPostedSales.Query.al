@@ -38,6 +38,8 @@ query 50163 VICPostedSales
             { }
             column(Document_Date; "Document Date")
             { }
+            column(Customer_No_; "Sell-to Customer No.")
+            { }
             dataitem(SIL; "Sales Invoice Line")
             {
                 DataItemLink = "Document No." = SIH."No.";
@@ -60,6 +62,7 @@ query 50163 VICPostedSales
                 column(Line_No; "Line No.")
                 { }
             }
+            // V4-2539
         }
     }
 }

@@ -28,6 +28,8 @@ query 50162 VICOpenSales
             { }
             column(Status; Status)
             { }
+            column(Customer_No; "Sell-to Customer No.")
+            { }
             dataitem(SL; "Sales Line")
             {
                 DataItemLink = "Document No." = SH."No.";
@@ -53,6 +55,7 @@ query 50162 VICOpenSales
                 column(SystemId; SystemId)
                 { }
             }
+            // V4-2539
         }
     }
 }
