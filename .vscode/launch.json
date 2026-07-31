@@ -9,7 +9,19 @@
             "schemaUpdateMode": "ForceSync"
         },
         {
-            "name": "Microsoft Cloud Sandbox2",
+            "name": "Microsoft Cloud Sandbox (Vicinity Support)",
+            "request": "launch",
+            "type": "al",
+            "environmentType": "Sandbox",
+            "environmentName": "Sandbox",
+            "breakOnError": "All",
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true,
+            "schemaUpdateMode": "ForceSync"
+        }
+        {
+            "name": "Microsoft Cloud Sandbox2 (Mfg Integration)",
             "request": "launch",
             "type": "al",
             "environmentType": "Sandbox",
