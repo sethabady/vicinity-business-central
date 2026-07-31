@@ -2,19 +2,19 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
 {
     trigger OnRun()
     begin
-//        InsertItemJournal();
+        InsertItemJournal();
 
-        AddProdJournalLine(
-            'CONSUMP', // Journal Template Name
-            'DEFAULT', // Journal Batch Name
-            '101001',   // Prod Order No
-            ItemJnlLine."Entry Type"::Consumption, // Entry Type
-            'VP-RM1',    // Item No
-            10,         // Quantity
-            'MAIN',    // Location Code
-            WorkDate(),// Posting Date
-            'DOC1001'  // Document No
-        );
+        // AddProdJournalLine(
+        //     'CONSUMP', // Journal Template Name
+        //     'DEFAULT', // Journal Batch Name
+        //     '101001',   // Prod Order No
+        //     ItemJnlLine."Entry Type"::Consumption, // Entry Type
+        //     'VP-RM1',    // Item No
+        //     10,         // Quantity
+        //     'MAIN',    // Location Code
+        //     WorkDate(),// Posting Date
+        //     'DOC1001'  // Document No
+        // );
     end;
 
     procedure SetItemJournalParameters(pPostingDate: Date; pDocumentNo: Text; pItemNo: Code[20]; pLocationCode: Code[20]; pBinCode: Code[20]; pUoMCode: Code[20]; pLotNo: Code[50]; pQty: Decimal; pAmount: Decimal; pBatchNumber: Code[20]; pFacilityID: Code[15]; pLineID: Integer; pEventID: Integer; pFirstLine: Boolean; pPost: Boolean; pVicinitySetup: Record "Vicinity Setup"; pSourceCodeSetup: Record "Source Code Setup"; pLotExpirationDate: Date; psGlobalDimensionCode1: Text; psGlobalDimensionCode2: Text; pcodGenBusPostingGroup: Code[20])
