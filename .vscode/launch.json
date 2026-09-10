@@ -19,7 +19,19 @@
             "enableLongRunningSqlStatements": true,
             "enableSqlInformationDebugger": true,
             "schemaUpdateMode": "ForceSync"
-        }
+        },
+        {
+            "name": "Microsoft Cloud IW_Sandbox (Warehouse Insight Dev)",
+            "request": "launch",
+            "type": "al",
+            "environmentType": "Sandbox",
+            "environmentName": "IW_Sandbox",
+            "breakOnError": "All",
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true,
+            "schemaUpdateMode": "ForceSync"
+        },
         {
             "name": "Microsoft Cloud Sandbox2 (Mfg Integration)",
             "request": "launch",
