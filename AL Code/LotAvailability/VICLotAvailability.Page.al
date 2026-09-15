@@ -157,6 +157,7 @@ page 50450 "VIC Lot Availability"
         LocationCode: Code[10];
         BinCode: Code[20];
 
+        IsLotTracked: Boolean;
         BinQtyOnHand: Decimal;
         LotQtyOnHand: Decimal;
         LotQtyReserved: Decimal;
@@ -170,10 +171,13 @@ page 50450 "VIC Lot Availability"
             LotNo,
             LocationCode,
             BinCode,
+            IsLotTracked,
             BinQtyOnHand,
             LotQtyOnHand,
             LotQtyReserved,
             LotQtyAvailable);
+
+        CurrPage.Update(false);
     end;
 
 
