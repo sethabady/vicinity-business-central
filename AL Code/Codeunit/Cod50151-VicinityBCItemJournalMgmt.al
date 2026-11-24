@@ -144,8 +144,17 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
             ItemJnlLine.Validate("Shortcut Dimension 2 Code", sGlobalDimensionCode2);
         end;
 
+
+
+
         // BC 20.0.0.0 - MUST SET LOT NO TO A BLANK -- AFTER THE VALIDATION.
         ItemJnlLine."Lot No." := '';
+
+
+
+        ItemJnlLine.Validate("Package No.", 'MAGNOLIA');
+
+
 
         ItemJnlLine."Vicinity Batch No." := BatchNumber;
         ItemJnlLine."Vicinity Facility ID" := FacilityID;
@@ -175,6 +184,13 @@ codeunit 50151 "Vicinity BC Item Journal Mgmt"
                     ReservationEntry."Item No." := ItemJnlLine."Item No.";
                     ReservationEntry."Location Code" := ItemJnlLine."Location Code";
                     ReservationEntry."Lot No." := LotNo; // ItemJnlLine."Lot No.";
+
+
+
+                    ReservationEntry.Validate("Package No.", 'MAGNOLIA');
+
+
+
                     ReservationEntry."Reservation Status" := ReservationEntry."Reservation Status"::Prospect;
                     ReservationEntry."Creation Date" := ItemJnlLine."Posting Date";
                     ReservationEntry."Source Type" := 83;
